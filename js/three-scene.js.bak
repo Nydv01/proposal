@@ -1,0 +1,102 @@
+Created At: 2026-06-08T19:36:45Z
+Completed At: 2026-06-08T19:36:46Z
+File Path: `file:///Users/ydvji/Downloads/kanak-proposal/js/three-scene.js`
+Total Lines: 795
+Total Bytes: 28235
+Showing lines 1 to 795
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: /**
+2:  * ThreeScene — Cinematic particle universe with multi-stage morph shapes,
+3:  * post-processing pipeline, glass hearts, and DOM-synced WebGL deforming gallery.
+4:  */
+5: import * as THREE from 'three';
+6: import { EffectComposer, RenderPass, EffectPass, BloomEffect, VignetteEffect, ChromaticAberrationEffect } from 'postprocessing';
+7: import gsap from 'gsap';
+8: import { Timer } from './utils.js';
+9: 
+10: // Load GLSL shaders via vite-plugin-glsl
+11: import particleVertexShader from './shaders/particle-vert.glsl';
+12: import particleFragmentShader from './shaders/particle-frag.glsl';
+13: import galleryVertexShader from './shaders/gallery-vert.glsl';
+14: import galleryFragmentShader from './shaders/gallery-frag.glsl';
+15: 
+16: export class ThreeScene {
+17:   constructor(canvas) {
+18:     this.canvas = canvas;
+19:     this.fallback = false;
+20:     this.scrollProgress = 0;
+21:     this.mouse = new THREE.Vector2(0, 0);
+22:     this.smoothMouse = new THREE.Vector2(0, 0);
+23:     this.clock = new Timer();
+24:     this.hearts = [];
+25:     this.galleryMeshes = [];
+26:     this.quality = 'high';
+27:     this.zoomedMesh = null; // Reference to currently zoomed gallery mesh
+28: 
+29:     try {
+30:       this.renderer = new THREE.WebGLRenderer({
+31:         canvas,
+32:         alpha: true,
+33:         antialias: false,
+34:         powerPreference: 'high-performance'
+35:       });
+36:       this.renderer.setSize(window.innerWidth, window.innerHeight);
+37:       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+38:     } catch (e) {
+39:       console.warn('Web
+<truncated 28534 bytes>
+    arr[i * 3 + 1] -= this.wallDripVel[i];
+743:         if (arr[i * 3 + 1] < -16) {
+744:           arr[i * 3] = (Math.random() - 0.5) * 38;
+745:           arr[i * 3 + 1] = 9 + Math.random() * 12;
+746:           arr[i * 3 + 2] = -17.5 + Math.random() * 0.8;
+747:           this.wallDripVel[i] = 0.018 + Math.random() * 0.055;
+748:         }
+749:       }
+750:       this.wallDripPoints.geometry.attributes.position.needsUpdate = true;
+751:     }
+752: 
+753:     // Smooth mouse parallax interpolation
+754:     this.smoothMouse.lerp(this.mouse, 0.06);
+755:     this.camera.position.x = this.smoothMouse.x * 5;
+756: 
+757:     // Zoom/camera displacement maps to scroll depth
+758:     let targetCamY = -this.scrollProgress * 30;
+759:     
+760:     // Late-scroll camera framing to keep final heart perfectly centered in middle of viewport
+761:     if (this.scrollProgress > 0.85) {
+762:       targetCamY = -30.0;
+763:     }
+764:     
+765:     this.camera.position.y = targetCamY + this.smoothMouse.y * 3;
+766:     this.camera.fov = 60 - this.scrollProgress * 15;
+767:     this.camera.updateProjectionMatrix();
+768: 
+769:     // Color shift lights with scroll
+770:     if (this.tealLight) {
+771:       this.tealLight.intensity = 3.0 * (1 - this.scrollProgress * 0.5);
+772:       this.pinkLight.intensity = 2.0 + this.scrollProgress * 3.0;
+773:       this.goldLight.intensity = this.scrollProgress * 4.0;
+774:     }
+775: 
+776:     // Render pass
+777:     if (this.composer && this.quality !== 'low') {
+778:       this.composer.render(delta);
+779:     } else {
+780:       this.renderer.render(this.scene, this.camera);
+781:     }
+782:   }
+783: 
+784:   destroy() {
+785:     this.renderer?.dispose();
+786:     this.composer?.dispose();
+787:     this.galleryMeshes.forEach((r) => {
+788:       r.mesh.geometry.dispose();
+789:       r.mesh.material.dispose();
+790:       if (r.uniforms.uTexture.value) r.uniforms.uTexture.value.dispose();
+791:     });
+792:   }
+793: }
+794: 
+795: 
+The above content shows the entire, complete file contents of the requested file.

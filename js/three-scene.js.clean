@@ -1,0 +1,95 @@
+/**
+ * ThreeScene — Cinematic particle universe with multi-stage morph shapes,
+ * post-processing pipeline, glass hearts, and DOM-synced WebGL deforming gallery.
+ */
+import * as THREE from 'three';
+import { EffectComposer, RenderPass, EffectPass, BloomEffect, VignetteEffect, ChromaticAberrationEffect } from 'postprocessing';
+import gsap from 'gsap';
+import { Timer } from './utils.js';
+
+// Load GLSL shaders via vite-plugin-glsl
+import particleVertexShader from './shaders/particle-vert.glsl';
+import particleFragmentShader from './shaders/particle-frag.glsl';
+import galleryVertexShader from './shaders/gallery-vert.glsl';
+import galleryFragmentShader from './shaders/gallery-frag.glsl';
+
+export class ThreeScene {
+  constructor(canvas) {
+    this.canvas = canvas;
+    this.fallback = false;
+    this.scrollProgress = 0;
+    this.mouse = new THREE.Vector2(0, 0);
+    this.smoothMouse = new THREE.Vector2(0, 0);
+    this.clock = new Timer();
+    this.hearts = [];
+    this.galleryMeshes = [];
+    this.quality = 'high';
+    this.zoomedMesh = null; // Reference to currently zoomed gallery mesh
+
+    try {
+      this.renderer = new THREE.WebGLRenderer({
+        canvas,
+        alpha: true,
+        antialias: false,
+        powerPreference: 'high-performance'
+      });
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    } catch (e) {
+      console.warn('Web
+<truncated 28534 bytes>
+    arr[i * 3 + 1] -= this.wallDripVel[i];
+        if (arr[i * 3 + 1] < -16) {
+          arr[i * 3] = (Math.random() - 0.5) * 38;
+          arr[i * 3 + 1] = 9 + Math.random() * 12;
+          arr[i * 3 + 2] = -17.5 + Math.random() * 0.8;
+          this.wallDripVel[i] = 0.018 + Math.random() * 0.055;
+        }
+      }
+      this.wallDripPoints.geometry.attributes.position.needsUpdate = true;
+    }
+
+    // Smooth mouse parallax interpolation
+    this.smoothMouse.lerp(this.mouse, 0.06);
+    this.camera.position.x = this.smoothMouse.x * 5;
+
+    // Zoom/camera displacement maps to scroll depth
+    let targetCamY = -this.scrollProgress * 30;
+    
+    // Late-scroll camera framing to keep final heart perfectly centered in middle of viewport
+    if (this.scrollProgress > 0.85) {
+      targetCamY = -30.0;
+    }
+    
+    this.camera.position.y = targetCamY + this.smoothMouse.y * 3;
+    this.camera.fov = 60 - this.scrollProgress * 15;
+    this.camera.updateProjectionMatrix();
+
+    // Color shift lights with scroll
+    if (this.tealLight) {
+      this.tealLight.intensity = 3.0 * (1 - this.scrollProgress * 0.5);
+      this.pinkLight.intensity = 2.0 + this.scrollProgress * 3.0;
+      this.goldLight.intensity = this.scrollProgress * 4.0;
+    }
+
+    // Render pass
+    if (this.composer && this.quality !== 'low') {
+      this.composer.render(delta);
+    } else {
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+
+  destroy() {
+    this.renderer?.dispose();
+    this.composer?.dispose();
+    this.galleryMeshes.forEach((r) => {
+      r.mesh.geometry.dispose();
+      r.mesh.material.dispose();
+      if (r.uniforms.uTexture.value) r.uniforms.uTexture.value.dispose();
+    });
+  }
+}
+
+
+The above content shows the entire, complete file contents of the requested file.

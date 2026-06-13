@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — Kanak Proposal Control Panel</title>
+  
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="/admin.css" />
+</head>
+<body>
+
+  <!-- 1. LOGIN GATE OVERLAY -->
+  <div id="login-gate">
+    <div class="login-card">
+      <h2>Proposal Admin Gate</h2>
+      <p>Please authorize to access content parameters</p>
+      
+      <form id="login-form">
+        <input type="password" id="admin-password" placeholder="Enter security key..." required />
+        <button type="submit" class="admin-btn">Authorize ✨</button>
+      </form>
+      <p id="login-error" class="error-msg hidden">Invalid credentials. Try again.</p>
+    </div>
+  </div>
+
+  <!-- 2. MASTER EDITOR CONTROLS -->
+  <div id="admin-panel" class="hidden">
+    <header class="admin-header">
+      <div class="header-logo">
+        <h1>Kanak Proposal <span>Admin</span></h1>
+      </div>
+      <div class="header-actions">
+        <button id="reset-btn" class="admin-btn secondary-btn">Reset Defaults</button>
+        <button id="save-btn" class="admin-btn">Save Changes 💾</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <form id="editor-form" class="editor-grid">
+        
+        <!-- SECTION A: HERO COPY -->
+        <section class="admin-card">
+          <h2>Act I: Hero Header</h2>
+          <div class="form-group">
+            <label for="hero-welcome">Welcome Salutation</label>
+            <input type="text" id="hero-welcome" name="hero.welcome" />
+          </div>
+          <div class="form-group">
+            <label for="hero-name">Main Name</label>
+            <input type="text" id="hero-name" name="hero.name" />
+          </div>
+          <div class="form-group">
+            <label for="hero-subtitle">Subtitle Phrase</label>
+            <input type="text" id="hero-subtitle" name="hero.subtitle" />
+          </div>
+        </section>
+
+        <!-- SECTION B: POEM TEXT -->
+        <section class="admin-card">
+          <h2>Act II: The Love Poem</h2>
+          <div class="form-group">
+            <label for="poem-title">Poem Title</label>
+            <input type="text" id="poem-title" name="poem.title" />
+          </div>
+          <div class="form-group">
+            <label for="poem-lines">Poem Lines (one per line)</label>
+            <textarea id="poem-lines" name="poem.lines" rows="6"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="poem-author">Signature Author Name</label>
+            <input type="text" id="poem-author" name="poem.author" />
+          </div>
+        </section>
+
+        <!-- SECTION C: THE PROPOSAL QUESTION -->
+        <section class="admin-card">
+          <h2>Act V: Climax Proposal</h2>
+          <div class="form-group">
+            <label for="prop-intro">Intro Typewriter narrative</label>
+            <textarea id="prop-intro" name="proposal.introText" rows="4"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="prop-question">Main Question</label>
+            <input type="text" id="prop-question" name="proposal.question" />
+          </div>
+          <div class="form-group">
+            <label for="prop-yes">Yes Button</label>
+            <input type="text" id="prop-yes" name="proposal.yesText" />
+          </div>
+          <div class="form-group">
+            <label for="prop-no">No Button</label>
+            <input type="text" id="prop-no" name="proposal.noText" />
+          </div>
+        </section>
+
+        <!-- SECTION D: RESPONSE PAGES -->
+        <section class="admin-card">
+          <h2>Emotional Responses</h2>
+          <div class="form-group">
+            <label for="prop-yes-title">Accept Climax Title</label>
+            <input type="text" id="prop-yes-title" name="proposal.celebrationTitle" />
+          </div>
+          <div class="form-group">
+            <label for="prop-yes-text">Accept Message Text</label>
+            <textarea id="prop-yes-text" name="proposal.celebrationText" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="prop-no-title">Decline Title</label>
+            <input type="text" id="prop-no-title" name="proposal.declineTitle" />
+          </div>
+          <div class="form-group">
+            <label for="prop-no-text">Decline Message Text</label>
+            <textarea id="prop-no-text" name="proposal.declineText" rows="2"></textarea>
+          </div>
+        </section>
+
+      </form>
+    </main>
+  </div>
+
+  <script type="module" src="/js/admin.js"></script>
+
+</body>
+</html>

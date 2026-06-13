@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "title": "Nitin & Kanak — A Private Love Film",
+    "description": "A private love film written in light, sound, and memory for Kanak Holkar."
+  },
+  "scenes": {
+    "mind": {
+      "introLines": [
+        "Close your eyes.",
+        "Step inside my mind.",
+        "This is where you live, Kanak."
+      ],
+      "label": "Nitin → Kanak"
+    },
+    "heart": {
+      "lines": [
+        "Every heartbeat has your name.",
+        "This heart found its home in you."
+      ]
+    },
+    "song": {
+      "title": "Our Song",
+      "subtitle": "Listen closely — the music remembers",
+      "src": "/audio/our-song.mp3"
+    }
+  },
+  "hero": {
+    "welcome": "From my mind,",
+    "name": "Kanak",
+    "subtitle": "A cinematic love letter — scroll to enter our story",
+    "mindLabel": "Nitin → Kanak"
+  },
+  "audio": {
+    "tracks": [
+      { "title": "First Light", "artist": "Nitin → Kanak", "src": "/audio/track-01.mp3", "theme": 0 },
+      { "title": "September Sky", "artist": "Our Friendship", "src": "/audio/track-02.mp3", "theme": 1 },
+      { "title": "Valentine Pulse", "artist": "14 Feb 2024", "src": "/audio/track-03.mp3", "theme": 2 },
+      { "title": "Memory Helix", "artist": "Moments", "src": "/audio/track-04.mp3", "theme": 3 },
+      { "title": "Forever Hold", "artist": "The Question", "src": "/audio/track-05.mp3", "theme": 4 }
+    ]
+  },
+  "poem": {
+    "title": "Words I Could Never Say Out Loud",
+    "author": "— Nitin",
+    "lines": [
+      "My Dearest Kanak,",
+      "",
+      "Before you, my days were quiet brushstrokes on a grey canvas.",
+      "Then September came, and you coloured everything.",
+      "",
+      "You laughed at my clumsy coffee spill,",
+      "And I laughed at how quickly you owned my heart.",
+      "",
+      "Our friendship was sunlight through autumn leaves,",
+      "Warm, golden, and impossible to hold tight enough.",
+      "",
+      "Then Valentine's Day — my palms sweating,",
+      "My voice cracking, my world balancing on your answer.",
+      "You said yes. And the sky cracked open into colour.",
+      "",
+      "Since that day, you've become my gravity.",
+      "Not the kind that holds me down —",
+      "The kind that keeps me from floating away.",
+      "",
+      "I love how you scrunch your nose when you think.",
+      "I love how your laughter fills every room.",
+      "I love how you make ordinary moments feel sacred.",
+      "",
+      "Kanak, you are not just my girlfriend.",
+      "You are my compass, my comfort, my calm.",
+      "You are my favourite chapter in every story.",
+      "You are the reason I believe in forever.",
+      "",
+      "This website is my heart, turned inside out.",
+      "Every pixel, every particle, every glow — that's how you make me feel.",
+      "",
+      "I will wait two months. I will wait two lifetimes.",
+      "Because you, Kanak Holkar, are worth every second.",
+      "",
+      "With all my love, always —",
+      "Nitin"
+    ]
+  },
+  "story": {
+    "title": "Our Love Story",
+    "milestones": [
+      {
+        "date": "September 2023",
+        "title": "The Beginning",
+        "content": "We crossed paths like two comets in the same sky. I spilled coffee, you laughed, and something shifted in the universe. From that moment, you weren't just someone I knew — you were someone I couldn't stop thinking about.",
+        "mood": "warm"
+      },
+      {
+        "date": "Late 2023",
+        "title": "Friendship on Fire",
+        "content": "Every message felt like unwrapping a gift. Every late-night conversation felt like discovering a secret world. We were friends, but my heart was already writing a different story. I was falling, Kanak — quietly, completely, and beautifully.",
+        "mood": "golden"
+      },
+      {
+        "date": "14 February 2024",
+        "title": "The Day Everything Changed",
+        "content": "Valentine's Day. My hands trembled. My voice cracked. I fumbled every word. But when you said yes — the entire world paused, held its breath, and then burst into the most vivid colour I've ever seen. That moment is tattooed on my soul.",
+        "mood": "rose"
+      },
+      {
+        "date": "Every Day Since",
+        "title": "Why You're My Everything",
+        "content": "You've become my morning and my midnight. My confidante, my joy, my future. Nobody has ever made me feel this safe, this understood, this alive. You are not just part of my life, Kanak — you are my life.",
+        "mood": "violet"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Memory Portals",
+    "subtitle": "Click a memory to step inside — each one is a world",
+    "items": [
+      {
+        "emoji": "I",
+        "caption": "Where our story began",
+        "date": "September 2023",
+        "story": "Friends first — coffee spilled, you laughed, and my heart quietly chose you.",
+        "image": "/images/autumn_cafe.png",
+        "video": "/videos/sample-01.mp4",
+        "mood": "warm"
+      },
+      {
+        "emoji": "II",
+        "caption": "Blossoming together",
+        "date": "Late 2023",
+        "story": "Every message, every smile — friendship turning into something I prayed for.",
+        "image": "/images/sunset_beach.png",
+        "video": "/videos/sample-02.mp4",
+        "mood": "dreamy"
+      },
+      {
+        "emoji": "III",
+        "caption": "Two hearts, one soul",
+        "date": "14 February 2024",
+        "story": "Valentine's Day — I asked, you said yes, and the world burst into colour.",
+        "image": "/images/blossom_spring.png",
+        "video": "/videos/sample-03.mp4",
+        "mood": "rose"
+      },
+      {
+        "emoji": "IV",
+        "caption": "Nights I'll never forget",
+        "date": "Our late nights",
+        "story": "Whispers, dreams, and your voice in the dark — home was never a place, it was you.",
+        "image": "/images/starry_night.png",
+        "video": "/videos/sample-04.mp4",
+        "mood": "intimate"
+      },
+      {
+        "emoji": "V",
+        "caption": "The magic in small things",
+        "date": "Every ordinary day",
+        "story": "The small things you do became the biggest miracles in my life.",
+        "image": "/images/magic_path.png",
+        "video": "/videos/sample-05.mp4",
+        "mood": "playful"
+      },
+      {
+        "emoji": "VI",
+        "caption": "Forever & always",
+        "date": "Today & tomorrow",
+        "story": "All roads in my mind lead to one place — your heart, Kanak.",
+        "image": "/images/forever_love.png",
+        "video": "/videos/sample-06.mp4",
+        "mood": "cinematic"
+      }
+    ]
+  },
+  "proposal": {
+    "buildupLines": [
+      "Kanak...",
+      "From September 2023 to this very second...",
+      "You have been my colour, my joy, my meaning.",
+      "Every particle of light on this screen is how you make me feel.",
+      "And now, there is only one question left..."
+    ],
+    "question": "Kanak Holkar, will you be with me for your whole life?",
+    "yesText": "Yes. With all my heart.",
+    "noText": "I need a moment.",
+    "celebrationTitle": "Then let forever begin.",
+    "celebrationText": "Thank you for choosing this life with me, Kanak. I will keep choosing you in every ordinary, difficult, beautiful day ahead.",
+    "declineTitle": "Take all the time you need.",
+    "declineText": "This question is an invitation, never a demand. Your honesty matters to me, and so does your pace."
+  },
+  "bot": {
+    "name": "Nitin's Heart",
+    "greeting": "Hello, Kanak. Think of me as a quiet guide through the memories Nitin placed here. I know the chapters, and I am here whenever you want to pause.",
+    "personality": {
+      "traits": ["warm", "loving", "supportive", "playful", "emotionally-aware"],
+      "speakingStyle": "intimate, tender, natural — like a warm whisper",
+      "neverDo": ["be cold", "be generic", "be robotic", "replace Nitin", "be rude"]
+    }
+  }
+}

@@ -1,0 +1,223 @@
+/* ==========================================================================
+   Admin Panel Stylesheet - Elegant Dark control dashboard
+   ========================================================================== */
+
+:root {
+  --bg-admin-dark: #070710;
+  --bg-admin-card: rgba(18, 18, 40, 0.6);
+  --border-admin: rgba(255, 255, 255, 0.05);
+  
+  --color-teal: #3ec1b0;
+  --color-pink: #ff8ca3;
+  --color-rose: #ff4a76;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-admin-dark);
+  color: #e5e5f0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   1. LOGIN GATE
+   -------------------------------------------------------------------------- */
+#login-gate {
+  position: fixed;
+  inset: 0;
+  background-color: var(--bg-admin-dark);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-card {
+  background: var(--bg-admin-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-admin);
+  border-radius: 20px;
+  padding: 3rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+.login-card h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  background: linear-gradient(135deg, var(--color-teal), var(--color-pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-card p {
+  color: #8888aa;
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#admin-password {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--border-admin);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
+  transition: border-color 0.3s ease;
+}
+
+#admin-password:focus {
+  border-color: var(--color-teal);
+  outline: none;
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, var(--color-teal), var(--color-pink));
+  color: #070710;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(62, 193, 176, 0.35);
+}
+
+.error-msg {
+  color: var(--color-rose);
+  font-size: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. DASHBOARD PANEL
+   -------------------------------------------------------------------------- */
+#admin-panel {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-admin);
+  padding-bottom: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.header-logo h1 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+
+.header-logo h1 span {
+  font-weight: 600;
+  color: var(--color-pink);
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 1px solid var(--border-admin);
+  color: #e5e5f0;
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: none;
+}
+
+.editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.admin-card {
+  background: var(--bg-admin-card);
+  border: 1px solid var(--border-admin);
+  border-radius: 18px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.admin-card h2 {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.35rem;
+  margin-bottom: 2rem;
+  color: var(--color-teal);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  padding-bottom: 0.8rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.8rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8888aa;
+}
+
+.form-group input, .form-group textarea {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-admin);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+  border-color: var(--color-pink);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .editor-grid {
+    grid-template-columns: 1fr;
+  }
+}
