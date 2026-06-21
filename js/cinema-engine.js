@@ -216,13 +216,16 @@ export class CinemaEngine {
 
   // Section atmosphere: background color shifts
   initSectionAtmosphere() {
-    const sections = ['#hero', '#poem', '#story', '#gallery', '#proposal'];
+    const sections = ['#scene-mind', '#scene-heart', '#scene-story', '#scene-poem', '#scene-mirror', '#scene-memories', '#scene-video', '#scene-proposal'];
     const bgColors = [
-      'linear-gradient(180deg, #030308 0%, #050510 100%)',
-      'linear-gradient(180deg, #050510 0%, #080818 100%)',
-      'linear-gradient(180deg, #060612 0%, #0a0a20 100%)',
-      'linear-gradient(180deg, #080816 0%, #0c0820 100%)',
-      'linear-gradient(180deg, #050510 0%, #0a0515 50%, #030308 100%)'
+      'linear-gradient(180deg, #0e0910 0%, #16101c 100%)',
+      'linear-gradient(180deg, #16101c 0%, #1d1121 100%)',
+      'linear-gradient(180deg, #1d1121 0%, #221226 100%)',
+      'linear-gradient(180deg, #221226 0%, #1f1020 100%)',
+      'linear-gradient(180deg, #1f1020 0%, #190e21 100%)',
+      'linear-gradient(180deg, #190e21 0%, #1c0f1c 100%)',
+      'linear-gradient(180deg, #1c0f1c 0%, #170a18 100%)',
+      'linear-gradient(180deg, #170a18 0%, #120512 60%, #08010a 100%)'
     ];
 
     sections.forEach((sel, idx) => {

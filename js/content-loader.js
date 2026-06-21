@@ -38,7 +38,7 @@ export class ContentLoader {
   applyMeta() {
     if (!this.data || !this.data.meta) return;
     document.title = this.data.meta.title || 'Nitin & Kanak — A Private Love Film';
-    
+
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
       metaDesc = document.createElement('meta');
@@ -70,7 +70,7 @@ export class ContentLoader {
     // 2. Poem
     const poemTitle = document.querySelector('#scene-poem .poem-title');
     if (poemTitle && this.data.poem) {
-      poemTitle.textContent = this.data.poem.title || 'A Poem From My Heart';
+      poemTitle.innerHTML = this.data.poem.title || 'A Poem From My Heart';
     }
     const poemContainer = document.querySelector('.poem-container');
     if (poemContainer && this.data.poem) {
@@ -103,31 +103,47 @@ export class ContentLoader {
     // 4. Gallery Section
     const galleryTitle = document.querySelector('#scene-memories .scene-title');
     if (galleryTitle && this.data.gallery) {
-      galleryTitle.textContent = this.data.gallery.title || 'Moments We Treasure';
+      galleryTitle.innerHTML = this.data.gallery.title || 'The Gallery of Us';
     }
-    const gallerySubtitle = document.querySelector('.gallery-subtitle');
+    const gallerySubtitle = document.querySelector('#scene-memories .scene-subtitle');
     if (gallerySubtitle && this.data.gallery) {
       gallerySubtitle.textContent = this.data.gallery.subtitle || '';
     }
-    const galleryContainer = document.querySelector('.gallery-container');
-    if (galleryContainer && this.data.gallery && Array.isArray(this.data.gallery.items)) {
-      let galleryHTML = '';
-      this.data.gallery.items.forEach(item => {
-        const hasCustomImage = item.image && item.image.trim() !== '';
-        const visualContent = hasCustomImage 
-          ? `<img src="${item.image}" alt="${item.caption}" class="gallery-photo-img" />`
-          : `<div class="gallery-placeholder">${item.emoji || '💖'}</div>`;
-          
-        galleryHTML += `
-          <div class="gallery-item">
-            <div class="gallery-image-wrapper">
-              ${visualContent}
+    const scrapbookContainer = document.getElementById('scrapbook-container');
+    if (scrapbookContainer && this.data.gallery && Array.isArray(this.data.gallery.items)) {
+      let scrapbookHTML = '';
+      const rotations = ['-3deg', '4deg', '-2deg', '5deg', '-4deg', '2deg'];
+      const marginTops = ['0rem', '2rem', '0rem', '-1rem', '1.5rem', '0rem'];
+
+      this.data.gallery.items.forEach((item, index) => {
+        const rot = rotations[index % rotations.length];
+        const marginTop = marginTops[index % marginTops.length];
+
+        // Stagger alignments dynamically to construct a winding river pathway
+        let alignClass = 'river-capsule-center';
+        if (index % 3 === 0) alignClass = 'river-capsule-left';
+        else if (index % 3 === 1) alignClass = 'river-capsule-right';
+
+        let tapeHTML = '';
+        if (index % 3 === 0) {
+          tapeHTML = '<div class="tape tape-top"></div>';
+        } else if (index % 3 === 1) {
+          tapeHTML = '<div class="tape tape-corner-tr"></div><div class="tape tape-corner-bl"></div>';
+        } else {
+          tapeHTML = '<div class="tape tape-corner-tl"></div>';
+        }
+
+        scrapbookHTML += `
+          <div class="scrapbook-polaroid interactive ${alignClass}" data-index="${index}" style="--rot: ${rot}; margin-top: ${marginTop};">
+            ${tapeHTML}
+            <div class="polaroid-photo">
+              <img src="${item.image}" alt="${item.caption}" loading="lazy" />
             </div>
-            <p class="gallery-caption">${item.caption}</p>
+            <p class="polaroid-caption">${item.caption}</p>
           </div>
         `;
       });
-      galleryContainer.innerHTML = galleryHTML;
+      scrapbookContainer.innerHTML = scrapbookHTML;
     }
 
     // 5. Proposal Section
@@ -143,7 +159,7 @@ export class ContentLoader {
     if (declineBtn && this.data.proposal) {
       declineBtn.textContent = this.data.proposal.noText || 'I need a moment.';
     }
-    
+
     // Celebration response
     const celebration = document.querySelector('#celebration');
     if (celebration && this.data.proposal) {
@@ -154,7 +170,7 @@ export class ContentLoader {
         <div class="heart-rain" aria-hidden="true"></div>
       `;
     }
-    
+
     // Decline response
     const gentleDecline = document.querySelector('#gentle-decline');
     if (gentleDecline && this.data.proposal) {
@@ -163,6 +179,69 @@ export class ContentLoader {
         <p>${this.data.proposal.declineText || 'This question is an invitation, never a demand.'}</p>
         <button id="reconsider-btn" aria-label="Return to the beginning">Return to the beginning</button>
       `;
+    }
+
+    // 6. Mirror Section
+    const mirrorTitle = document.querySelector('#scene-mirror .mirror-title');
+    if (mirrorTitle && this.data.mirror) {
+      mirrorTitle.innerHTML = this.data.mirror.title || 'Envenomed';
+    }
+    const mirrorSubtitle = document.querySelector('#scene-mirror .mirror-subtitle');
+    if (mirrorSubtitle && this.data.mirror) {
+      mirrorSubtitle.textContent = this.data.mirror.subtitle || '';
+    }
+    const mirrorByline = document.querySelector('#scene-mirror .mirror-byline');
+    if (mirrorByline && this.data.mirror) {
+      mirrorByline.innerHTML = `by <span class="text-glow-rose">${this.data.mirror.byline || 'Kanak'}</span>`;
+    }
+
+    const pastLabel = document.querySelector('#scene-mirror .mirror-past .mirror-side-label');
+    if (pastLabel && this.data.mirror?.past) {
+      // Maintain the internal pulsing indicator span/after
+      pastLabel.innerHTML = this.data.mirror.past.label || 'Her Words — Then';
+    }
+    const nowLabel = document.querySelector('#scene-mirror .mirror-now .mirror-side-label');
+    if (nowLabel && this.data.mirror?.now) {
+      nowLabel.innerHTML = this.data.mirror.now.label || 'My Reflection — Now';
+    }
+
+    // Populate past poem
+    const pastContainer = document.querySelector('#scene-mirror .mirror-past .mirror-poem-scroll');
+    if (pastContainer && this.data.mirror?.past?.lines) {
+      let pastHTML = '';
+      this.data.mirror.past.lines.forEach(line => {
+        if (line.text.trim() === '') {
+          pastHTML += '<div class="ev-break"></div>';
+        } else {
+          let className = 'ev-line';
+          if (line.type === 'stanza-start') className += ' ev-stanza-start';
+          if (line.type === 'refrain') className += ' ev-refrain';
+          if (line.type === 'highlight') className += ' ev-highlight';
+          if (line.type === 'final') className += ' ev-final';
+          pastHTML += `<p class="${className}">${line.text}</p>`;
+        }
+      });
+      pastContainer.innerHTML = pastHTML;
+    }
+
+    // Populate now poem
+    const nowContainer = document.querySelector('#scene-mirror .mirror-now .mirror-poem-scroll');
+    if (nowContainer && this.data.mirror?.now?.lines) {
+      let nowHTML = '';
+      this.data.mirror.now.lines.forEach(line => {
+        if (line.text.trim() === '') {
+          nowHTML += '<div class="ev-break"></div>';
+        } else {
+          let className = 'ev-line';
+          if (line.type === 'stanza-start') className += ' ev-stanza-start';
+          if (line.type === 'refrain') className += ' ev-refrain';
+          if (line.type === 'highlight') className += ' ev-highlight';
+          if (line.type === 'final') className += ' ev-final';
+          if (line.type === 'signature') className += ' ev-signature';
+          nowHTML += `<p class="${className}">${line.text}</p>`;
+        }
+      });
+      nowContainer.innerHTML = nowHTML;
     }
   }
 }

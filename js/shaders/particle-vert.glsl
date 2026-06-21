@@ -18,14 +18,17 @@ void main() {
   
   // Calculate multi-stage morph coordinates on the GPU
   vec3 morphPosition;
-  if (uScrollProgress <= 0.35) {
-    float t = smoothstep(0.0, 0.35, uScrollProgress);
+  if (uScrollProgress <= 0.45) {
+    // Stage 1: Sphere to Heart (morph between 0.10 and 0.25, hold Heart until 0.45)
+    float t = smoothstep(0.10, 0.25, uScrollProgress);
     morphPosition = mix(position, aTargetPosition, t);
-  } else if (uScrollProgress <= 0.7) {
-    float t = smoothstep(0.35, 0.7, uScrollProgress);
+  } else if (uScrollProgress <= 0.78) {
+    // Stage 2: Heart to Initials "N ♥ K" (morph between 0.45 and 0.58, hold Initials until 0.78)
+    float t = smoothstep(0.45, 0.58, uScrollProgress);
     morphPosition = mix(aTargetPosition, aTargetPositionInitials, t);
   } else {
-    float t = smoothstep(0.7, 1.0, uScrollProgress);
+    // Stage 3: Initials to Climax Heart (morph between 0.78 and 0.90, hold Climax Heart until 1.00)
+    float t = smoothstep(0.78, 0.90, uScrollProgress);
     morphPosition = mix(aTargetPositionInitials, aTargetPositionRing, t);
   }
 

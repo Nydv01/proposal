@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,11 +10,14 @@
   <!-- Preconnect and Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@200;300;400;500;600;700&family=Outfit:wght@200;300;400;500;600;700&family=Sacramento&family=JetBrains+Mono:wght@300;400;500&family=Mrs+Saint+Delafield&display=swap"
+    rel="stylesheet" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="/style.css" />
 </head>
+
 <body>
 
   <!-- Ambient atmospheric layers -->
@@ -22,16 +26,26 @@
   <div class="light-leak light-leak-two" aria-hidden="true"></div>
   <div class="ambient-glow" aria-hidden="true"></div>
   <div class="ambient-embers" aria-hidden="true">
-    <div class="ember"></div><div class="ember"></div><div class="ember"></div>
-    <div class="ember"></div><div class="ember"></div><div class="ember"></div>
-    <div class="ember"></div><div class="ember"></div><div class="ember"></div>
-    <div class="ember"></div><div class="ember"></div><div class="ember"></div>
-    <div class="ember"></div><div class="ember"></div><div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
+    <div class="ember"></div>
   </div>
 
-  <!-- ========================================================== -->
-  <!-- CUSTOM CURSOR (Disabled on touch devices automatically)     -->
-  <!-- ========================================================== -->
+
+
+  <!-- Glowing Custom Cursor elements -->
   <div class="custom-cursor" id="cursor-dot" aria-hidden="true"></div>
   <div class="custom-cursor-ring" id="cursor-ring" aria-hidden="true"></div>
   <div class="cursor-trail" aria-hidden="true"></div>
@@ -45,27 +59,22 @@
   </div>
 
   <div id="portal-wipe" aria-hidden="true"></div>
-  <canvas id="tubes-canvas" aria-hidden="true"></canvas>
 
   <!-- Minimal chrome (visible after envelope opens) -->
   <header id="at-chrome" class="hidden" aria-label="Experience navigation">
-    <a class="film-mark interactive" href="#scene-mind" aria-label="Return to the beginning">
+    <a class="film-mark interactive" href="#scene-dearest" aria-label="Return to the beginning">
       <span class="film-mark-monogram">N/K</span>
-      <span class="film-mark-copy">A private film</span>
+      <span class="film-mark-copy">A private love letter</span>
     </a>
     <nav class="at-pill-nav" aria-label="Chapters">
-      <button type="button" class="at-pill interactive" data-phase="mind"><span>01</span> Mind</button>
-      <button type="button" class="at-pill interactive" data-phase="heart"><span>02</span> Heart</button>
-      <button type="button" class="at-pill interactive" data-phase="story"><span>03</span> Story</button>
-      <button type="button" class="at-pill interactive" data-phase="poem"><span>04</span> Letter</button>
-      <button type="button" class="at-pill interactive" data-phase="mirror"><span>05</span> Mirror</button>
-      <button type="button" class="at-pill interactive" data-phase="memories"><span>06</span> Memories</button>
-      <button type="button" class="at-pill interactive" data-phase="song"><span>07</span> Sound</button>
-      <button type="button" class="at-pill interactive" data-phase="forever"><span>08</span> Forever</button>
+      <button type="button" class="at-pill interactive" data-phase="dearest"><span>01</span> Dearest</button>
+      <button type="button" class="at-pill interactive" data-phase="journey"><span>02</span> Journey</button>
+      <button type="button" class="at-pill interactive" data-phase="memories"><span>03</span> Memories</button>
+      <button type="button" class="at-pill interactive" data-phase="forever"><span>04</span> Forever</button>
     </nav>
     <div class="at-chrome-right">
-      <span id="at-chapter-index" class="at-chapter-index">01 / 08</span>
-      <span id="at-phase-label" class="at-phase-label">Mind</span>
+      <span id="at-chapter-index" class="at-chapter-index">01 / 04</span>
+      <span id="at-phase-label" class="at-phase-label">Dearest</span>
       <span id="at-scroll-pct" class="at-scroll-pct">/0/</span>
     </div>
   </header>
@@ -76,20 +85,18 @@
   <div id="envelope-container" role="dialog" aria-label="A Cinematic Love Letter for You">
     <canvas id="envelope-canvas"></canvas>
     <div class="envelope-ui">
-      <p class="envelope-kicker">A private film for Kanak Holkar</p>
-      <h1 class="envelope-title">Nitin <span>&</span> Kanak</h1>
+      <p class="envelope-kicker">A secret I've kept close to my heart...</p>
+      <h1 class="envelope-title">For <span>Kanak</span></h1>
+      <p class="envelope-whisper">from the boy who fell in love with you, one heartbeat at a time</p>
       <button type="button" id="open-letter-btn" class="envelope-open interactive" aria-label="Open the love letter">
         <span class="envelope-open-line"></span>
-        <span>Break the seal</span>
+        <span>Open this</span>
       </button>
-      <p class="envelope-subhint">Sound deepens the experience. Headphones recommended.</p>
+      <p class="envelope-subhint">Put your headphones on. This is just for you.</p>
     </div>
   </div>
 
-  <!-- ========================================================== -->
-  <!-- SCROLL PROGRESS INDICATOR BAR                               -->
-  <!-- ========================================================== -->
-  <div id="progress-bar" aria-hidden="true"></div>
+
 
   <!-- ========================================================== -->
   <!-- THREE.JS CINEMATIC BACKGROUND CANVAS                        -->
@@ -103,16 +110,7 @@
     <button id="mute-btn" class="at-audio-btn interactive" aria-label="Toggle Audio">Audio</button>
   </div>
 
-  <!-- ActiveTheory-style music player -->
-  <div id="at-music-player" class="hidden" aria-label="Music player">
-    <button type="button" id="music-prev" class="music-nav interactive" aria-label="Previous song">&lt;&lt;</button>
-    <div class="music-meta">
-      <span id="music-title" class="music-title">First Light</span>
-      <span class="music-sep">—</span>
-      <span id="music-artist" class="music-artist">Nitin → Kanak</span>
-    </div>
-    <button type="button" id="music-next" class="music-nav interactive" aria-label="Next song">&gt;&gt;</button>
-  </div>
+
 
   <!-- ========================================================== -->
   <!-- SMOOTH SCROLL MAIN WRAPPER (Controlled by Lenis)            -->
@@ -121,10 +119,11 @@
     <div id="smooth-content">
 
       <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 1: MIND TUNNEL ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-mind" class="scene" data-scene="mind" data-chapter="01 — The first thought" aria-label="Enter Nitin's Mind">
+      <section id="scene-mind" class="scene" data-scene="mind" data-chapter="01 — The first thought"
+        aria-label="Enter Nitin's Mind">
         <div class="scene-content scene-mind-content">
           <div class="mind-text-overlay">
-            <p class="scene-kicker">Nitin presents</p>
+            <p class="scene-kicker">for my cutu</p>
             <p class="mind-line mind-line-1">Before there was an us,</p>
             <p class="mind-line mind-line-2">there was one thought I kept returning to.</p>
             <p class="mind-line mind-line-3">It was always <span class="text-glow-rose">you, Kanak.</span></p>
@@ -138,33 +137,75 @@
       </section>
 
       <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 2: HEART ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-heart" class="scene" data-scene="heart" data-chapter="02 — What stayed" aria-label="Heart Scene">
+      <section id="scene-heart" class="scene" data-scene="heart" data-chapter="02 — What stayed"
+        aria-label="Heart Scene">
         <div class="scene-content scene-heart-content">
           <div class="heart-text-overlay">
             <p class="scene-kicker">The quiet certainty</p>
             <p class="heart-line heart-line-1">Somewhere between friendship and forever,</p>
-            <p class="heart-line heart-line-2">my heart stopped searching. It had found <span class="text-glow-gold">home in you.</span></p>
+            <p class="heart-line heart-line-2">my heart stopped searching. It had found <span
+                class="text-glow-gold">home in you.</span></p>
             <div class="pulse-signature" aria-hidden="true"><span></span><i></i><span></span></div>
           </div>
         </div>
       </section>
 
       <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 3: STORY TIMELINE ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-story" class="scene" data-scene="story" data-chapter="03 — How we became us" aria-label="Our Love Story">
+      <section id="scene-story" class="scene" data-scene="story" data-chapter="03 — How we became us"
+        aria-label="Our Love Story">
         <div class="scene-content scene-story-content">
-          <p class="scene-kicker">Four moments. One direction.</p>
-          <h2 class="scene-title">The shape of <em>our story</em></h2>
+          <p class="scene-kicker">every moment led to you</p>
+          <h2 class="scene-title story-title-reveal">The shape of <em>our story</em></h2>
           <p class="scene-deck">Not a list of dates. A record of all the ways the ordinary became sacred.</p>
 
           <div class="story-timeline">
-            <div class="timeline-line" aria-hidden="true"></div>
+            <div class="timeline-line" aria-hidden="true">
+              <svg class="timeline-svg"
+                style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible;">
+                <defs>
+                  <!-- Gradients for the curvy line -->
+                  <linearGradient id="timeline-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="var(--color-teal)" stop-opacity="0.12" />
+                    <stop offset="50%" stop-color="var(--color-pink)" stop-opacity="0.12" />
+                    <stop offset="100%" stop-color="var(--color-violet)" stop-opacity="0.12" />
+                  </linearGradient>
+                  <linearGradient id="timeline-grad-active" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="var(--color-teal)" />
+                    <stop offset="50%" stop-color="var(--color-pink)" />
+                    <stop offset="100%" stop-color="var(--color-violet)" />
+                  </linearGradient>
+
+                  <!-- Glow effect filter -->
+                  <filter id="timeline-glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="5" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Base track path -->
+                <path class="timeline-path-bg" stroke="url(#timeline-grad)" stroke-width="2.5" fill="none" />
+
+                <!-- Active glowing drawn path -->
+                <path class="timeline-path-active" stroke="url(#timeline-grad-active)" stroke-width="3.5" fill="none"
+                  filter="url(#timeline-glow)" />
+
+                <!-- Glow dot leading cursor -->
+                <circle class="timeline-glow-dot" r="6" fill="var(--color-pink)" filter="url(#timeline-glow)"
+                  style="opacity: 0; transform-origin: center; transition: opacity 0.3s ease, transform 0.3s ease;" />
+              </svg>
+            </div>
 
             <div class="story-milestone" data-mood="warm">
               <div class="milestone-date">September 2023</div>
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>The Beginning</h3>
-                <p>We crossed paths like two comets in the same sky. I spilled coffee, you laughed, and something shifted in the universe. From that moment, you weren't just someone I knew — you were someone I couldn't stop thinking about.</p>
+                <p>We crossed paths like two comets in the same sky. I spilled coffee, you laughed, and something
+                  shifted in the universe. From that moment, you weren't just someone I knew — you were someone I
+                  couldn't stop thinking about.</p>
               </div>
             </div>
 
@@ -173,7 +214,9 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>Friendship on Fire</h3>
-                <p>Every message felt like unwrapping a gift. Every late-night conversation felt like discovering a secret world. We were friends, but my heart was already writing a different story. I was falling, Kanak — quietly, completely, and beautifully.</p>
+                <p>Every message felt like unwrapping a gift. Every late-night conversation felt like discovering a
+                  secret world. We were friends, but my heart was already writing a different story. I was falling,
+                  Kanak — quietly, completely, and beautifully.</p>
               </div>
             </div>
 
@@ -182,7 +225,9 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>The Day Everything Changed</h3>
-                <p>Valentine's Day. My hands trembled. My voice cracked. I fumbled every word. But when you said yes — the entire world paused, held its breath, and then burst into the most vivid colour I've ever seen. That moment is tattooed on my soul.</p>
+                <p>Valentine's Day. My hands trembled. My voice cracked. I fumbled every word. But when you said yes —
+                  the entire world paused, held its breath, and then burst into the most vivid colour I've ever seen.
+                  That moment is tattooed on my soul.</p>
               </div>
             </div>
 
@@ -191,36 +236,45 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>Why You're My Everything</h3>
-                <p>You've become my morning and my midnight. My confidante, my joy, my future. Nobody has ever made me feel this safe, this understood, this alive. You are not just part of my life, Kanak — you are my life.</p>
+                <p>You've become my morning and my midnight. My confidante, my joy, my future. Nobody has ever made me
+                  feel this safe, this understood, this alive. You are not just part of my life, Kanak — you are my
+                  life.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 4: POEM ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-poem" class="scene" data-scene="poem" data-chapter="04 — The letter" aria-label="Love Poem">
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 4: THE LETTER ~~~~~~~~~~~~~~~~~~~~~~ -->
+      <section id="scene-poem" class="scene" data-scene="poem" data-chapter="04 — The letter" aria-label="The Letter">
         <div class="scene-content scene-poem-content">
-          <p class="scene-kicker">Read between the heartbeats</p>
-          <h2 class="poem-title">The words I kept <em>trying to say</em></h2>
-          <p class="poem-instruction">Scroll gently. The letter will meet you line by line.</p>
-          <div class="poem-container" id="poem-container">
-            <!-- Dynamically populated by content-loader -->
+          <p class="scene-kicker">the things my voice could never carry</p>
+          <h2 class="poem-title">Words I Could Never <em>Say Out Loud</em></h2>
+          <p class="poem-instruction">Read slowly. Each word waited a long time to reach you.</p>
+          <div class="letter-stage" id="letter-stage">
+            <div class="letter-paper" id="letter-paper">
+              <div class="letter-grain" aria-hidden="true"></div>
+              <div class="letter-content-inner" id="letter-content-inner">
+                <!-- Letter will be typed out dynamically -->
+              </div>
+            </div>
           </div>
-          <p class="poem-signature">— Nitin</p>
         </div>
       </section>
 
       <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE: ENVENOMED MIRROR ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-mirror" class="scene" data-scene="mirror" data-chapter="05 — Her own reflection" aria-label="Envenomed — The Mirror Poem">
+      <section id="scene-mirror" class="scene" data-scene="mirror" data-chapter="05 — Her own reflection"
+        aria-label="Envenomed — The Mirror Poem">
+        <!-- Fluid particles dynamic background -->
+        <canvas id="mirror-particles-canvas" class="mirror-particles-bg" aria-hidden="true"></canvas>
         <div class="scene-content scene-mirror-content">
 
           <!-- Section Title -->
           <div class="mirror-header">
-            <p class="scene-kicker">Then / Now</p>
-            <h2 class="mirror-title">Envenomed</h2>
-            <p class="mirror-subtitle">Words she wrote four years ago, held beside the woman she chose to become.</p>
-            <p class="mirror-byline">by <span class="text-glow-rose">Kanak</span></p>
+            <p class="scene-kicker"></p>
+            <h2 class="mirror-title"></h2>
+            <p class="mirror-subtitle"></p>
+            <p class="mirror-byline"></p>
           </div>
 
           <!-- The Mirror Split -->
@@ -228,88 +282,26 @@
 
             <!-- LEFT: Kanak's Original Poem -->
             <div class="mirror-side mirror-past">
-              <div class="mirror-side-label">Her Words — Then</div>
+              <div class="mirror-side-label"></div>
               <div class="mirror-poem-scroll">
-                <p class="ev-line ev-stanza-start">Barging into my nerves and choking up to my neck,</p>
-                <p class="ev-line">My soul leaving marks on my face, drying as I stay awake;</p>
-                <p class="ev-line">I was in my lows — for her they had bottomed,</p>
-                <p class="ev-line ev-refrain">My eyes trailed down her soul as she called me envenomed.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">My spirit settled down but she never settled for less,</p>
-                <p class="ev-line">I pretended to be cold and tiny; she was a hot mess;</p>
-                <p class="ev-line">I was smiling through the pain but she showed no emotions,</p>
-                <p class="ev-line ev-refrain">My eyes trailed down her soul as she called me envenomed.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">She was a portrait of me, I was a reflection she embedded,</p>
-                <p class="ev-line ev-highlight">She said 'baby portraits are eternal, reflections are faded';</p>
-                <p class="ev-line">Realize! I am what all you ever ambitioned,</p>
-                <p class="ev-line ev-refrain">My eyes trailed down her soul as she called me envenomed.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">She was not like me, she gained what I aspired,</p>
-                <p class="ev-line">I cursed the dark under my lights, herself she admired;</p>
-                <p class="ev-line">She lifted my chin so gentle, almost soothing my thunder,</p>
-                <p class="ev-line ev-refrain">My eyes trailed down her soul as she called me envenomed.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">As she saw the sun rise, I felt her disappearing out of way,</p>
-                <p class="ev-line">Sheer pain in my heart, with every hitting ray;</p>
-                <p class="ev-line">Finally comprehending she wasn't just a reflection but it was me,</p>
-                <p class="ev-line">This mind created a mirage to redefine my divinity;</p>
-                <p class="ev-line">I was merrier being her, this skin I put on was itchy;</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line ev-stanza-start">As I snapped back to reality standing still yet shaken,</p>
-                <p class="ev-line">With a blow I hit the ground… turned around to reckon;</p>
-                <p class="ev-line ev-final">My body leaving the phantom, with it followed the venom.</p>
+                <!-- Dynamically populated -->
               </div>
             </div>
 
             <!-- CENTER: The Glass Mirror Divider -->
             <div class="mirror-glass" aria-hidden="true">
-              <div class="mirror-glass-line"></div>
+              <div class="mirror-glass-line">
+                <div class="mirror-glass-bead"></div>
+              </div>
               <div class="mirror-glass-reflection"></div>
               <img src="/images/mirror_reflection.png" alt="" class="mirror-glass-image" />
             </div>
 
             <!-- RIGHT: Nitin's Reflection — Who She Is NOW -->
             <div class="mirror-side mirror-now">
-              <div class="mirror-side-label">My Reflection — Now</div>
+              <div class="mirror-side-label"></div>
               <div class="mirror-poem-scroll">
-                <p class="ev-line ev-stanza-start">You wrote about a girl who was fractured, fighting her own reflection —</p>
-                <p class="ev-line">but Kanak, look what you became. Look at the woman standing here.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">The girl who smothered her thunder now carries storms in her smile.</p>
-                <p class="ev-line">The one who called herself 'envenomed' became the antidote to everyone she loves.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line ev-highlight">You said portraits are eternal, reflections are faded —</p>
-                <p class="ev-line">But baby, you're not a reflection anymore. You're the whole portrait.</p>
-                <p class="ev-line">Framed in gold. Untouchable. Radiant.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">The venom left your body that day,</p>
-                <p class="ev-line">and what remained was something the world wasn't ready for —</p>
-                <p class="ev-line ev-highlight">a woman who rebuilt herself from her own ashes.</p>
-
-                <div class="ev-break"></div>
-
-                <p class="ev-line">You don't need a mirror to see who you are, Kanak.</p>
-                <p class="ev-line">You just need to see the way I look at you.</p>
-                <p class="ev-line ev-final">Because in my eyes — you were never the venom. You were always the cure.</p>
-
-                <p class="ev-signature">— Nitin</p>
+                <!-- Dynamically populated -->
               </div>
             </div>
 
@@ -318,77 +310,232 @@
       </section>
 
       <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 5: MEMORY PORTALS ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-memories" class="scene" data-scene="memories" data-chapter="06 — Places we still return to" aria-label="Memory Portals">
+      <section id="scene-memories" class="scene" data-scene="memories" data-chapter="06 — Places we still return to"
+        aria-label="The Gallery of Us">
+        <div class="aquatic-bg-container">
+          <canvas id="aquatic-caustics-canvas"></canvas>
+        </div>
         <div class="scene-content scene-memories-content">
-          <p class="scene-kicker">An atlas of us</p>
-          <h2 class="scene-title">Memory <em>portals</em></h2>
-          <p class="scene-subtitle">Drag to turn the archive. Select a frame to step closer.</p>
-          <div class="gallery-instruction" aria-hidden="true"><span>Drag</span><i></i><span>Open</span></div>
+          <p class="scene-kicker">moments captured in love</p>
+          <h2 class="scene-title">The Gallery of <em>Us</em></h2>
+          <p class="scene-subtitle">Click a memory to step inside — each one is a world.</p>
+          <div class="scrapbook-paper">
+            <div class="letter-grain" aria-hidden="true"></div>
+            <div class="scrapbook-creases" aria-hidden="true"></div>
 
-          <!-- 3D Gallery Canvas -->
-          <div id="cylinder-gallery-container" class="interactive">
-            <canvas id="cylinder-gallery-canvas"></canvas>
-          </div>
+            <!-- Decorative Scrapbook Badges, Stickers & Annotations -->
+            <div class="scrapbook-badge stamp-love interactive" style="top: 4%; left: 3%; transform: rotate(-10deg);">
+              <div class="stamp-inner">
+                <span class="stamp-emoji">💌</span>
+                <span class="stamp-text">K & N</span>
+              </div>
+            </div>
 
-          <!-- Fallback CSS Grid Gallery with sample images -->
-          <div class="gallery-grid" id="gallery-grid">
-            <div class="gallery-card" data-caption="Our first autumn together" data-date="October 2023">
-              <img src="/images/autumn_cafe.png" alt="Autumn café memory" loading="lazy" />
-              <div class="gallery-card-overlay">
-                <span class="gallery-card-emoji">🍂</span>
-                <p class="gallery-card-caption">Our first autumn together</p>
+            <div class="scrapbook-badge sticker-september interactive"
+              style="top: 15%; left: 3%; transform: rotate(-6deg);">
+              <span>September 🍂</span>
+            </div>
+
+            <div class="scrapbook-badge nickname-tag tag-cutu interactive"
+              style="top: 22%; left: 3%; transform: rotate(-8deg);">
+              <span>cutu 💕</span>
+            </div>
+
+            <div class="scrapbook-badge doodle-coffee interactive"
+              style="top: 22%; left: 34%; transform: rotate(-15deg);">
+              <span>☕</span>
+            </div>
+
+            <div class="scrapbook-annotation note-autumn" style="top: 15%; left: 44%;">
+              <span class="note-text">where we first met! ☕</span>
+              <span class="note-arrow">↙️</span>
+            </div>
+
+            <div class="scrapbook-badge pressed-leaf interactive"
+              style="top: 12%; right: 4%; transform: rotate(18deg);">
+              <div class="leaf-shape">🍁</div>
+              <div class="leaf-tape"></div>
+            </div>
+
+            <div class="scrapbook-badge nickname-tag tag-cutiepie interactive"
+              style="top: 6%; right: 28%; transform: rotate(10deg);">
+              <span>my cutiepie 🥧</span>
+            </div>
+
+            <div class="scrapbook-badge sticker-heart interactive"
+              style="top: 25%; right: 3%; transform: rotate(12deg);">
+              <div class="sticker-inner">💖</div>
+            </div>
+
+            <div class="scrapbook-annotation note-sunset" style="top: 35%; right: 42%;">
+              <span class="note-arrow">↘️</span>
+              <span class="note-text">sunset walks... 🌅</span>
+            </div>
+
+            <div class="scrapbook-badge mini-envelope interactive" style="top: 40%; left: 4%; transform: rotate(8deg);">
+              <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
+                <div class="envelope-back"></div>
+                <div class="envelope-paper">
+                  <p class="envelope-note">I love you<br>❤️❤️</p>
+                </div>
+                <div class="envelope-front"></div>
+                <div class="envelope-flap"></div>
+                <div class="envelope-seal">❤️</div>
               </div>
             </div>
-            <div class="gallery-card" data-caption="That magical evening" data-date="December 2023">
-              <img src="/images/starry_night.png" alt="Starry night memory" loading="lazy" />
-              <div class="gallery-card-overlay">
-                <span class="gallery-card-emoji">✨</span>
-                <p class="gallery-card-caption">That magical evening</p>
-              </div>
+
+            <div class="scrapbook-badge pressed-flower interactive"
+              style="top: 48%; right: 4%; transform: rotate(-22deg);">
+              <div class="flower-shape">🌼</div>
+              <div class="flower-tape"></div>
             </div>
-            <div class="gallery-card" data-caption="When spring bloomed for us" data-date="March 2024">
-              <img src="/images/blossom_spring.png" alt="Spring blossom memory" loading="lazy" />
-              <div class="gallery-card-overlay">
-                <span class="gallery-card-emoji">🌸</span>
-                <p class="gallery-card-caption">When spring bloomed for us</p>
-              </div>
+
+            <div class="scrapbook-badge ticket-badge interactive" style="top: 60%; left: 3%; transform: rotate(-8deg);">
+              <div class="ticket-stub"><span>ADMIT</span></div>
+              <div class="ticket-main"><span>ONE ♾️</span></div>
             </div>
-            <div class="gallery-card" data-caption="Golden hour, golden love" data-date="May 2024">
-              <img src="/images/sunset_beach.png" alt="Sunset beach memory" loading="lazy" />
-              <div class="gallery-card-overlay">
-                <span class="gallery-card-emoji">🌅</span>
-                <p class="gallery-card-caption">Golden hour, golden love</p>
-              </div>
+
+            <div class="scrapbook-annotation note-proposal" style="top: 58%; right: 41%;">
+              <span class="note-text">best day ever! 💍</span>
+              <span class="note-arrow">↘️</span>
             </div>
-            <div class="gallery-card" data-caption="Walking into forever" data-date="July 2024">
-              <img src="/images/magic_path.png" alt="Magic path memory" loading="lazy" />
-              <div class="gallery-card-overlay">
-                <span class="gallery-card-emoji">🌿</span>
-                <p class="gallery-card-caption">Walking into forever</p>
-              </div>
+
+            <div class="scrapbook-badge nickname-tag tag-sweetu interactive"
+              style="top: 66%; right: 5%; transform: rotate(-8deg);">
+              <span>sweetu 🥰</span>
             </div>
-            <div class="gallery-card" data-caption="You and me, always" data-date="Forever">
-              <img src="/images/forever_love.png" alt="Forever love memory" loading="lazy" />
-              <div class="gallery-card-overlay">
-                <span class="gallery-card-emoji">💕</span>
-                <p class="gallery-card-caption">You and me, always</p>
+
+            <div class="scrapbook-badge doodle-camera interactive"
+              style="bottom: 18%; left: 4%; transform: rotate(-12deg);">
+              <span>📷</span>
+            </div>
+
+            <div class="scrapbook-badge sticker-flower interactive"
+              style="top: 72%; right: 4%; transform: rotate(-15deg);">
+              <span>🌸</span>
+            </div>
+
+            <div class="scrapbook-annotation note-forever" style="bottom: 16%; left: 43%;">
+              <span class="note-arrow">↙️</span>
+              <span class="note-text">forever is a promise. ♾️</span>
+            </div>
+
+            <div class="scrapbook-badge sticker-always interactive"
+              style="bottom: 12%; right: 3%; transform: rotate(10deg);">
+              <span>always & forever</span>
+            </div>
+
+            <div class="scrapbook-badge doodle-stars interactive"
+              style="bottom: 4%; left: 5%; transform: rotate(6deg);">
+              <span>✨ Us ✨</span>
+            </div>
+
+            <!-- New Cute & Personal Badges placed in empty areas (No overlaps) -->
+            <div class="scrapbook-badge washi-tape-patterned" style="top: 2%; left: 45%; transform: rotate(1deg);">
+              <span>⭐ our happy place ⭐</span>
+            </div>
+
+            <!-- Heartbeat Sticky Note shifted to non-overlapping bottom-right area -->
+            <div class="scrapbook-badge sticky-note interactive"
+              style="bottom: 18%; right: 3%; transform: rotate(5deg);">
+              <p class="sticky-note-text">Nitin says:<br>You make my heart skip a beat! 💓</p>
+              <div class="sticky-note-pin">📌</div>
+            </div>
+
+            <div class="scrapbook-badge movie-ticket interactive"
+              style="bottom: 30%; left: 3%; transform: rotate(-15deg);">
+              <div class="ticket-stub"><span>DATE</span></div>
+              <div class="ticket-main"><span>MOVIE 🎬</span></div>
+            </div>
+
+            <div class="scrapbook-badge doodle-cute interactive"
+              style="bottom: 28%; right: 34%; transform: rotate(-6deg);">
+              <span>🐈🐾 meow</span>
+            </div>
+
+            <div class="scrapbook-badge key-heart interactive" style="top: 36%; right: 34%; transform: rotate(15deg);">
+              <span>🗝️❤️ key</span>
+            </div>
+
+            <div class="scrapbook-badge flower-pin interactive" style="top: 50%; left: 34%; transform: rotate(12deg);">
+              <span>📌🌸 pin</span>
+            </div>
+
+            <div class="scrapbook-badge stamp-handmade interactive"
+              style="bottom: 3%; right: 28%; transform: rotate(-12deg);">
+              <div class="stamp-circle">NITIN ❤️ KANAK</div>
+            </div>
+
+            <div class="scrapbook-badge ribbon-badge interactive"
+              style="bottom: 38%; right: 4%; transform: rotate(8deg);">
+              <div class="ribbon-tail"></div>
+              <div class="ribbon-circle">🏆 #1 GF</div>
+            </div>
+
+            <div class="scrapbook-badge doodle-lovebird interactive"
+              style="top: 10%; left: 30%; transform: rotate(-8deg);">
+              <span>🐦❤️🐦 us</span>
+            </div>
+
+            <div class="scrapbook-badge sticker-hug interactive"
+              style="bottom: 6%; left: 32%; transform: rotate(15deg);">
+              <span>🤗 hug!</span>
+            </div>
+
+            <!-- Premium Old-School Scrapbook Layout -->
+            <div class="scrapbook-container" id="scrapbook-container">
+
+              <div class="scrapbook-polaroid interactive river-capsule-left" data-index="0" style="--rot: -3deg;">
+                <div class="tape tape-top"></div>
+                <div class="polaroid-photo">
+                  <img src="/images/autumn_cafe.png" alt="Where our story began" loading="lazy" />
+                </div>
+                <p class="polaroid-caption">Where our story began</p>
               </div>
+
+              <div class="scrapbook-polaroid interactive river-capsule-right" data-index="1"
+                style="--rot: 4deg; margin-top: 2rem;">
+                <div class="tape tape-corner-tr"></div>
+                <div class="tape tape-corner-bl"></div>
+                <div class="polaroid-photo">
+                  <img src="/images/sunset_beach.png" alt="Blossoming together" loading="lazy" />
+                </div>
+                <p class="polaroid-caption">Blossoming together</p>
+              </div>
+
+              <div class="scrapbook-polaroid interactive river-capsule-center" data-index="2" style="--rot: -2deg;">
+                <div class="tape tape-corner-tl"></div>
+                <div class="polaroid-photo">
+                  <img src="/images/blossom_spring.png" alt="Two hearts, one soul" loading="lazy" />
+                </div>
+                <p class="polaroid-caption">Two hearts, one soul</p>
+              </div>
+
+              <div class="scrapbook-polaroid interactive river-capsule-left" data-index="3"
+                style="--rot: 5deg; margin-top: -1rem;">
+                <div class="tape tape-top"></div>
+                <div class="polaroid-photo">
+                  <img src="/images/forever_love.png" alt="Forever & always" loading="lazy" />
+                </div>
+                <p class="polaroid-caption">Forever & always</p>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 6: SONG EXPERIENCE ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-song" class="scene" data-scene="song" data-chapter="07 — What memory sounds like" aria-label="Our Song">
+      <!-- ~~~~~~~~~~~~~~~~~~~~~~ SCENE 6: VIDEO MESSAGE ~~~~~~~~~~~~~~~~~~~~~~ -->
+      <section id="scene-song" class="scene" data-scene="song" data-chapter="07 — A message for you"
+        aria-label="A Video Message">
         <div class="scene-content scene-song-content">
-          <div class="song-visual">
-            <canvas id="song-visualizer-canvas" aria-hidden="true"></canvas>
-          </div>
           <div class="song-text-overlay">
-            <p class="scene-kicker">The score changes as we do</p>
-            <h2 class="song-title">The music <em>remembers</em></h2>
-            <p class="song-subtitle">It begins at a distance, then clears as the feeling becomes certain.</p>
-            <div class="song-waveform" aria-hidden="true">
+            <p class="scene-kicker">a message from my heart</p>
+            <h2 class="song-title">For my <em>favorite person</em></h2>
+            <p class="song-subtitle">Press play to watch a little message I made just for you.</p>
+
+            <!-- Cinematic audio waveform visualizer -->
+            <div class="song-waveform" id="song-waveform" aria-hidden="true">
               <div class="waveform-bar"></div>
               <div class="waveform-bar"></div>
               <div class="waveform-bar"></div>
@@ -401,18 +548,110 @@
               <div class="waveform-bar"></div>
               <div class="waveform-bar"></div>
               <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+              <div class="waveform-bar"></div>
+            </div>
+
+            <div class="love-video-section-container">
+              <div class="video-shader-canvas-container" id="video-shader-container"></div>
+              <div class="love-video-wrapper">
+                <div class="love-video-container">
+                  <video id="love-video" playsinline preload="auto">
+                    <source src="assets/love-video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+                  <button type="button" id="video-play-btn" class="video-play-btn interactive" aria-label="Play video">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" fill="currentColor" />
+                    </svg>
+                  </button>
+
+                  <div class="video-controls">
+                    <button type="button" id="video-control-play" class="video-control-btn interactive"
+                      aria-label="Play/Pause">
+                      <svg class="play-icon" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" fill="currentColor" />
+                      </svg>
+                      <svg class="pause-icon hidden" viewBox="0 0 24 24">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" fill="currentColor" />
+                      </svg>
+                    </button>
+
+                    <div class="video-progress-bar-container">
+                      <div class="video-progress-bar-fill"></div>
+                    </div>
+
+                    <button type="button" id="video-control-mute" class="video-control-btn interactive"
+                      aria-label="Mute/Unmute">
+                      <svg class="unmute-icon" viewBox="0 0 24 24">
+                        <path
+                          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"
+                          fill="currentColor" />
+                      </svg>
+                      <svg class="mute-icon hidden" viewBox="0 0 24 24">
+                        <path
+                          d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.21.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.03c1.37-.31 2.6-.98 3.59-1.87L19.27 21 20.5 19.73 4.27 3zM12 4L9.91 6.09 12 8.18V4z"
+                          fill="currentColor" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ~~~~~~~~~~~~~~~~~~~~~~ FINAL SCENE: PROPOSAL CLIMAX ~~~~~~~~~~~~~~~~~~~~~~ -->
-      <section id="scene-proposal" class="scene" data-scene="forever" data-chapter="08 — The only question left" aria-label="The Proposal">
+      <section id="scene-proposal" class="scene" data-scene="forever" data-chapter="08 — The only question left"
+        aria-label="The Proposal">
+
+        <!-- ✦ Cinematic Letterbox Bars -->
+        <div class="proposal-letterbox proposal-letterbox-top" aria-hidden="true">
+          <div class="letterbox-pattern"></div>
+          <div class="letterbox-overlay"></div>
+        </div>
+        <div class="proposal-letterbox proposal-letterbox-bottom" aria-hidden="true">
+          <div class="letterbox-pattern"></div>
+          <div class="letterbox-overlay"></div>
+        </div>
+
+        <!-- ✦ Atmospheric Light Leak Orbs -->
+        <div class="proposal-atmosphere" aria-hidden="true">
+          <div class="proposal-orb proposal-orb-1"></div>
+          <div class="proposal-orb proposal-orb-2"></div>
+          <div class="proposal-orb proposal-orb-3"></div>
+          <div class="proposal-orb proposal-orb-4"></div>
+        </div>
+
+        <!-- ✦ Romantic Firefly Particles -->
+        <div class="proposal-fireflies" aria-hidden="true">
+          <span class="firefly"></span><span class="firefly"></span><span class="firefly"></span>
+          <span class="firefly"></span><span class="firefly"></span><span class="firefly"></span>
+          <span class="firefly"></span><span class="firefly"></span><span class="firefly"></span>
+          <span class="firefly"></span><span class="firefly"></span><span class="firefly"></span>
+          <span class="firefly"></span><span class="firefly"></span><span class="firefly"></span>
+          <span class="firefly"></span><span class="firefly"></span><span class="firefly"></span>
+          <span class="firefly"></span><span class="firefly"></span>
+        </div>
+
+        <!-- ✦ Film Grain Overlay -->
+        <div class="proposal-grain" aria-hidden="true"></div>
+
+        <!-- ✦ Vignette -->
+        <div class="proposal-vignette" aria-hidden="true"></div>
+
+        <!-- ✦ Falling Pink Leaves Container -->
+        <div class="proposal-leaves-container" id="proposal-leaves-container" aria-hidden="true"></div>
+
         <div class="scene-content scene-proposal-content">
-          <div class="proposal-container">
+          <div class="proposal-container" data-glow>
+            <div data-glow></div>
             <p class="scene-kicker proposal-kicker">No audience. No rush. Just the truth.</p>
 
-            <!-- Buildup text -->
+            <!-- Buildup text — slow, intimate monologue -->
             <div class="proposal-buildup" id="proposal-buildup">
               <p class="buildup-line" data-index="0">Kanak...</p>
               <p class="buildup-line" data-index="1">From September 2023 to this very second...</p>
@@ -421,32 +660,70 @@
               <p class="buildup-line" data-index="4">And now, there is only one question left...</p>
             </div>
 
-            <!-- The Question -->
-            <div class="proposal-question-wrapper hidden" id="proposal-question-wrapper">
-              <h2 id="proposal-question" class="proposal-question">
-                Kanak Holkar, will you be with me for your whole life?
-              </h2>
-            </div>
+            <!-- The Proposal Letter Envelope (Interactive Climax) -->
+            <div class="proposal-envelope-wrapper hidden" id="proposal-envelope-wrapper">
+              <!-- Candlelight flame glow backdrop -->
+              <div class="candle-glow-flare" aria-hidden="true"></div>
+              <div class="proposal-watermark" aria-hidden="true">forever & always</div>
 
-            <!-- Response Buttons -->
-            <div id="proposal-buttons" class="proposal-buttons hidden">
-              <button id="accept-btn" class="proposal-btn proposal-btn-yes interactive" aria-label="Accept">Yes. With all my heart.</button>
-              <button id="decline-btn" class="proposal-btn proposal-btn-no interactive" aria-label="Take more time">I need a moment.</button>
+              <!-- 3D Envelope Box -->
+              <div class="envelope-box interactive" id="proposal-envelope">
+                <div class="envelope-flap-top"></div>
+                <div class="envelope-back-side"></div>
+                <div class="envelope-inner-paper"></div>
+                <div class="envelope-wax-seal">
+                  <span class="seal-heart">♥</span>
+                </div>
+                <div class="envelope-tap-hint">Tap to open Nitin's letter</div>
+              </div>
+
+              <!-- Parchment letter card that slides out -->
+              <div class="proposal-letter-card" id="proposal-letter-card">
+                <div class="letter-bg-grain"></div>
+                <div class="letter-card-border"></div>
+                <div class="letter-card-content">
+                  <div class="letter-card-kicker">For my favorite person</div>
+
+                  <!-- The Proposal Canvas Container (for monologue and transitions) -->
+                  <div class="proposal-canvas-container">
+                    <canvas id="proposal-vapor-canvas"></canvas>
+                  </div>
+
+                  <!-- The Proposal Question -->
+                  <h2 id="proposal-question" class="proposal-card-question">
+                    Kanak Holkar, will you be with me<br />for your whole life?
+                  </h2>
+
+                  <!-- Response Buttons inside the letter card -->
+                  <div id="proposal-buttons" class="proposal-buttons">
+                    <button id="accept-btn" class="proposal-btn proposal-btn-yes interactive" aria-label="Accept">
+                      <span class="btn-glow" aria-hidden="true"></span>
+                      <span class="btn-text">Yes. With all my heart.</span>
+                    </button>
+                    <button id="decline-btn" class="proposal-btn proposal-btn-no interactive"
+                      aria-label="Take more time">I need a moment.</button>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Celebration -->
             <div id="celebration" class="celebration hidden">
               <div class="celebration-burst" aria-hidden="true"></div>
+              <div class="celebration-sparkle-ring" aria-hidden="true"></div>
               <h2 class="celebration-title">You Said Yes!</h2>
               <p class="celebration-text">Here's to forever together, my Kanak.</p>
+              <p class="celebration-promise">Every sunrise, every midnight, every heartbeat — <em>yours</em>.</p>
               <p class="celebration-sub">Every love story is beautiful, but ours is my favourite.</p>
               <div class="heart-rain" aria-hidden="true"></div>
             </div>
 
-            <!-- Gentle Decline -->
             <div id="gentle-decline" class="gentle-decline hidden">
-              <h2>That's Okay, My Love 💕</h2>
-              <p>I'll wait forever for you. My heart is yours, always. Take your time — I'm not going anywhere.</p>
+              <div class="decline-glow" aria-hidden="true"></div>
+              <h2>That's Okay, <em>My Love 💕</em></h2>
+              <p class="decline-message">I'll wait forever for you. My heart is yours, always. Take your time — I'm not
+                going anywhere.</p>
+              <p class="decline-promise">Because you are worth every second of patience in this universe.</p>
               <button id="reconsider-btn" class="interactive" aria-label="Return to the top">Take Me Back ↑</button>
             </div>
 
@@ -465,24 +742,68 @@
 
   <!-- Gallery Detail Overlay (Memory Dive-In) -->
   <div id="gallery-detail-overlay" class="hidden" aria-hidden="true" role="dialog" aria-label="Memory detail">
-    <div class="detail-card-wrapper">
-      <button id="detail-close-btn" class="interactive" aria-label="Back to Gallery">✕ Go Back</button>
-      <div class="detail-content">
-        <video id="detail-video" class="detail-video" playsinline muted loop autoplay hidden></video>
-        <img id="detail-image" class="detail-image" alt="" hidden />
-        <div id="detail-emoji" aria-hidden="true"></div>
+    <div class="lightbox-bg-container">
+      <canvas id="lightbox-caustics-canvas"></canvas>
+    </div>
+    <div class="detail-lightbox">
+      <div class="detail-media-container">
+        <div class="scrapbook-pocket">
+          <div class="scrapbook-pocket-front"></div>
+          <div class="scrapbook-photo-card">
+            <div class="photo-card-corners">
+              <span class="gold-corner tl"></span>
+              <span class="gold-corner tr"></span>
+              <span class="gold-corner bl"></span>
+              <span class="gold-corner br"></span>
+            </div>
+            <div class="photo-card-inner">
+              <video id="detail-video" class="detail-video" playsinline muted loop autoplay hidden></video>
+              <img id="detail-image" class="detail-image" alt="" hidden />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-info-panel">
+        <button id="detail-close-btn" class="interactive" aria-label="Back to Gallery">✕ Close</button>
         <p id="detail-date" class="detail-date"></p>
-        <p id="detail-caption"></p>
+        <h3 id="detail-caption" class="detail-caption"></h3>
         <p id="detail-story" class="detail-story"></p>
       </div>
     </div>
   </div>
 
-  <!-- Companion Bot Container (populated by companion-bot.js) -->
-  <div id="companion-bot-root" aria-label="Companion Bot"></div>
-
   <!-- APPLICATION ENTRY POINT -->
   <script type="module" src="/js/main.js"></script>
 
+  <!-- SVG filters for physical paper texture and grain overlay -->
+  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <defs>
+      <filter id="paper-texture">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+        <feDiffuseLighting in="noise" lighting-color="#f5f0e8" surfaceScale="2" result="light">
+          <feDistantLight azimuth="45" elevation="60" />
+        </feDiffuseLighting>
+        <feComposite in="SourceGraphic" in2="light" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+      </filter>
+      <filter id="grain">
+        <feTurbulence type="turbulence" baseFrequency="0.9" numOctaves="3" result="noise" />
+        <feColorMatrix type="saturate" values="0" />
+        <feBlend in="SourceGraphic" mode="overlay" />
+      </filter>
+      <filter id="aquarium-wave" x="0%" y="0%" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.008" numOctaves="3" result="wave-noise">
+          <animate attributeName="baseFrequency" dur="40s" values="0.012 0.008; 0.018 0.012; 0.012 0.008"
+            repeatCount="indefinite" />
+        </feTurbulence>
+        <feDisplacementMap in="SourceGraphic" in2="wave-noise" scale="4" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
 </body>
+
+</html>
+
+</html>
+
 </html>

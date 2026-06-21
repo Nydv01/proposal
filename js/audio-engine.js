@@ -296,7 +296,7 @@ export class AudioEngine {
     if (Tone) {
       try {
         Tone.Transport.stop();
-      } catch (e) {}
+      } catch (e) { }
       this.stopGenerative();
       this.players.forEach((p) => p.dispose());
     }

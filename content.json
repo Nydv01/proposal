@@ -32,15 +32,40 @@
   },
   "audio": {
     "tracks": [
-      { "title": "First Light", "artist": "Nitin → Kanak", "src": "/audio/track-01.mp3", "theme": 0 },
-      { "title": "September Sky", "artist": "Our Friendship", "src": "/audio/track-02.mp3", "theme": 1 },
-      { "title": "Valentine Pulse", "artist": "14 Feb 2024", "src": "/audio/track-03.mp3", "theme": 2 },
-      { "title": "Memory Helix", "artist": "Moments", "src": "/audio/track-04.mp3", "theme": 3 },
-      { "title": "Forever Hold", "artist": "The Question", "src": "/audio/track-05.mp3", "theme": 4 }
+      {
+        "title": "First Light",
+        "artist": "Nitin → Kanak",
+        "src": "/audio/track-01.mp3",
+        "theme": 0
+      },
+      {
+        "title": "September Sky",
+        "artist": "Our Friendship",
+        "src": "/audio/track-02.mp3",
+        "theme": 1
+      },
+      {
+        "title": "Valentine Pulse",
+        "artist": "14 Feb 2024",
+        "src": "/audio/track-03.mp3",
+        "theme": 2
+      },
+      {
+        "title": "Memory Helix",
+        "artist": "Moments",
+        "src": "/audio/track-04.mp3",
+        "theme": 3
+      },
+      {
+        "title": "Forever Hold",
+        "artist": "The Question",
+        "src": "/audio/track-05.mp3",
+        "theme": 4
+      }
     ]
   },
   "poem": {
-    "title": "Words I Could Never Say Out Loud",
+    "title": "Words I Could Never <em>Say Out Loud</em>",
     "author": "— Nitin",
     "lines": [
       "My Dearest Kanak,",
@@ -111,8 +136,8 @@
     ]
   },
   "gallery": {
-    "title": "Memory Portals",
-    "subtitle": "Click a memory to step inside — each one is a world",
+    "title": "The Gallery of <em>Us</em>",
+    "subtitle": "Click a memory to step inside — each one is a world.",
     "items": [
       {
         "emoji": "I",
@@ -143,24 +168,6 @@
       },
       {
         "emoji": "IV",
-        "caption": "Nights I'll never forget",
-        "date": "Our late nights",
-        "story": "Whispers, dreams, and your voice in the dark — home was never a place, it was you.",
-        "image": "/images/starry_night.png",
-        "video": "/videos/sample-04.mp4",
-        "mood": "intimate"
-      },
-      {
-        "emoji": "V",
-        "caption": "The magic in small things",
-        "date": "Every ordinary day",
-        "story": "The small things you do became the biggest miracles in my life.",
-        "image": "/images/magic_path.png",
-        "video": "/videos/sample-05.mp4",
-        "mood": "playful"
-      },
-      {
-        "emoji": "VI",
         "caption": "Forever & always",
         "date": "Today & tomorrow",
         "story": "All roads in my mind lead to one place — your heart, Kanak.",
@@ -186,13 +193,197 @@
     "declineTitle": "Take all the time you need.",
     "declineText": "This question is an invitation, never a demand. Your honesty matters to me, and so does your pace."
   },
+  "mirror": {
+    "title": "Enven<em>omed</em>",
+    "subtitle": "Words she wrote four years ago, held beside the woman she chose to become.",
+    "byline": "kanak",
+    "past": {
+      "label": "Her Words — Then",
+      "lines": [
+        {
+          "text": "Barging into my nerves and choking up to my neck,",
+          "type": "stanza-start"
+        },
+        {
+          "text": "My soul leaving marks on my face, drying as I stay awake;"
+        },
+        {
+          "text": "I was in my lows — for her they had bottomed,"
+        },
+        {
+          "text": "My eyes trailed down her soul as she called me envenomed.",
+          "type": "refrain"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "My spirit settled down but she never settled for less,"
+        },
+        {
+          "text": "I pretended to be cold and tiny; she was a hot mess;"
+        },
+        {
+          "text": "I was smiling through the pain but she showed no emotions,"
+        },
+        {
+          "text": "My eyes trailed down her soul as she called me envenomed.",
+          "type": "refrain"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "She was a portrait of me, I was a reflection she embedded,"
+        },
+        {
+          "text": "She said 'baby portraits are eternal, reflections are faded';",
+          "type": "highlight"
+        },
+        {
+          "text": "Realize! I am what all you ever ambitioned,"
+        },
+        {
+          "text": "My eyes trailed down her soul as she called me envenomed.",
+          "type": "refrain"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "She was not like me, she gained what I aspired,"
+        },
+        {
+          "text": "I cursed the dark under my lights, herself she admired;"
+        },
+        {
+          "text": "She lifted my chin so gentle, almost soothing my thunder,"
+        },
+        {
+          "text": "My eyes trailed down her soul as she called me envenomed.",
+          "type": "refrain"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "As she saw the sun rise, I felt her disappearing out of way,"
+        },
+        {
+          "text": "Sheer pain in my heart, with every hitting ray;"
+        },
+        {
+          "text": "Finally comprehending she wasn't just a reflection but it was me,"
+        },
+        {
+          "text": "This mind created a mirage to redefine my divinity;"
+        },
+        {
+          "text": "I was merrier being her, this skin I put on was itchy;"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "As I snapped back to reality standing still yet shaken,",
+          "type": "stanza-start"
+        },
+        {
+          "text": "With a blow I hit the ground… turned around to reckon;"
+        },
+        {
+          "text": "My body leaving the phantom, with it followed the venom.",
+          "type": "final"
+        }
+      ]
+    },
+    "now": {
+      "label": "My Reflection — Now",
+      "lines": [
+        {
+          "text": "You wrote about a girl who was fractured, fighting her own reflection —",
+          "type": "stanza-start"
+        },
+        {
+          "text": "but Kanak, look what you became. Look at the woman standing here."
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "The girl who smothered her thunder now carries storms in her smile."
+        },
+        {
+          "text": "The one who called herself 'envenomed' became the antidote to everyone she loves."
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "You said portraits are eternal, reflections are faded —",
+          "type": "highlight"
+        },
+        {
+          "text": "But baby, you're not a reflection anymore. You're the whole portrait."
+        },
+        {
+          "text": "Framed in gold. Untouchable. Radiant."
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "The venom left your body that day,"
+        },
+        {
+          "text": "and what remained was something the world wasn't ready for —"
+        },
+        {
+          "text": "a woman who rebuilt herself from her own ashes.",
+          "type": "highlight"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "You don't need a mirror to see who you are, Kanak."
+        },
+        {
+          "text": "You just need to see the way I look at you."
+        },
+        {
+          "text": "Because in my eyes — you were never the venom. You were always the cure.",
+          "type": "final"
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "— Nitin",
+          "type": "signature"
+        }
+      ]
+    }
+  },
   "bot": {
     "name": "Nitin's Heart",
     "greeting": "Hello, Kanak. Think of me as a quiet guide through the memories Nitin placed here. I know the chapters, and I am here whenever you want to pause.",
     "personality": {
-      "traits": ["warm", "loving", "supportive", "playful", "emotionally-aware"],
+      "traits": [
+        "warm",
+        "loving",
+        "supportive",
+        "playful",
+        "emotionally-aware"
+      ],
       "speakingStyle": "intimate, tender, natural — like a warm whisper",
-      "neverDo": ["be cold", "be generic", "be robotic", "replace Nitin", "be rude"]
+      "neverDo": [
+        "be cold",
+        "be generic",
+        "be robotic",
+        "replace Nitin",
+        "be rude"
+      ]
     }
   }
 }

@@ -28,6 +28,8 @@ export class ThreeScene {
     this.zoomedMesh = null; // Reference to currently zoomed gallery mesh
     this.dribbleTubes = null;
     this.galleryItems = [];
+    this.isCelebrating = false;
+    this.isRunning = false;
 
     try {
       this.renderer = new THREE.WebGLRenderer({
@@ -55,6 +57,17 @@ export class ThreeScene {
     }
   }
 
+  start() {
+    if (this.fallback || this.isRunning) return;
+    this.isRunning = true;
+    this.clock.oldTime = performance.now();
+    this.animate();
+  }
+
+  stop() {
+    this.isRunning = false;
+  }
+
   init() {
     if (this.fallback) return;
 
@@ -70,11 +83,10 @@ export class ThreeScene {
     this.createLights();
     this.initPostProcessing();
 
-    // Initialize Dribble Tubes (cursor-reactive background drips)
+    // Initialize Dribble Tubes (now enabled for a gorgeous organic flowing background)
     this.dribbleTubes = new InstancedDribbleTubes(this.scene, this.quality === 'high' ? 400 : 150);
 
     window.addEventListener('resize', this.onResize.bind(this));
-    this.animate();
   }
 
   setGalleryItems(items) {
@@ -226,7 +238,7 @@ export class ThreeScene {
     heartShape.moveTo(0, 1.2);
     heartShape.bezierCurveTo(0, 1.2, -1.2, 0, 0, -1.2);
     heartShape.bezierCurveTo(0, -1.2, 1.2, 0, 0, 1.2);
-    
+
     const geo = new THREE.ExtrudeGeometry(heartShape, {
       depth: 0.25,
       bevelEnabled: true,
@@ -263,7 +275,7 @@ export class ThreeScene {
     this.centerHeartGroup = new THREE.Group();
     this.centerHeartGroup.position.set(0, -30, 0);
     this.scene.add(this.centerHeartGroup);
-    
+
     // Light inside the heart for a breathing fire/glow effect
     this.centerHeartLight = new THREE.PointLight(0xff0a4b, 0, 30);
     this.centerHeartGroup.add(this.centerHeartLight);
@@ -631,7 +643,7 @@ export class ThreeScene {
   }
 
   animate() {
-    if (this.fallback) return;
+    if (this.fallback || !this.isRunning) return;
     requestAnimationFrame(this.animate.bind(this));
 
     const delta = this.clock.getDelta();
@@ -660,27 +672,37 @@ export class ThreeScene {
 
     // Animate central heart group and light
     if (this.centerHeartGroup) {
-      // Position the 3D climax group relative to camera Y scroll progress
-      this.centerHeartGroup.position.y = -this.scrollProgress * 30;
+      if (this.isCelebrating) {
+        // Position it relative to camera scrolled Y coordinate, but let GSAP control scale/rotation
+        this.centerHeartGroup.position.y = -this.scrollProgress * 30;
 
-      if (this.centerHeartLight) {
-        if (this.scrollProgress >= 0.7) {
-          const pulseIntensity = 8.0 + 12.0 * Math.pow(Math.sin(time * 2.5), 4.0);
+        if (this.centerHeartLight) {
+          const pulseIntensity = 25.0 + 15.0 * Math.pow(Math.sin(time * 3.5), 4.0);
           this.centerHeartLight.intensity = pulseIntensity;
-        } else {
-          this.centerHeartLight.intensity = 0;
         }
+      } else {
+        // Position the 3D climax group relative to camera Y scroll progress
+        this.centerHeartGroup.position.y = -this.scrollProgress * 30;
+
+        if (this.centerHeartLight) {
+          if (this.scrollProgress >= 0.7) {
+            const pulseIntensity = 8.0 + 12.0 * Math.pow(Math.sin(time * 2.5), 4.0);
+            this.centerHeartLight.intensity = pulseIntensity;
+          } else {
+            this.centerHeartLight.intensity = 0;
+          }
+        }
+
+        // Scale group in at final scroll and add the heartbeat pulse
+        const baseScale = THREE.MathUtils.clamp((this.scrollProgress - 0.7) * 4.0, 0, 1);
+        let pulse = 1.0;
+        if (this.scrollProgress >= 0.8) {
+          // Double-beat pulse (normal heartbeat rhythm: lub-dub)
+          pulse = 1.0 + 0.08 * Math.pow(Math.sin(time * 2.5), 4.0) + 0.04 * Math.pow(Math.sin(time * 2.5 + 0.3), 4.0);
+        }
+        const finalScale = baseScale * pulse;
+        this.centerHeartGroup.scale.set(finalScale, finalScale, finalScale);
       }
-      
-      // Scale group in at final scroll and add the heartbeat pulse
-      const baseScale = THREE.MathUtils.clamp((this.scrollProgress - 0.7) * 4.0, 0, 1);
-      let pulse = 1.0;
-      if (this.scrollProgress >= 0.8) {
-        // Double-beat pulse (normal heartbeat rhythm: lub-dub)
-        pulse = 1.0 + 0.08 * Math.pow(Math.sin(time * 2.5), 4.0) + 0.04 * Math.pow(Math.sin(time * 2.5 + 0.3), 4.0);
-      }
-      const finalScale = baseScale * pulse;
-      this.centerHeartGroup.scale.set(finalScale, finalScale, finalScale);
     }
 
     // Update Love Wall uniforms and drip particles
@@ -715,27 +737,28 @@ export class ThreeScene {
       }
     }
 
+
     // Smooth mouse parallax interpolation
     this.smoothMouse.lerp(this.mouse, 0.06);
     this.camera.position.x = this.smoothMouse.x * 5;
 
     // Zoom/camera displacement maps to scroll depth
     let targetCamY = -this.scrollProgress * 30;
-    
+
     // Late-scroll camera framing to keep final heart perfectly centered in middle of viewport
     if (this.scrollProgress > 0.85) {
       targetCamY = -30.0;
     }
-    
+
     this.camera.position.y = targetCamY + this.smoothMouse.y * 3;
     this.camera.fov = 60 - this.scrollProgress * 15;
     this.camera.updateProjectionMatrix();
 
     // Color shift lights with scroll
     if (this.tealLight) {
-      this.tealLight.intensity = 3.0 * (1 - this.scrollProgress * 0.5);
-      this.pinkLight.intensity = 2.0 + this.scrollProgress * 3.0;
-      this.goldLight.intensity = this.scrollProgress * 4.0;
+       this.tealLight.intensity = 3.0 * (1 - this.scrollProgress * 0.5);
+       this.pinkLight.intensity = 2.0 + this.scrollProgress * 3.0;
+       this.goldLight.intensity = this.scrollProgress * 4.0;
     }
 
     // Render pass
@@ -751,9 +774,9 @@ export class ThreeScene {
 
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
-    const normals  = [];
-    const uvs      = [];
-    const indices  = [];
+    const normals = [];
+    const uvs = [];
+    const indices = [];
 
     /* sample the parametric surface */
     for (let j = 0; j <= seg; j++) {
@@ -772,7 +795,7 @@ export class ThreeScene {
         /* approximate normal via finite differences */
         const eps = 0.001;
         const uE = u + eps, vE = v + eps;
-        const rV  = A * Math.cos(vE) - B * Math.cos(2 * vE) - C * Math.cos(3 * vE) - D * Math.cos(4 * vE);
+        const rV = A * Math.cos(vE) - B * Math.cos(2 * vE) - C * Math.cos(3 * vE) - D * Math.cos(4 * vE);
         const dxdu = Math.cos(u) * r;
         const dydu = -Math.sin(u) * r;
         const dzdu = 0;
@@ -806,8 +829,8 @@ export class ThreeScene {
     }
 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute('normal',   new THREE.Float32BufferAttribute(normals, 3));
-    geometry.setAttribute('uv',       new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
     geometry.setIndex(indices);
     geometry.center();
     return geometry;

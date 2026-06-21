@@ -15,8 +15,8 @@ import heartFragmentShader from './shaders/heart-frag.glsl';
 /* ─── quality-tier particle counts ─── */
 const QUALITY_MAP = {
   high: { particles: 400, segments: 64 },
-  mid:  { particles: 280, segments: 48 },
-  low:  { particles: 160, segments: 32 }
+  mid: { particles: 280, segments: 48 },
+  low: { particles: 160, segments: 32 }
 };
 
 export class HeartScene {
@@ -142,9 +142,9 @@ export class HeartScene {
 
     const geometry = new THREE.BufferGeometry();
     const vertices = [];
-    const normals  = [];
-    const uvs      = [];
-    const indices  = [];
+    const normals = [];
+    const uvs = [];
+    const indices = [];
 
     /* sample the parametric surface */
     for (let j = 0; j <= seg; j++) {
@@ -163,7 +163,7 @@ export class HeartScene {
         /* approximate normal via finite differences */
         const eps = 0.001;
         const uE = u + eps, vE = v + eps;
-        const rV  = A * Math.cos(vE) - B * Math.cos(2 * vE) - C * Math.cos(3 * vE) - D * Math.cos(4 * vE);
+        const rV = A * Math.cos(vE) - B * Math.cos(2 * vE) - C * Math.cos(3 * vE) - D * Math.cos(4 * vE);
         const dxdu = Math.cos(u) * r;
         const dydu = -Math.sin(u) * r;
         const dzdu = 0;
@@ -197,30 +197,30 @@ export class HeartScene {
     }
 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-    geometry.setAttribute('normal',   new THREE.Float32BufferAttribute(normals, 3));
-    geometry.setAttribute('uv',       new THREE.Float32BufferAttribute(uvs, 2));
+    geometry.setAttribute('normal', new THREE.Float32BufferAttribute(normals, 3));
+    geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
     geometry.setIndex(indices);
 
     /* shared uniforms */
     this.uniforms = {
-      uTime:         { value: 0 },
-      uPulse:        { value: 0 },
-      uProgress:     { value: 0 },
-      uFormProgress:  { value: 0 },
-      uDissolve:     { value: 0 },
-      uBaseColor:    { value: new THREE.Color(0xe8466c) },
-      uGlowColor:   { value: new THREE.Color(0xffd700) },
-      uOpacity:      { value: 1.0 }
+      uTime: { value: 0 },
+      uPulse: { value: 0 },
+      uProgress: { value: 0 },
+      uFormProgress: { value: 0 },
+      uDissolve: { value: 0 },
+      uBaseColor: { value: new THREE.Color(0xe8466c) },
+      uGlowColor: { value: new THREE.Color(0xffd700) },
+      uOpacity: { value: 1.0 }
     };
 
     const material = new THREE.ShaderMaterial({
-      vertexShader:   heartVertexShader,
+      vertexShader: heartVertexShader,
       fragmentShader: heartFragmentShader,
-      uniforms:       this.uniforms,
-      transparent:    true,
-      depthWrite:     true,
-      side:           THREE.DoubleSide,
-      blending:       THREE.NormalBlending
+      uniforms: this.uniforms,
+      transparent: true,
+      depthWrite: true,
+      side: THREE.DoubleSide,
+      blending: THREE.NormalBlending
     });
 
     this.heartMesh = new THREE.Mesh(geometry, material);
@@ -234,9 +234,9 @@ export class HeartScene {
   _buildOrbitParticles() {
     const count = this.cfg.particles;
     const positions = new Float32Array(count * 3);
-    const targets   = new Float32Array(count * 3);
-    const seeds     = new Float32Array(count);
-    const colors    = new Float32Array(count * 3);
+    const targets = new Float32Array(count * 3);
+    const seeds = new Float32Array(count);
+    const colors = new Float32Array(count * 3);
 
     const A = 16, B = 5, C = 2, D = 1, E = 15.5;
     const rose = new THREE.Color(0xe8466c);
@@ -251,17 +251,18 @@ export class HeartScene {
       const u = Math.random() * Math.PI * 2;
       const v = Math.random() * Math.PI * 2;
       const r = A * Math.cos(v) - B * Math.cos(2 * v) - C * Math.cos(3 * v) - D * Math.cos(4 * v);
-      targets[idx]     = Math.sin(u) * r * 0.09;
+      targets[idx] = Math.sin(u) * r * 0.09;
       targets[idx + 1] = Math.cos(u) * r * 0.09;
       targets[idx + 2] = E * Math.sin(v) * 0.09;
 
-      /* initial position: scattered around origin in a sphere */
-      const theta = Math.random() * Math.PI * 2;
-      const phi   = Math.acos(2 * Math.random() - 1);
-      const rad   = 3.0 + Math.random() * 3.0;
-      positions[idx]     = rad * Math.sin(phi) * Math.cos(theta);
-      positions[idx + 1] = rad * Math.sin(phi) * Math.sin(theta);
-      positions[idx + 2] = rad * Math.cos(phi);
+      /* initial position: scattered in a large 3D heart shape instead of a sphere */
+      const tInit = Math.PI * (2 * Math.random() - 1);
+      const hxInit = 16 * Math.pow(Math.sin(tInit), 3);
+      const hyInit = 13 * Math.cos(tInit) - 5 * Math.cos(2 * tInit) - 2 * Math.cos(3 * tInit) - Math.cos(4 * tInit);
+      const initScale = 0.2 + Math.random() * 0.15;
+      positions[idx] = hxInit * initScale + (Math.random() - 0.5) * 1.5;
+      positions[idx + 1] = hyInit * initScale + (Math.random() - 0.5) * 1.5;
+      positions[idx + 2] = (Math.random() - 0.5) * 8.0;
 
       /* colour mix: rose / gold / violet */
       const pick = Math.random();
@@ -269,19 +270,20 @@ export class HeartScene {
       if (pick < 0.5) col = rose.clone().lerp(gold, Math.random() * 0.4);
       else if (pick < 0.8) col = gold.clone().lerp(rose, Math.random() * 0.3);
       else col = violet.clone().lerp(rose, Math.random() * 0.4);
-      colors[idx]     = col.r;
+      colors[idx] = col.r;
       colors[idx + 1] = col.g;
       colors[idx + 2] = col.b;
     }
 
     const geo = new THREE.BufferGeometry();
-    geo.setAttribute('position',  new THREE.BufferAttribute(positions, 3));
-    geo.setAttribute('aTarget',   new THREE.BufferAttribute(targets, 3));
-    geo.setAttribute('aSeed',     new THREE.BufferAttribute(seeds, 1));
-    geo.setAttribute('color',     new THREE.BufferAttribute(colors, 3));
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geo.setAttribute('aTarget', new THREE.BufferAttribute(targets, 3));
+    geo.setAttribute('aSeed', new THREE.BufferAttribute(seeds, 1));
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const mat = new THREE.PointsMaterial({
-      size: 0.06,
+      size: 0.25,
+      map: this._createGlowTexture(),
       vertexColors: true,
       transparent: true,
       opacity: 0.85,
@@ -310,14 +312,35 @@ export class HeartScene {
     this.group.add(warmFill);
   }
 
+  /**
+   * Procedural radial glow texture for beautiful soft particles.
+   */
+  _createGlowTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 64;
+    canvas.height = 64;
+    const ctx = canvas.getContext('2d');
+
+    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+    grad.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+    grad.addColorStop(0.5, 'rgba(255, 107, 138, 0.3)');
+    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 64, 64);
+
+    return new THREE.CanvasTexture(canvas);
+  }
+
   /* ─────────────────── private update ─────────────────── */
 
   _updateParticles(time, formProgress, dissolveProgress) {
     const posAttr = this.particleSystem.geometry.attributes.position;
-    const pos     = posAttr.array;
+    const pos = posAttr.array;
     const targets = this._particleTargets;
-    const seeds   = this._particleSeeds;
-    const count   = seeds.length;
+    const seeds = this._particleSeeds;
+    const count = seeds.length;
 
     for (let i = 0; i < count; i++) {
       const idx = i * 3;
@@ -327,12 +350,16 @@ export class HeartScene {
       const orbitSpeed = 0.3 + seed * 0.5;
       const orbitRadius = 2.5 + seed * 2.0;
       const angle = time * orbitSpeed + seed * Math.PI * 2;
-      const yOsc  = Math.sin(time * 0.8 + seed * 6.28) * 1.0;
+      const yOsc = Math.sin(time * 0.8 + seed * 6.28) * 1.0;
 
-      /* scattered orbit position */
-      const ox = orbitRadius * Math.cos(angle);
-      const oy = yOsc;
-      const oz = orbitRadius * Math.sin(angle);
+      /* scattered orbit position: flying in a parametric 3D heart path */
+      const hxOrbit = 16 * Math.pow(Math.sin(angle), 3);
+      const hyOrbit = 13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle);
+
+      const orbitScale = 0.12 + seed * 0.08;
+      const ox = hxOrbit * orbitScale;
+      const oy = hyOrbit * orbitScale + yOsc;
+      const oz = Math.sin(angle * 2.0 + seed * 6.28) * 2.0; // depth wave
 
       /* target on heart surface */
       const tx = targets[idx];
@@ -343,12 +370,12 @@ export class HeartScene {
         /* dissolve: drift away and downward from heart surface */
         const driftAngle = time * 0.4 + seed * 6.28;
         const driftR = dissolveProgress * (2.0 + seed * 3.0);
-        pos[idx]     = tx + Math.cos(driftAngle) * driftR;
+        pos[idx] = tx + Math.cos(driftAngle) * driftR;
         pos[idx + 1] = ty - dissolveProgress * (1.5 + seed * 2.0);
         pos[idx + 2] = tz + Math.sin(driftAngle) * driftR;
       } else {
         /* converge from orbit to heart surface */
-        pos[idx]     = THREE.MathUtils.lerp(ox, tx, formProgress);
+        pos[idx] = THREE.MathUtils.lerp(ox, tx, formProgress);
         pos[idx + 1] = THREE.MathUtils.lerp(oy, ty, formProgress);
         pos[idx + 2] = THREE.MathUtils.lerp(oz, tz, formProgress);
       }

@@ -13,14 +13,14 @@ import gsap from 'gsap';
 
 /* ── story context the bot carries in its heart ────────────── */
 const STORY = Object.freeze({
-  her:          'Kanak',
-  him:          'Nitin',
+  her: 'Kanak',
+  him: 'Nitin',
   friendsSince: 'September 2023',
-  datingSince:  '14 February 2024',
-  meetingIn:    '2 months',
-  coffeeStory:  'Nitin spilled coffee the day they first crossed paths — Kanak laughed, and his heart quietly chose her.',
-  valentines:   'Nitin nervously asked Kanak to be his girlfriend on Valentine\'s Day 2024 — she said yes, and the whole world burst into colour.',
-  promise:      'To cherish her always, for all of time.',
+  datingSince: '14 February 2024',
+  meetingIn: '2 months',
+  coffeeStory: 'Nitin spilled coffee the day they first crossed paths — Kanak laughed, and his heart quietly chose her.',
+  valentines: 'Nitin nervously asked Kanak to be his girlfriend on Valentine\'s Day 2024 — she said yes, and the whole world burst into colour.',
+  promise: 'To cherish her always, for all of time.',
 });
 
 /* ── restrained, story-aware response library ─────────────── */
@@ -112,40 +112,40 @@ const PROACTIVE = [
 
 /* ── scene-aware greetings ─────────────────────────────────── */
 const SCENE_TIPS = {
-  mind:     `This opening is about the thought Nitin kept returning to before either of you called it love.`,
-  heart:    `The heart chapter is less about intensity than certainty: the moment searching stopped.`,
-  story:    `These dates are landmarks. The real story lives in what changed between them.`,
-  poem:     `Scroll gently here. Nitin wanted the letter to arrive one line at a time.`,
-  mirror:   `This chapter places Kanak's old words beside the woman Nitin sees now.`,
+  mind: `This opening is about the thought Nitin kept returning to before either of you called it love.`,
+  heart: `The heart chapter is less about intensity than certainty: the moment searching stopped.`,
+  story: `These dates are landmarks. The real story lives in what changed between them.`,
+  poem: `Scroll gently here. Nitin wanted the letter to arrive one line at a time.`,
+  mirror: `This chapter places Kanak's old words beside the woman Nitin sees now.`,
   memories: `Drag the archive to turn it. Select a frame when one asks you to stay.`,
-  song:     `The score clears as the story becomes more certain.`,
-  forever:  `The final question is yours to answer at your own pace.`,
+  song: `The score clears as the story becomes more certain.`,
+  forever: `The final question is yours to answer at your own pace.`,
 };
 
 /* ── intent detection keywords ─────────────────────────────── */
 const INTENTS = [
-  { key: 'GREETING',          patterns: [/^hi$/i, /^hey$/i, /^hello$/i, /^hola$/i, /^namaste/i, /^hii+/i, /good\s?morning/i, /good\s?evening/i, /^yo$/i, /greetings/i, /hey there/i] },
-  { key: 'MISSING_NITIN',     patterns: [/miss\s?(him|nitin|you)/i, /i\s?miss/i, /want\s?to\s?see\s?him/i, /far\s?away/i, /long\s?distance/i, /when.*meet/i, /distance/i] },
-  { key: 'FEELING_SAD',       patterns: [/sad/i, /low/i, /lonely/i, /alone/i, /depress/i, /down/i, /not\s?okay/i, /upset/i, /hurt/i, /pain/i, /tired/i, /crying/i, /tear/i] },
-  { key: 'FEELING_HAPPY',     patterns: [/happy/i, /love\s?this/i, /beautiful/i, /amazing/i, /wonderful/i, /blessed/i, /grateful/i, /joy/i, /smile/i, /yay/i, /awesome/i] },
-  { key: 'PRAISE_KANAK',      patterns: [/am\s?i\s?(pretty|beautiful|enough|special|cute)/i, /what.*think.*me/i, /how.*look/i, /do\s?you\s?like\s?me/i, /tell.*about\s?me/i, /pretty/i, /beautiful/i, /cute/i] },
-  { key: 'LOVE_QUESTIONS',    patterns: [/does\s?he\s?love/i, /why.*love\s?me/i, /how\s?much.*love/i, /love\s?me/i, /really\s?love/i, /true\s?love/i, /do you love/i] },
-  { key: 'MEMORY_RECALL',     patterns: [/remember/i, /our\s?story/i, /how.*start/i, /first\s?met/i, /september/i, /valentine/i, /coffee/i, /tell.*about/i, /beginning/i, /memories/i] },
-  { key: 'ENCOURAGEMENT',     patterns: [/scared/i, /nervous/i, /worried/i, /anxious/i, /afraid/i, /can'?t\s?do/i, /not\s?sure/i, /doubt/i, /insecure/i] },
-  { key: 'WEBSITE_REACTIONS',  patterns: [/wow/i, /omg/i, /oh\s?my/i, /incredible/i, /insane/i, /stunning/i, /this\s?is.*great/i, /so\s?(cool|good|nice)/i, /cool/i, /love the/i] },
-  { key: 'GOODNIGHT',         patterns: [/good\s?night/i, /bye/i, /leaving/i, /gotta\s?go/i, /see\s?you/i, /sleep/i, /night\s?night/i, /gtg/i, /later/i] },
-  { key: 'COMFORT',           patterns: [/cry/i, /tears/i, /emotional/i, /overwhelm/i, /sobbing/i, /weep/i, /touched/i, /heart.*full/i] },
-  { key: 'FUTURE_TALK',       patterns: [/future/i, /forever/i, /always/i, /marr/i, /together/i, /grow\s?old/i, /kids/i, /one\s?day/i, /someday/i, /wife/i, /propose/i, /proposal/i] },
-  { key: 'PLAYFUL',           patterns: [/haha/i, /lol/i, /funny/i, /joke/i, /😂/i, /🤣/i, /lmao/i, /rofl/i, /silly/i, /tease/i, /😄/i, /giggle/i] },
+  { key: 'GREETING', patterns: [/^hi$/i, /^hey$/i, /^hello$/i, /^hola$/i, /^namaste/i, /^hii+/i, /good\s?morning/i, /good\s?evening/i, /^yo$/i, /greetings/i, /hey there/i] },
+  { key: 'MISSING_NITIN', patterns: [/miss\s?(him|nitin|you)/i, /i\s?miss/i, /want\s?to\s?see\s?him/i, /far\s?away/i, /long\s?distance/i, /when.*meet/i, /distance/i] },
+  { key: 'FEELING_SAD', patterns: [/sad/i, /low/i, /lonely/i, /alone/i, /depress/i, /down/i, /not\s?okay/i, /upset/i, /hurt/i, /pain/i, /tired/i, /crying/i, /tear/i] },
+  { key: 'FEELING_HAPPY', patterns: [/happy/i, /love\s?this/i, /beautiful/i, /amazing/i, /wonderful/i, /blessed/i, /grateful/i, /joy/i, /smile/i, /yay/i, /awesome/i] },
+  { key: 'PRAISE_KANAK', patterns: [/am\s?i\s?(pretty|beautiful|enough|special|cute)/i, /what.*think.*me/i, /how.*look/i, /do\s?you\s?like\s?me/i, /tell.*about\s?me/i, /pretty/i, /beautiful/i, /cute/i] },
+  { key: 'LOVE_QUESTIONS', patterns: [/does\s?he\s?love/i, /why.*love\s?me/i, /how\s?much.*love/i, /love\s?me/i, /really\s?love/i, /true\s?love/i, /do you love/i] },
+  { key: 'MEMORY_RECALL', patterns: [/remember/i, /our\s?story/i, /how.*start/i, /first\s?met/i, /september/i, /valentine/i, /coffee/i, /tell.*about/i, /beginning/i, /memories/i] },
+  { key: 'ENCOURAGEMENT', patterns: [/scared/i, /nervous/i, /worried/i, /anxious/i, /afraid/i, /can'?t\s?do/i, /not\s?sure/i, /doubt/i, /insecure/i] },
+  { key: 'WEBSITE_REACTIONS', patterns: [/wow/i, /omg/i, /oh\s?my/i, /incredible/i, /insane/i, /stunning/i, /this\s?is.*great/i, /so\s?(cool|good|nice)/i, /cool/i, /love the/i] },
+  { key: 'GOODNIGHT', patterns: [/good\s?night/i, /bye/i, /leaving/i, /gotta\s?go/i, /see\s?you/i, /sleep/i, /night\s?night/i, /gtg/i, /later/i] },
+  { key: 'COMFORT', patterns: [/cry/i, /tears/i, /emotional/i, /overwhelm/i, /sobbing/i, /weep/i, /touched/i, /heart.*full/i] },
+  { key: 'FUTURE_TALK', patterns: [/future/i, /forever/i, /always/i, /marr/i, /together/i, /grow\s?old/i, /kids/i, /one\s?day/i, /someday/i, /wife/i, /propose/i, /proposal/i] },
+  { key: 'PLAYFUL', patterns: [/haha/i, /lol/i, /funny/i, /joke/i, /😂/i, /🤣/i, /lmao/i, /rofl/i, /silly/i, /tease/i, /😄/i, /giggle/i] },
 ];
 
 /* ── CSS injected once ─────────────────────────────────────── */
 const BOT_CSS = `
   .cb-toggle{position:fixed;bottom:24px;right:24px;z-index:9999;width:56px;height:56px;border-radius:50%;border:none;
-    background:linear-gradient(135deg,#e879a8,#a855f7);color:#fff;font-size:24px;cursor:pointer;
-    box-shadow:0 0 18px rgba(168,85,247,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s}
+    background:linear-gradient(135deg,#f4b8c1,#e8839e);color:#fff;font-size:24px;cursor:pointer;
+    box-shadow:0 0 18px rgba(232,131,158,.45);display:flex;align-items:center;justify-content:center;transition:transform .2s}
   .cb-toggle:hover{transform:scale(1.1)}
-  .cb-toggle .cb-pulse{position:absolute;inset:0;border-radius:50%;background:rgba(168,85,247,.35);animation:cbPulse 2s ease-out infinite}
+  .cb-toggle .cb-pulse{position:absolute;inset:0;border-radius:50%;background:rgba(232,131,158,.35);animation:cbPulse 2s ease-out infinite}
   @keyframes cbPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.8);opacity:0}}
 
   .cb-panel{position:fixed;bottom:90px;right:24px;z-index:9998;width:340px;border-radius:18px;overflow:hidden;
@@ -154,10 +154,10 @@ const BOT_CSS = `
     border:1px solid rgba(255,255,255,.12);box-shadow:0 12px 48px rgba(0,0,0,.5);transform-origin:bottom right}
 
   .cb-header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
-  .cb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f472b6,#a855f7);
+  .cb-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#f4b8c1,#e8839e);
     display:flex;align-items:center;justify-content:center;font-size:18px;position:relative;flex-shrink:0}
   .cb-avatar::after{content:'';position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;
-    background:#4ade80;border:2px solid rgba(20,10,35,.72);animation:cbOnline 2s ease infinite}
+    background:#a8d8cb;border:2px solid rgba(20,10,35,.72);animation:cbOnline 2s ease infinite}
   @keyframes cbOnline{0%,100%{opacity:1}50%{opacity:.4}}
   .cb-header-text{flex:1}
   .cb-header-title{font-size:14px;font-weight:600;color:#f9fafb}
@@ -171,11 +171,11 @@ const BOT_CSS = `
   .cb-log::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12);border-radius:4px}
 
   .cb-msg{max-width:82%;padding:10px 14px;border-radius:16px;font-size:13px;line-height:1.55;word-break:break-word}
-  .cb-msg.bot{align-self:flex-start;background:rgba(168,85,247,.18);color:#e9d5ff;border-bottom-left-radius:4px}
-  .cb-msg.user{align-self:flex-end;background:rgba(244,114,182,.2);color:#fce7f3;border-bottom-right-radius:4px}
+  .cb-msg.bot{align-self:flex-start;background:rgba(232,131,158,.18);color:#fef5ef;border-bottom-left-radius:4px}
+  .cb-msg.user{align-self:flex-end;background:rgba(168,216,203,.2);color:#fef5ef;border-bottom-right-radius:4px}
 
-  .cb-typing{align-self:flex-start;display:flex;gap:5px;padding:10px 16px;background:rgba(168,85,247,.12);border-radius:16px;border-bottom-left-radius:4px}
-  .cb-typing span{width:7px;height:7px;border-radius:50%;background:#c084fc;animation:cbDot 1.2s ease infinite}
+  .cb-typing{align-self:flex-start;display:flex;gap:5px;padding:10px 16px;background:rgba(232,131,158,.12);border-radius:16px;border-bottom-left-radius:4px}
+  .cb-typing span{width:7px;height:7px;border-radius:50%;background:#e8839e;animation:cbDot 1.2s ease infinite}
   .cb-typing span:nth-child(2){animation-delay:.2s}
   .cb-typing span:nth-child(3){animation-delay:.4s}
   @keyframes cbDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
@@ -184,8 +184,8 @@ const BOT_CSS = `
   .cb-input{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:24px;
     padding:8px 16px;color:#f9fafb;font-size:13px;outline:none;transition:border-color .2s}
   .cb-input::placeholder{color:rgba(255,255,255,.3)}
-  .cb-input:focus{border-color:rgba(168,85,247,.5)}
-  .cb-send{background:linear-gradient(135deg,#e879a8,#a855f7);border:none;width:36px;height:36px;border-radius:50%;
+  .cb-input:focus{border-color:rgba(232,131,158,.5)}
+  .cb-send{background:linear-gradient(135deg,#f4b8c1,#e8839e);border:none;width:36px;height:36px;border-radius:50%;
     color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:opacity .2s}
   .cb-send:hover{opacity:.85}
 `;
@@ -202,25 +202,25 @@ export class CompanionBot {
    * @param {HTMLElement} [opts.containerEl] – parent for DOM injection (default: document.body)
    */
   constructor(opts = {}) {
-    this.onMessage    = opts.onMessage  || null;
-    this.onTyping     = opts.onTyping   || null;
-    this.containerEl  = opts.containerEl || document.body;
+    this.onMessage = opts.onMessage || null;
+    this.onTyping = opts.onTyping || null;
+    this.containerEl = opts.containerEl || document.body;
 
     /* state */
-    this._open        = false;
-    this._scene       = 'hero';
-    this._history     = [];          // { from, text, ts }
+    this._open = false;
+    this._scene = 'hero';
+    this._history = [];          // { from, text, ts }
     this._lastCategory = null;       // avoid repeating same category twice
-    this._usedIdx     = {};          // track used indices per category
+    this._usedIdx = {};          // track used indices per category
     this._proactiveTimer = null;
 
     /* DOM refs (populated in createDOM) */
-    this._root        = null;
-    this._toggle      = null;
-    this._panel       = null;
-    this._log         = null;
-    this._input       = null;
-    this._typingEl    = null;
+    this._root = null;
+    this._toggle = null;
+    this._panel = null;
+    this._log = null;
+    this._input = null;
+    this._typingEl = null;
   }
 
   /* ── public API ─────────────────────────────────────────── */
@@ -390,14 +390,14 @@ export class CompanionBot {
     this.containerEl.appendChild(root);
 
     /* store refs */
-    this._root    = root;
-    this._toggle  = toggle;
-    this._panel   = panel;
-    this._log     = log;
-    this._input   = input;
+    this._root = root;
+    this._toggle = toggle;
+    this._panel = panel;
+    this._log = log;
+    this._input = input;
     this._typingEl = typing;
     this._closeBtn = closeBtn;
-    this._sendBtn  = sendBtn;
+    this._sendBtn = sendBtn;
   }
 
   /* ── event binding ──────────────────────────────────────── */
@@ -435,8 +435,10 @@ export class CompanionBot {
       this._input.focus();
     } else {
       gsap.to(this._panel,
-        { opacity: 0, scale: 0.85, y: 20, duration: 0.25, ease: 'power2.in',
-          onComplete: () => { this._panel.style.display = 'none'; } });
+        {
+          opacity: 0, scale: 0.85, y: 20, duration: 0.25, ease: 'power2.in',
+          onComplete: () => { this._panel.style.display = 'none'; }
+        });
     }
   }
 

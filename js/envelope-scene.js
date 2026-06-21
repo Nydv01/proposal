@@ -47,7 +47,7 @@ export class EnvelopeScene {
     // Uniforms and custom shader material
     this.envelopeUniforms = {
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color(0xd7bf9e) }, // Warm paper kraft color
+      uColor: { value: new THREE.Color(0xe3b3ac) }, // Rose gold paper kraft color
       uOpacity: { value: 1.0 }
     };
 
@@ -73,7 +73,7 @@ export class EnvelopeScene {
     this.envelopeGroup.add(bodyBack);
 
     const edgeMat = new THREE.MeshStandardMaterial({
-      color: 0x8a7358,
+      color: 0x9d776e, // Dusty rose-brown to match the rose gold paper
       roughness: 0.9,
       metalness: 0.05
     });
@@ -222,6 +222,7 @@ export class EnvelopeScene {
     window.addEventListener('click', this.onClick.bind(this));
     window.addEventListener('touchstart', this.onTouch.bind(this), { passive: true });
     window.addEventListener('resize', this.onResize.bind(this));
+    this.onResize();
 
     this.animate();
   }
@@ -415,6 +416,10 @@ export class EnvelopeScene {
     // Let GSAP drive interactivity; keep container visible during cinematic
     this.container.classList.add('pointer-events-none');
 
+    // Fade out the entire text overlay immediately for a cleaner 3D cinematic reveal
+    const uiEl = this.container.querySelector('.envelope-ui');
+    if (uiEl) gsap.to(uiEl, { opacity: 0, y: 35, duration: 0.6, ease: 'power2.inOut' });
+
     // Trigger cracking sound event
     window.dispatchEvent(new CustomEvent('play-sound', { detail: { name: 'wax-seal-crack' } }));
 
@@ -430,10 +435,18 @@ export class EnvelopeScene {
       }
     });
 
+    // Move envelope back to center as it opens
+    tl.to(this.envelopeGroup.position, {
+      y: 0,
+      x: 0,
+      duration: 1.1,
+      ease: 'power2.inOut'
+    }, 0.05);
+
     // 1. Wax Seal micro-zoom + crack
     tl.to(this.sealGroup.scale, {
       x: 1.25, y: 1.25, z: 1.25,
-      duration: 0.35,
+      duration: 0.25,
       ease: 'power3.out'
     }, 0);
 
@@ -441,72 +454,82 @@ export class EnvelopeScene {
       tl.to(mesh.material, {
         opacity: 0,
         transparent: true,
-        duration: 0.4
-      }, 0.25);
+        duration: 0.3
+      }, 0.15);
     });
 
     // 2. Letter reveal — glide slightly out as flap opens
     if (this.innerLetter) {
-      tl.to(this.innerLetter.position, { z: 0.42, y: 0.22, duration: 1.4, ease: 'power2.out' }, 0.35);
-      tl.to(this.innerLetter.material, { emissiveIntensity: 0.65, duration: 1.0 }, 0.5);
+      tl.to(this.innerLetter.position, { z: 0.42, y: 0.22, duration: 1.0, ease: 'power2.out' }, 0.25);
+      tl.to(this.innerLetter.material, { emissiveIntensity: 0.65, duration: 0.7 }, 0.35);
     }
 
     tl.to(this.flapPivot.rotation, {
       x: Math.PI * 0.96,
-      duration: 1.8,
-      ease: 'back.inOut(1.6)'
-    }, 0.25);
+      duration: 1.2,
+      ease: 'back.inOut(1.3)'
+    }, 0.15);
 
     // 3. Camera glides forward towards the glowing letter (not instantly behind)
     tl.to(this.camera.position, {
       z: 2.2,
       y: 0.18,
-      duration: 1.6,
-      ease: 'power4.inOut'
-    }, 0.7);
+      duration: 1.2,
+      ease: 'power3.inOut'
+    }, 0.5);
 
     // Fade the envelope paper shader opacity to reveal cosmos behind instead of a flat white
     tl.to(this.envelopeUniforms.uOpacity, {
       value: 0.0,
-      duration: 1.0,
+      duration: 0.75,
       ease: 'power2.inOut'
-    }, 0.9);
+    }, 0.65);
 
     // Fade the ribbon material to transparent
     if (this.ribbonMat) {
       tl.to(this.ribbonMat, {
         opacity: 0,
         transparent: true,
-        duration: 0.9
-      }, 0.9);
+        duration: 0.75
+      }, 0.65);
     }
 
     // 4. Dust + ambient drips collapse into darkness instead of flashing
     if (this.dustParticles) {
       tl.to(this.dustParticles.material, {
         opacity: 0,
-        duration: 0.9
-      }, 1.0);
+        duration: 0.75
+      }, 0.65);
     }
     if (this.dripParticles) {
       tl.to(this.dripParticles.material, {
         opacity: 0,
-        duration: 0.9
-      }, 1.0);
+        duration: 0.75
+      }, 0.65);
     }
 
     // 5. Very soft container fade, slightly after world is already dark
     tl.to(this.container, {
       opacity: 0,
-      duration: 1.2,
-      ease: 'power3.inOut'
-    }, 1.6);
+      duration: 0.8,
+      ease: 'power2.inOut'
+    }, 1.0);
   }
 
   onResize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
     this.camera.aspect = w / h;
+
+    // Adjust camera Z position dynamically to keep the 3D envelope in frame on portrait/mobile viewports
+    if (w < h) {
+      // Mobile / Portrait: push camera further back as aspect ratio gets narrower
+      this.camera.position.z = Math.min(Math.max(9.5 * (h / w) * 0.72, 9.5), 14.0);
+    } else {
+      // Desktop / Landscape: default standard camera Z
+      this.camera.position.z = 9.5;
+    }
+
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(w, h);
     if (this.composer) this.composer.setSize(w, h);
@@ -529,7 +552,7 @@ export class EnvelopeScene {
     if (!this.isOpened) {
       this.envelopeGroup.rotation.x += (this.targetRotation.x - this.envelopeGroup.rotation.x) * 0.08;
       this.envelopeGroup.rotation.y += (this.targetRotation.y - this.envelopeGroup.rotation.y) * 0.08;
-      this.envelopeGroup.position.y = Math.sin(time * 1.1) * 0.1;
+      this.envelopeGroup.position.y = 0.9 + Math.sin(time * 1.1) * 0.1;
       this.envelopeGroup.position.x = Math.cos(time * 0.65) * 0.04;
     }
 
