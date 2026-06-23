@@ -1199,9 +1199,7 @@ body.experience-started #tubes-canvas {
   color: var(--color-teal);
 }
 
-#audio-controls {
-  bottom: 5.5rem;
-}
+
 
 @media (max-width: 640px) {
   #at-music-player {
@@ -1291,7 +1289,7 @@ body.experience-started #smooth-wrapper {
    ═══════════════════════════════════════════════════════════════════════ */
 #audio-controls {
   position: fixed;
-  bottom: 2rem;
+  top: 2rem;
   right: 2rem;
   z-index: 100;
 }
@@ -2446,7 +2444,7 @@ body.experience-started .hero-mind-label {
   /* Rounded corners */
   --border: 3;
   /* Border thickness */
-  --backdrop: rgba(20, 10, 25, 0.85);
+  --backdrop: rgba(20, 10, 25, 0.92);
   /* Intimate dark pink-violet tint */
   --backup-border: var(--backdrop);
   --size: 200;
@@ -2462,10 +2460,10 @@ body.experience-started .hero-mind-label {
   background-image: radial-gradient(var(--spotlight-size) var(--spotlight-size) at calc(var(--x, 0) * 1px) calc(var(--y, 0) * 1px),
       hsl(var(--hue, 345) 100% 70% / 0.12), transparent);
   background-color: var(--backdrop, transparent);
-  border: var(--border-size) solid var(--backup-border);
+  border: var(--border-size) solid rgba(244, 184, 193, 0.25);
   border-radius: calc(var(--radius) * 1px);
-  backdrop-filter: blur(25px);
-  -webkit-backdrop-filter: blur(25px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 
   touch-action: none;
   box-shadow:
@@ -2490,33 +2488,10 @@ body.experience-started .hero-mind-label {
     0 0 140px rgba(255, 77, 109, 0.22);
 }
 
-/* Spotlight Border Glow Styles */
+/* Spotlight Border Glow Styles — DISABLED to prevent layout lag and macOS compositing flicker */
 [data-glow]::before,
 [data-glow]::after {
-  pointer-events: none;
-  content: "";
-  position: absolute;
-  inset: calc(var(--border-size) * -1);
-  border: var(--border-size) solid transparent;
-  border-radius: calc(var(--radius) * 1px);
-
-  /* Robust cross-browser border mask extraction */
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box;
-  mask-composite: exclude;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box;
-  -webkit-mask-composite: destination-out;
-}
-
-[data-glow]::before {
-  background-image: radial-gradient(calc(var(--spotlight-size) * 0.75) calc(var(--spotlight-size) * 0.75) at calc(var(--x, 0) * 1px) calc(var(--y, 0) * 1px),
-      hsl(var(--hue, 345) 100% 50% / var(--border-spot-opacity, 1)), transparent 100%);
-  filter: brightness(2.5);
-  /* Vibrant glowing border spotlight */
-}
-
-[data-glow]::after {
-  background-image: radial-gradient(calc(var(--spotlight-size) * 0.4) calc(var(--spotlight-size) * 0.4) at calc(var(--x, 0) * 1px) calc(var(--y, 0) * 1px),
-      hsl(var(--hue, 345) 100% 85% / var(--border-light-opacity, 0.4)), transparent 100%);
+  display: none !important;
 }
 
 /* Backstage Spotlight Blur Glow Layer */
@@ -3196,8 +3171,9 @@ footer p:hover {
   }
 
   #audio-controls {
-    bottom: 1rem;
-    right: 1rem;
+    top: 1rem !important;
+    right: 1rem !important;
+    bottom: auto !important;
   }
 
   .celebration h2 {
@@ -3723,7 +3699,6 @@ body.experience-started .scene.scene-active .scene-content {
 /* Override glassmorphism for specific scenes that need transparency */
 body.experience-started .scene-mind-content,
 body.experience-started .scene-heart-content,
-body.experience-started .scene-song-content,
 body.experience-started .scene-memories-content {
   background: transparent;
   border: none;
@@ -4247,7 +4222,6 @@ body.proposal-active .proposal-letterbox {
 .proposal-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
   opacity: 0;
   animation: proposalOrbDrift 18s ease-in-out infinite;
 }
@@ -4337,6 +4311,7 @@ body.proposal-active .proposal-letterbox {
     0 0 12px 4px rgba(255, 180, 120, 0.15);
   animation: fireflyFloat linear infinite;
   opacity: 0;
+  will-change: transform, opacity;
 }
 
 .firefly:nth-child(1) {
@@ -4667,7 +4642,6 @@ body.proposal-active .proposal-letterbox {
   background: radial-gradient(circle, rgba(255, 155, 75, 0.2) 0%, rgba(255, 74, 118, 0.05) 50%, transparent 80%);
   z-index: 1;
   pointer-events: none;
-  filter: blur(70px);
   animation: candleFlicker 6s ease-in-out infinite;
 }
 
@@ -4677,19 +4651,16 @@ body.proposal-active .proposal-letterbox {
   100% {
     opacity: 0.65;
     transform: translateX(-50%) scale(1) translateY(0);
-    filter: blur(70px);
   }
 
   50% {
     opacity: 0.9;
     transform: translateX(-50%) scale(1.08) translateY(-6px);
-    filter: blur(60px);
   }
 
   75% {
     opacity: 0.75;
     transform: translateX(-50%) scale(0.96) translateY(3px);
-    filter: blur(75px);
   }
 }
 
@@ -5245,7 +5216,7 @@ body.proposal-active .proposal-letterbox {
   pointer-events: none;
   transform-origin: center;
   animation: leafFall linear infinite;
-  box-shadow: 0 2px 5px rgba(255, 118, 140, 0.15);
+  will-change: transform, opacity;
 }
 
 @keyframes leafFall {
@@ -7382,7 +7353,7 @@ body.experience-started .scene.scene-active .scene-content {
 
 #audio-controls {
   right: 1.5rem;
-  bottom: 1.5rem;
+  top: 1.5rem;
 }
 
 #mute-btn {
@@ -7818,12 +7789,12 @@ body.experience-started .scene-kicker {
   text-transform: none !important;
 }
 
-/* Audio toggle at bottom right, visible only inside the experience */
+/* Audio toggle at top right, visible only inside the experience */
 #audio-controls {
   position: fixed !important;
-  bottom: 1.5rem !important;
+  top: 1.5rem !important;
   right: 1.5rem !important;
-  top: auto !important;
+  bottom: auto !important;
   left: auto !important;
   z-index: 9999 !important;
   opacity: 0 !important;
@@ -7855,6 +7826,46 @@ body.experience-started #audio-controls {
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+.audio-btn-wave {
+  display: flex !important;
+  align-items: flex-end !important;
+  gap: 2px !important;
+  height: 10px !important;
+  width: 14px !important;
+}
+
+.audio-btn-wave span {
+  display: block !important;
+  width: 2px !important;
+  background-color: currentColor !important;
+  height: 100% !important;
+  transform-origin: bottom !important;
+  animation: audioBarBounce 1.2s ease-in-out infinite alternate !important;
+}
+
+.audio-btn-wave span.bar-1 { animation-delay: 0.15s !important; height: 35% !important; }
+.audio-btn-wave span.bar-2 { animation-delay: 0.45s !important; height: 100% !important; }
+.audio-btn-wave span.bar-3 { animation-delay: 0.25s !important; height: 65% !important; }
+.audio-btn-wave span.bar-4 { animation-delay: 0.55s !important; height: 80% !important; }
+
+#mute-btn.is-muted .audio-btn-wave span {
+  animation: none !important;
+  transform: scaleY(0.2) !important;
+}
+
+@keyframes audioBarBounce {
+  0% {
+    transform: scaleY(0.2);
+  }
+  100% {
+    transform: scaleY(1.0);
+  }
 }
 
 #mute-btn:hover {
@@ -8079,9 +8090,9 @@ footer small {
    ═══════════════════════════════════════════════════════════════════════ */
 @media (max-width: 768px) {
   #audio-controls {
-    top: auto !important;
+    top: 0.85rem !important;
     right: 0.85rem !important;
-    bottom: 0.85rem !important;
+    bottom: auto !important;
   }
 
   body.experience-started .scene-content {
@@ -8725,12 +8736,22 @@ body.experience-started #scene-poem.scene .scene-content {
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
-.photo-card-inner img,
-.photo-card-inner video {
+.photo-card-inner img:not([hidden]),
+.photo-card-inner video:not([hidden]) {
   width: 100% !important;
   height: 100% !important;
+  max-height: none !important;
   object-fit: cover !important;
   display: block !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.photo-card-inner img[hidden],
+.photo-card-inner video[hidden] {
+  display: none !important;
 }
 
 /* Right Page - Info Panel */
@@ -8924,7 +8945,9 @@ body.experience-started #scene-proposal.scene {
   background: transparent !important;
 }
 
-body.experience-started #scene-proposal.scene .scene-content {
+body.experience-started #scene-proposal.scene .scene-content,
+body.experience-started #scene-song.scene .scene-content,
+body.experience-started #scene-memories.scene .scene-content {
   opacity: 1 !important;
   transform: translateY(0) scale(1) !important;
 }
@@ -10038,5 +10061,472 @@ footer small {
       225px 18770px, 228px 18770px, 376.5px 18910.5px,
       250px 5082px, 253px 5082px, 401.5px 5161px,
       275px 6375px, 278px 6375px, 426.5px 6480px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCEMENT 1: Shimmer Text Effect on Section Titles
+   A luxurious moving light sweep across titles — like light
+   catching a gold engraving on a love letter.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes textShimmerSweep {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.scene-title,
+.poem-title,
+.song-title,
+.mirror-title,
+.celebration-title {
+  background-image: linear-gradient(
+    105deg,
+    var(--color-white) 0%,
+    var(--color-white) 35%,
+    rgba(244, 184, 193, 0.9) 42%,
+    rgba(240, 212, 168, 0.95) 50%,
+    rgba(244, 184, 193, 0.9) 58%,
+    var(--color-white) 65%,
+    var(--color-white) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShimmerSweep 6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+/* Only animate when the section is actively in viewport */
+.scene-active .scene-title,
+.scene-active .poem-title,
+.scene-active .song-title,
+.scene-active .mirror-title,
+.celebration:not(.hidden) .celebration-title {
+  animation-play-state: running;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCEMENT 2: Animated Gradient Border on Timeline Cards
+   A rotating conic gradient border that shifts between
+   rose/gold/violet — like an iridescent frame.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes borderGradientRotate {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.milestone-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.milestone-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(244, 184, 193, 0.05) 0deg,
+    rgba(244, 184, 193, 0.35) 60deg,
+    rgba(240, 212, 168, 0.45) 120deg,
+    rgba(196, 176, 214, 0.35) 180deg,
+    rgba(168, 216, 203, 0.25) 240deg,
+    rgba(244, 184, 193, 0.35) 300deg,
+    rgba(244, 184, 193, 0.05) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderGradientRotate 8s linear infinite;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.milestone-revealed .milestone-card::after {
+  opacity: 1;
+}
+
+.milestone-card:hover::after {
+  opacity: 1;
+  filter: brightness(1.4);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCEMENT 3: Aurora Background Glow for Proposal Section
+   A softly drifting multi-color aurora effect behind the
+   proposal climax — otherworldly romance.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes auroraShift {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.18;
+  }
+  25% {
+    opacity: 0.25;
+  }
+  50% {
+    background-position: 100% 50%;
+    opacity: 0.2;
+  }
+  75% {
+    opacity: 0.28;
+  }
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.18;
+  }
+}
+
+.proposal-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(232, 131, 158, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 80% 70%, rgba(196, 176, 214, 0.06) 0%, transparent 60%),
+    radial-gradient(circle at 40% 80%, rgba(168, 216, 203, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 70% 20%, rgba(240, 212, 168, 0.06) 0%, transparent 50%);
+  opacity: 0;
+  mix-blend-mode: screen;
+  transition: opacity 1.5s ease;
+}
+
+body.proposal-active .proposal-aurora {
+  opacity: 0.22;
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCEMENT 4: Sparkle Cursor Trail Particles
+   Tiny glowing stars that drift and fade from the cursor.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes sparkleDrift {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--sparkle-dx), var(--sparkle-dy)) scale(0) rotate(180deg);
+  }
+}
+
+.sparkle-particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 184, 193, 1) 0%, rgba(240, 212, 168, 0.8) 40%, transparent 70%);
+  box-shadow:
+    0 0 4px rgba(244, 184, 193, 0.8),
+    0 0 8px rgba(240, 212, 168, 0.4);
+  animation: sparkleDrift var(--sparkle-duration) ease-out forwards;
+}
+
+.sparkle-particle.sparkle-star {
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.sparkle-particle.sparkle-star::before,
+.sparkle-particle.sparkle-star::after {
+  content: '';
+  position: absolute;
+  background: rgba(244, 184, 193, 0.9);
+  border-radius: 1px;
+}
+
+.sparkle-particle.sparkle-star::before {
+  width: 100%;
+  height: 2px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.sparkle-particle.sparkle-star::after {
+  width: 2px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCEMENT 5: Staggered Scrapbook Reveal Animation
+   Scrapbook items cascade in with a spring-settle effect.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes scrapbookItemDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) rotate(calc(var(--rot, 0deg) + 8deg)) scale(0.7);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(6px) rotate(calc(var(--rot, 0deg) - 2deg)) scale(1.04);
+  }
+  70% {
+    transform: translateY(-3px) rotate(calc(var(--rot, 0deg) + 1deg)) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--rot, 0deg)) scale(1);
+  }
+}
+
+.scrapbook-badge,
+.scrapbook-annotation {
+  opacity: 0;
+}
+
+body.experience-started .scene-active .scrapbook-badge,
+body.experience-started .scene-active .scrapbook-annotation {
+  animation: scrapbookItemDrop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+body.experience-started .scene-active .scrapbook-badge:nth-child(1) { animation-delay: 0.1s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(2) { animation-delay: 0.18s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(3) { animation-delay: 0.26s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(4) { animation-delay: 0.34s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(5) { animation-delay: 0.42s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(6) { animation-delay: 0.5s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(7) { animation-delay: 0.58s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(8) { animation-delay: 0.66s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(9) { animation-delay: 0.74s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(10) { animation-delay: 0.82s; }
+body.experience-started .scene-active .scrapbook-badge:nth-child(n+11) { animation-delay: 0.9s; }
+
+body.experience-started .scene-active .scrapbook-annotation:nth-child(1) { animation-delay: 0.3s; }
+body.experience-started .scene-active .scrapbook-annotation:nth-child(2) { animation-delay: 0.5s; }
+body.experience-started .scene-active .scrapbook-annotation:nth-child(3) { animation-delay: 0.7s; }
+body.experience-started .scene-active .scrapbook-annotation:nth-child(n+4) { animation-delay: 0.9s; }
+
+@keyframes polaroidSettle {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) rotate(calc(var(--rot, 0deg) + 5deg)) scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) rotate(calc(var(--rot, 0deg) - 1deg)) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--rot, 0deg)) scale(1);
+  }
+}
+
+.scrapbook-polaroid {
+  opacity: 0;
+}
+
+body.experience-started .scene-active .scrapbook-polaroid {
+  animation: polaroidSettle 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+body.experience-started .scene-active .scrapbook-polaroid:nth-child(1) { animation-delay: 0.4s; }
+body.experience-started .scene-active .scrapbook-polaroid:nth-child(2) { animation-delay: 0.65s; }
+body.experience-started .scene-active .scrapbook-polaroid:nth-child(3) { animation-delay: 0.9s; }
+body.experience-started .scene-active .scrapbook-polaroid:nth-child(4) { animation-delay: 1.15s; }
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ENHANCEMENT 6: Floating Love Counter Widget
+   Glassmorphic live counter showing time together.
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes loveCounterEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes loveCounterFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes loveCounterHeartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.2);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.15);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+#love-counter {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  padding: 14px 20px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(244, 184, 193, 0.15);
+  background: rgba(14, 9, 16, 0.55);
+  backdrop-filter: blur(20px) saturate(1.3);
+  -webkit-backdrop-filter: blur(20px) saturate(1.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(244, 184, 193, 0.06) inset,
+    0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  font-family: var(--font-sans);
+  color: var(--color-text-muted);
+  opacity: 0;
+  pointer-events: none;
+  animation: loveCounterFloat 6s ease-in-out infinite;
+  animation-play-state: paused;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+#love-counter.visible {
+  opacity: 1;
+  pointer-events: auto;
+  animation:
+    loveCounterEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+    loveCounterFloat 6s ease-in-out 0.8s infinite;
+}
+
+#love-counter:hover {
+  border-color: rgba(244, 184, 193, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(244, 184, 193, 0.08),
+    0 0 0 1px rgba(244, 184, 193, 0.1) inset,
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+.love-counter-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(242, 230, 221, 0.45);
+  margin-bottom: 8px;
+}
+
+.love-counter-heart {
+  display: inline-block;
+  color: var(--color-pink);
+  font-size: 0.8rem;
+  animation: loveCounterHeartbeat 2s ease-in-out infinite;
+}
+
+.love-counter-digits {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.love-counter-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 32px;
+}
+
+.love-counter-unit .counter-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--color-white);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.love-counter-unit .counter-label {
+  font-size: 0.5rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(242, 230, 221, 0.35);
+  margin-top: 3px;
+}
+
+.love-counter-sep {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: rgba(244, 184, 193, 0.35);
+  padding: 0 1px;
+  align-self: flex-start;
+  line-height: 1;
+}
+
+/* Hide on very small screens */
+@media (max-width: 480px) {
+  #love-counter {
+    bottom: 12px;
+    right: 12px;
+    padding: 10px 14px 8px;
+    border-radius: 12px;
+  }
+
+  .love-counter-unit .counter-value {
+    font-size: 0.95rem;
+  }
+
+  .love-counter-unit {
+    min-width: 26px;
   }
 }

@@ -107,7 +107,15 @@
   <!-- AUDIO CONTROLS                                              -->
   <!-- ========================================================== -->
   <div id="audio-controls">
-    <button id="mute-btn" class="at-audio-btn interactive" aria-label="Toggle Audio">Audio</button>
+    <button id="mute-btn" class="at-audio-btn interactive" aria-label="Toggle Audio">
+      <div class="audio-btn-wave">
+        <span class="bar-1"></span>
+        <span class="bar-2"></span>
+        <span class="bar-3"></span>
+        <span class="bar-4"></span>
+      </div>
+      <span class="audio-btn-text">Audio</span>
+    </button>
   </div>
 
 
@@ -341,10 +349,6 @@
               <span>cutu 💕</span>
             </div>
 
-            <div class="scrapbook-badge doodle-coffee interactive"
-              style="top: 22%; left: 34%; transform: rotate(-15deg);">
-              <span>☕</span>
-            </div>
 
             <div class="scrapbook-annotation note-autumn" style="top: 15%; left: 44%;">
               <span class="note-text">where we first met! ☕</span>
@@ -608,6 +612,9 @@
       <section id="scene-proposal" class="scene" data-scene="forever" data-chapter="08 — The only question left"
         aria-label="The Proposal">
 
+        <!-- ✦ Aurora Background Glow -->
+        <div class="proposal-aurora" aria-hidden="true"></div>
+
         <!-- ✦ Cinematic Letterbox Bars -->
         <div class="proposal-letterbox proposal-letterbox-top" aria-hidden="true">
           <div class="letterbox-pattern"></div>
@@ -768,6 +775,35 @@
         <p id="detail-date" class="detail-date"></p>
         <h3 id="detail-caption" class="detail-caption"></h3>
         <p id="detail-story" class="detail-story"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Love Counter Widget -->
+  <div id="love-counter" aria-label="Time together">
+    <div class="love-counter-label">
+      <span class="love-counter-heart">♥</span>
+      <span>Together for</span>
+    </div>
+    <div class="love-counter-digits">
+      <div class="love-counter-unit">
+        <span class="counter-value" id="lc-days">000</span>
+        <span class="counter-label">days</span>
+      </div>
+      <span class="love-counter-sep">:</span>
+      <div class="love-counter-unit">
+        <span class="counter-value" id="lc-hours">00</span>
+        <span class="counter-label">hrs</span>
+      </div>
+      <span class="love-counter-sep">:</span>
+      <div class="love-counter-unit">
+        <span class="counter-value" id="lc-mins">00</span>
+        <span class="counter-label">min</span>
+      </div>
+      <span class="love-counter-sep">:</span>
+      <div class="love-counter-unit">
+        <span class="counter-value" id="lc-secs">00</span>
+        <span class="counter-label">sec</span>
       </div>
     </div>
   </div>

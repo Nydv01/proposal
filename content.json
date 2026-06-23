@@ -144,8 +144,8 @@
         "caption": "Where our story began",
         "date": "September 2023",
         "story": "Friends first — coffee spilled, you laughed, and my heart quietly chose you.",
-        "image": "/images/autumn_cafe.png",
-        "video": "/videos/sample-01.mp4",
+        "image": "/images/gallery_hands_real.png",
+        "video": "",
         "mood": "warm"
       },
       {
@@ -153,8 +153,8 @@
         "caption": "Blossoming together",
         "date": "Late 2023",
         "story": "Every message, every smile — friendship turning into something I prayed for.",
-        "image": "/images/sunset_beach.png",
-        "video": "/videos/sample-02.mp4",
+        "image": "/images/gallery_shoes_real.png",
+        "video": "",
         "mood": "dreamy"
       },
       {
@@ -162,17 +162,17 @@
         "caption": "Two hearts, one soul",
         "date": "14 February 2024",
         "story": "Valentine's Day — I asked, you said yes, and the world burst into colour.",
-        "image": "/images/blossom_spring.png",
-        "video": "/videos/sample-03.mp4",
+        "image": "/images/gallery_single_real.png",
+        "video": "",
         "mood": "rose"
       },
       {
         "emoji": "IV",
-        "caption": "Forever & always",
+        "caption": "Forever together",
         "date": "Today & tomorrow",
         "story": "All roads in my mind lead to one place — your heart, Kanak.",
-        "image": "/images/forever_love.png",
-        "video": "/videos/sample-06.mp4",
+        "image": "/images/gallery_tree_real.png",
+        "video": "",
         "mood": "cinematic"
       }
     ]

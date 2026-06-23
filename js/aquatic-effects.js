@@ -109,12 +109,22 @@ export class AquaticCaustics {
     this.createParticles();
 
     // Bind event listeners
-    window.addEventListener('resize', this.onResize.bind(this));
+    this._rect = null;
+    this._updateRect = () => {
+      if (this.canvas) this._rect = this.canvas.getBoundingClientRect();
+    };
+    
+    this._updateRect();
+    window.addEventListener('resize', () => {
+      this.onResize();
+      this._updateRect();
+    });
     
     // Mouse listener to track ripples relative to canvas bounding box
     const parent = this.canvas.parentElement;
     if (parent) {
-      parent.addEventListener('mousemove', this.onMouseMove.bind(this));
+      parent.addEventListener('pointerenter', this._updateRect, { passive: true });
+      parent.addEventListener('mousemove', this.onMouseMove.bind(this), { passive: true });
     }
   }
 
@@ -233,9 +243,10 @@ export class AquaticCaustics {
 
   onMouseMove(e) {
     if (!this.isRunning) return;
-    const rect = this.canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
+    if (!this._rect) this._updateRect();
+    if (!this._rect) return;
+    const mx = e.clientX - this._rect.left;
+    const my = e.clientY - this._rect.top;
 
     // Check distance from last ripple coordinate to prevent overcrowding
     const dist = Math.hypot(mx - this.lastMouseX, my - this.lastMouseY);

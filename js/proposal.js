@@ -50,6 +50,7 @@ class VaporTextEffect {
     this.onVaporizeComplete = null; // Completion hook for response text
     this.vaporStartTime = 0; // Track when vaporization started
     this.maxVaporDuration = 2500; // Safety timeout (ms) to force-complete vaporization
+    this.active = false;
 
     this._resizeHandler = this.resize.bind(this);
   }
@@ -98,6 +99,7 @@ class VaporTextEffect {
   }
 
   start() {
+    this.active = true;
     // Start first text with fade-in instead of dead wait
     this.state = "fadingIn";
     this.fadeOpacity = 0;
@@ -107,6 +109,7 @@ class VaporTextEffect {
   }
 
   stop() {
+    this.active = false;
     if (this.animationFrameId) {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
@@ -124,6 +127,7 @@ class VaporTextEffect {
     this.currentTextIndex = 0;
     this.resize();
 
+    this.active = true;
     // Set to fade in the response choice on the canvas
     this.state = "fadingIn";
     this.fadeOpacity = 0;
@@ -169,11 +173,23 @@ class VaporTextEffect {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
 
-    const particles = [];
-    const sampleRate = Math.max(1, Math.round(this.globalDpr));
+    // Count active pixels to dynamically set sample rate
+    let activePixels = 0;
+    for (let i = 3; i < data.length; i += 4) {
+      if (data[i] > 15) {
+        activePixels++;
+      }
+    }
 
-    for (let y = 0; y < canvas.height; y += sampleRate) {
-      for (let x = 0; x < canvas.width; x += sampleRate) {
+    // Target a maximum of 700 particles for excellent performance on all devices
+    const targetParticles = 700;
+    const calculatedSampleRate = Math.max(3, Math.ceil(Math.sqrt(activePixels / targetParticles)));
+    this.sampleRate = calculatedSampleRate;
+    this.particleSize = Math.max(1.8, calculatedSampleRate * 0.55);
+
+    const particles = [];
+    for (let y = 0; y < canvas.height; y += calculatedSampleRate) {
+      for (let x = 0; x < canvas.width; x += calculatedSampleRate) {
         const index = (y * canvas.width + x) * 4;
         const alpha = data[index + 3];
 
@@ -184,7 +200,9 @@ class VaporTextEffect {
             y: y,
             originalX: x,
             originalY: y,
-            color: `rgba(${data[index]}, ${data[index + 1]}, ${data[index + 2]}, ${originalAlpha})`,
+            r: data[index],
+            g: data[index + 1],
+            b: data[index + 2],
             opacity: originalAlpha,
             originalAlpha: originalAlpha,
             velocityX: 0,
@@ -201,7 +219,7 @@ class VaporTextEffect {
   }
 
   animate(currentTime = performance.now()) {
-    if (!this.canvas) return;
+    if (!this.active || !this.canvas) return;
     this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
 
     const deltaTime = (currentTime - this.lastTime) / 1000;
@@ -272,6 +290,11 @@ class VaporTextEffect {
         const timeFactor = Math.min(3.0, 1.0 + vaporElapsed / 2000);
 
         ctx.save();
+        
+        // OPTIMIZATION: Use slightly larger particles so they look full despite higher step size,
+        // and avoid costly RegExp operations on strings by using raw pre-sampled r, g, b components.
+        const particleSize = this.particleSize || (this.globalDpr > 1.5 ? 2.5 : 1.8);
+
         this.particles.forEach(p => {
           if (p.originalX <= sweepX) {
             if (p.speed === 0) {
@@ -310,8 +333,9 @@ class VaporTextEffect {
           }
 
           if (p.opacity > 0 && !forceComplete) {
-            ctx.fillStyle = p.color.replace(/[\d.]+\)$/, `${p.opacity})`);
-            ctx.fillRect(p.x, p.y, 1.2, 1.2);
+            // Highly optimized drawing avoiding regular expression search-replace
+            ctx.fillStyle = `rgba(${p.r},${p.g},${p.b},${p.opacity})`;
+            ctx.fillRect(p.x, p.y, particleSize, particleSize);
           }
         });
         ctx.restore();
@@ -323,6 +347,7 @@ class VaporTextEffect {
           } else if (this.currentTextIndex === this.texts.length - 1) {
             // Reached final monologue question end -> transit to completed state and trigger buttons
             this.state = "completed";
+            this.stop(); // OPTIMIZATION: Stop loop completely to save CPU once monologue finishes!
             if (this.onFinalText) {
               this.onFinalText();
             }
@@ -444,21 +469,62 @@ export class ProposalController {
 
   _initPointerGlow() {
     let frameId = null;
+    let cachedPageX = 0;
+    let cachedPageY = 0;
+    let cachedWidth = 1;
+    let cachedHeight = 1;
+
+    const updateRect = () => {
+      if (this.proposalContainer) {
+        const rect = this.proposalContainer.getBoundingClientRect();
+        cachedPageX = rect.left + window.pageXOffset;
+        cachedPageY = rect.top + window.pageYOffset;
+        cachedWidth = rect.width || 1;
+        cachedHeight = rect.height || 1;
+      }
+    };
+
+    // Cache the rect initially
+    updateRect();
+
+    // Re-cache rect on window resize, scroll, and pointer actions to ensure layout stability
+    window.addEventListener('resize', updateRect, { passive: true });
+    window.addEventListener('scroll', updateRect, { passive: true });
+
+    // Re-cache rect when pointer enters the scene or container to ensure accuracy
+    if (this.sceneEl) {
+      this.sceneEl.addEventListener('pointerenter', updateRect, { passive: true });
+    }
+    if (this.proposalContainer) {
+      this.proposalContainer.addEventListener('pointerenter', updateRect, { passive: true });
+    }
+
     const syncPointer = (e) => {
+      if (!this.proposalContainer) return;
+
       if (frameId) cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
-        if (this.proposalContainer) {
-          const rect = this.proposalContainer.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          this.proposalContainer.style.setProperty('--x', x.toFixed(2));
-          this.proposalContainer.style.setProperty('--xp', (x / rect.width).toFixed(2));
-          this.proposalContainer.style.setProperty('--y', y.toFixed(2));
-          this.proposalContainer.style.setProperty('--yp', (y / rect.height).toFixed(2));
-        }
+        // Calculate page coordinates of pointer
+        const pageX = e.clientX + window.pageXOffset;
+        const pageY = e.clientY + window.pageYOffset;
+        
+        // Calculate pointer coordinates relative to the container using cached coordinates
+        const x = pageX - cachedPageX;
+        const y = pageY - cachedPageY;
+        
+        this.proposalContainer.style.setProperty('--x', x.toFixed(2));
+        this.proposalContainer.style.setProperty('--xp', (x / cachedWidth).toFixed(2));
+        this.proposalContainer.style.setProperty('--y', y.toFixed(2));
+        this.proposalContainer.style.setProperty('--yp', (y / cachedHeight).toFixed(2));
       });
     };
-    document.addEventListener('pointermove', syncPointer);
+
+    // Listen to pointermove inside the scene if available, otherwise fallback to document
+    if (this.sceneEl) {
+      this.sceneEl.addEventListener('pointermove', syncPointer, { passive: true });
+    } else {
+      document.addEventListener('pointermove', syncPointer, { passive: true });
+    }
   }
 
   _pulseScreenGlow(intensity = 0.6, duration = 0.35) {

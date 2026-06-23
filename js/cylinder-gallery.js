@@ -176,6 +176,14 @@ export class CylinderGallery {
   bindEvents() {
     const canvas = this.canvas;
 
+    this._rect = null;
+    this._updateRect = () => {
+      if (canvas) this._rect = canvas.getBoundingClientRect();
+    };
+    this._updateRect();
+    window.addEventListener('resize', this._updateRect);
+    canvas.addEventListener('pointerenter', this._updateRect, { passive: true });
+
     // Mouse Move for Hover raycasting
     canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
 
@@ -193,9 +201,10 @@ export class CylinderGallery {
   }
 
   onMouseMove(e) {
-    const rect = this.canvas.getBoundingClientRect();
-    this.mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-    this.mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    if (!this._rect) this._updateRect();
+    if (!this._rect) return;
+    this.mouse.x = ((e.clientX - this._rect.left) / this._rect.width) * 2 - 1;
+    this.mouse.y = -((e.clientY - this._rect.top) / this._rect.height) * 2 + 1;
 
     if (this.isZoomed) return;
 

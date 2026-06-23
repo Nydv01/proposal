@@ -41,8 +41,8 @@ let audioEngine, proposalController, companionBot, musicPlayer;
 let mainAquatic, lightboxAquatic;
 let currentPhase = 'mind';
 const PHASES = [
-  { id: 'dearest', label: 'Dearest', selector: '#scene-dearest' },
-  { id: 'journey', label: 'Journey', selector: '#scene-journey' },
+  { id: 'dearest', label: 'Dearest', selector: '#scene-mind' },
+  { id: 'journey', label: 'Journey', selector: '#scene-story' },
   { id: 'memories', label: 'Memories', selector: '#scene-memories' },
   { id: 'forever', label: 'Forever', selector: '#scene-proposal' },
 ];
@@ -227,35 +227,40 @@ function initSceneScrollTriggers() {
   if (songSubtitle) gsap.set(songSubtitle, { opacity: 0, y: 30, filter: 'blur(8px)' });
   if (videoSectionContainer) gsap.set(videoSectionContainer, { opacity: 0, y: 60, scale: 0.95 });
 
+  const playSongAnimation = () => {
+    const tl = gsap.timeline();
+    const songKicker = document.querySelector('#scene-song .scene-kicker');
+    if (songKicker) tl.fromTo(songKicker, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+    if (songTitle) tl.to(songTitle, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.3');
+    if (songSubtitle) tl.to(songSubtitle, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.4');
+    
+    const songWaveform = document.getElementById('song-waveform');
+    if (songWaveform) tl.fromTo(songWaveform, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3');
+    
+    if (videoSectionContainer) tl.to(videoSectionContainer, { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power3.out' }, '-=0.3');
+
+    // Clear audio filter
+    if (audioEngine) {
+      audioEngine.setFocusedState(false);
+    }
+  };
+
+  const flattenWaveform = () => {
+    // Make sure the waveform goes flat when leaving the scene
+    document.querySelectorAll('.waveform-bar').forEach(bar => {
+      gsap.killTweensOf(bar);
+      gsap.to(bar, { scaleY: 0.15, duration: 0.5 });
+    });
+  };
+
   ScrollTrigger.create({
     trigger: '#scene-song',
-    start: 'top center',
-    end: 'bottom center',
-    onEnter: () => {
-      // Cinematic entrance: staggered text + video reveal
-      const tl = gsap.timeline();
-      const songKicker = document.querySelector('#scene-song .scene-kicker');
-      if (songKicker) tl.fromTo(songKicker, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
-      if (songTitle) tl.to(songTitle, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.3');
-      if (songSubtitle) tl.to(songSubtitle, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.4');
-      
-      const songWaveform = document.getElementById('song-waveform');
-      if (songWaveform) tl.fromTo(songWaveform, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3');
-      
-      if (videoSectionContainer) tl.to(videoSectionContainer, { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power3.out' }, '-=0.3');
-
-      // Clear audio filter
-      if (audioEngine) {
-        audioEngine.setFocusedState(false);
-      }
-    },
-    onLeave: () => {
-      // Make sure the waveform goes flat when leaving the scene
-      document.querySelectorAll('.waveform-bar').forEach(bar => {
-        gsap.killTweensOf(bar);
-        gsap.to(bar, { scaleY: 0.15, duration: 0.5 });
-      });
-    }
+    start: 'top 80%',
+    end: 'bottom 20%',
+    onEnter: playSongAnimation,
+    onEnterBack: playSongAnimation,
+    onLeave: flattenWaveform,
+    onLeaveBack: flattenWaveform,
   });
 
   // Scene: Song — start/stop video shader dynamically for CPU optimization
@@ -272,7 +277,7 @@ function initSceneScrollTriggers() {
   // Scene: Proposal — drive the climax
   ScrollTrigger.create({
     trigger: '#scene-proposal',
-    start: 'top center',
+    start: 'top 10%',
     end: 'bottom center',
     onUpdate: (self) => {
       if (proposalController) proposalController.onProgress(self.progress);
@@ -335,12 +340,15 @@ function initSceneScrollTriggers() {
     });
 
     // 3D Parallax Mouse interaction for premium cinematic depth
+    let polaroids = null;
     memoriesSection.addEventListener('mousemove', (e) => {
       memoriesSection.classList.add('parallax-active');
       const mx = (e.clientX / window.innerWidth) * 2 - 1;
       const my = (e.clientY / window.innerHeight) * 2 - 1;
 
-      const polaroids = memoriesSection.querySelectorAll('.scrapbook-polaroid');
+      if (!polaroids) {
+        polaroids = memoriesSection.querySelectorAll('.scrapbook-polaroid');
+      }
       polaroids.forEach((card, idx) => {
         const speedX = (idx % 2 === 0 ? 12 : -12);
         const speedY = (idx % 3 === 0 ? 10 : -10);
@@ -675,6 +683,99 @@ function initGlobalScroll() {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   Enhancement 4: Sparkle Cursor Trail
+   Emits tiny glowing particles on mousemove after envelope opens.
+   ═══════════════════════════════════════════════════════════════ */
+class SparkleTrail {
+  constructor() {
+    this.active = false;
+    this.lastTime = 0;
+    this.throttle = 50; // ms between sparkles
+    this._onMove = this._onMove.bind(this);
+  }
+
+  start() {
+    this.active = true;
+    document.addEventListener('mousemove', this._onMove, { passive: true });
+  }
+
+  _onMove(e) {
+    const now = Date.now();
+    if (now - this.lastTime < this.throttle) return;
+    this.lastTime = now;
+    this._emit(e.clientX, e.clientY);
+  }
+
+  _emit(x, y) {
+    const count = Math.random() > 0.6 ? 2 : 1;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('span');
+      const isStar = Math.random() > 0.65;
+      el.className = 'sparkle-particle' + (isStar ? ' sparkle-star' : '');
+
+      const dx = (Math.random() - 0.5) * 60;
+      const dy = -(Math.random() * 50 + 20);
+      const duration = 0.6 + Math.random() * 0.5;
+      const size = isStar ? (4 + Math.random() * 6) : (3 + Math.random() * 5);
+
+      el.style.cssText = `
+        left: ${x}px;
+        top: ${y}px;
+        width: ${size}px;
+        height: ${size}px;
+        --sparkle-dx: ${dx}px;
+        --sparkle-dy: ${dy}px;
+        --sparkle-duration: ${duration}s;
+      `;
+
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), duration * 1000 + 50);
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Enhancement 6: Love Counter
+   Live elapsed time from Feb 14, 2024.
+   ═══════════════════════════════════════════════════════════════ */
+class LoveCounter {
+  constructor() {
+    this.startDate = new Date('2026-02-15T00:00:00');
+    this.el = document.getElementById('love-counter');
+    this.daysEl = document.getElementById('lc-days');
+    this.hoursEl = document.getElementById('lc-hours');
+    this.minsEl = document.getElementById('lc-mins');
+    this.secsEl = document.getElementById('lc-secs');
+    this._interval = null;
+  }
+
+  start() {
+    if (!this.el) return;
+    this._update();
+    this._interval = setInterval(() => this._update(), 1000);
+    // Delay the visual entrance
+    setTimeout(() => this.el.classList.add('visible'), 2000);
+  }
+
+  _update() {
+    const now = new Date();
+    let diff = Math.max(0, Math.floor((now - this.startDate) / 1000));
+
+    const days = Math.floor(diff / 86400);
+    diff %= 86400;
+    const hours = Math.floor(diff / 3600);
+    diff %= 3600;
+    const mins = Math.floor(diff / 60);
+    const secs = diff % 60;
+
+    if (this.daysEl) this.daysEl.textContent = String(days).padStart(3, '0');
+    if (this.hoursEl) this.hoursEl.textContent = String(hours).padStart(2, '0');
+    if (this.minsEl) this.minsEl.textContent = String(mins).padStart(2, '0');
+    if (this.secsEl) this.secsEl.textContent = String(secs).padStart(2, '0');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    Envelope open → start the experience
    ═══════════════════════════════════════════════════════════════ */
 function onEnvelopeOpen() {
@@ -710,6 +811,14 @@ function onEnvelopeOpen() {
     initGlobalScroll();
     ScrollTrigger.refresh();
     playOpeningCopy();
+
+    // Enhancement 4: Start sparkle cursor trail
+    const sparkleTrail = new SparkleTrail();
+    sparkleTrail.start();
+
+    // Enhancement 6: Start love counter
+    const loveCounter = new LoveCounter();
+    loveCounter.start();
   }, 100);
 
   // Initialize proposal controller with WebGL celebration hooks
@@ -1058,6 +1167,7 @@ async function bootstrap() {
 
   // Load content
   contentLoader = new ContentLoader();
+  contentLoader.resetLocal();
   atLoader.bump(15);
   const data = await contentLoader.load();
   if (data) contentLoader.applyDOM();
@@ -1196,7 +1306,12 @@ async function bootstrap() {
       if (!audioEngine) return;
       const state = !audioEngine.isMuted();
       audioEngine.setMuted(state);
-      muteBtn.textContent = state ? 'Muted' : 'Audio';
+      const textSpan = muteBtn.querySelector('.audio-btn-text');
+      if (textSpan) {
+        textSpan.textContent = state ? 'Muted' : 'Audio';
+      } else {
+        muteBtn.textContent = state ? 'Muted' : 'Audio';
+      }
       muteBtn.classList.toggle('is-muted', state);
     });
   }
