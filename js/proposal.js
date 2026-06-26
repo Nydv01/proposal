@@ -290,7 +290,7 @@ class VaporTextEffect {
         const timeFactor = Math.min(3.0, 1.0 + vaporElapsed / 2000);
 
         ctx.save();
-        
+
         // OPTIMIZATION: Use slightly larger particles so they look full despite higher step size,
         // and avoid costly RegExp operations on strings by using raw pre-sampled r, g, b components.
         const particleSize = this.particleSize || (this.globalDpr > 1.5 ? 2.5 : 1.8);
@@ -507,11 +507,11 @@ export class ProposalController {
         // Calculate page coordinates of pointer
         const pageX = e.clientX + window.pageXOffset;
         const pageY = e.clientY + window.pageYOffset;
-        
+
         // Calculate pointer coordinates relative to the container using cached coordinates
         const x = pageX - cachedPageX;
         const y = pageY - cachedPageY;
-        
+
         this.proposalContainer.style.setProperty('--x', x.toFixed(2));
         this.proposalContainer.style.setProperty('--xp', (x / cachedWidth).toFixed(2));
         this.proposalContainer.style.setProperty('--y', y.toFixed(2));
@@ -600,7 +600,12 @@ export class ProposalController {
           letterSpacing: i === 0 ? '0.06em' : '0.04em',
           duration: 1.8,
           ease: 'power3.out',
-          onStart: () => line.classList.add('active'),
+          onStart: () => {
+            line.classList.add('active');
+            window.dispatchEvent(new CustomEvent('play-sound', {
+              detail: { name: 'monologue-appear' }
+            }));
+          },
         },
         i === 0 ? '+=0.6' : '+=0.4'
       );
@@ -612,6 +617,11 @@ export class ProposalController {
           y: -15,
           duration: 1.2,
           ease: 'power2.inOut',
+          onStart: () => {
+            window.dispatchEvent(new CustomEvent('play-sound', {
+              detail: { name: 'monologue-fade' }
+            }));
+          }
         }, '<+=0.3');
       }
     });
@@ -630,6 +640,11 @@ export class ProposalController {
       duration: 1.4,
       stagger: 0.12,
       ease: 'power3.in',
+      onStart: () => {
+        window.dispatchEvent(new CustomEvent('play-sound', {
+          detail: { name: 'monologue-fade' }
+        }));
+      },
       onComplete: () => {
         if (this.buildupEl) this.buildupEl.style.display = 'none';
       }
@@ -849,7 +864,7 @@ export class ProposalController {
         `;
         // Force reflow
         void questionEl.offsetWidth;
-        
+
         questionEl.style.opacity = '1';
         questionEl.style.visibility = 'visible';
       }
@@ -867,7 +882,7 @@ export class ProposalController {
             z-index: 50 !important;
             transition: opacity 1.0s ease, transform 1.0s ease;
           `;
-          
+
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
               el.style.opacity = '1';
@@ -911,6 +926,16 @@ export class ProposalController {
   _onAccept() {
     if (this.answered) return;
 
+    // Trigger celebration song instantly on click
+    window.dispatchEvent(new CustomEvent('play-sound', {
+      detail: { name: 'celebration-start' }
+    }));
+
+    // Stop heartbeat loop instantly on click
+    window.dispatchEvent(new CustomEvent('play-sound', {
+      detail: { name: 'heartbeat-stop' }
+    }));
+
     // Clear safety timer
     if (this._buttonSafetyTimer) clearTimeout(this._buttonSafetyTimer);
 
@@ -923,7 +948,7 @@ export class ProposalController {
       questionEl.style.opacity = '0';
       setTimeout(() => questionEl.style.display = 'none', 800);
     }
-    
+
     // 3. Instantly restore canvas container size WITHOUT transition so the vapor text can draw immediately
     const canvasContainer = document.querySelector('.proposal-canvas-container');
     if (canvasContainer) {
@@ -1023,6 +1048,11 @@ export class ProposalController {
 
   _onDecline() {
     if (this.answered) return;
+
+    // Stop heartbeat loop instantly on click
+    window.dispatchEvent(new CustomEvent('play-sound', {
+      detail: { name: 'heartbeat-stop' }
+    }));
 
     // Clear safety timer
     if (this._buttonSafetyTimer) clearTimeout(this._buttonSafetyTimer);

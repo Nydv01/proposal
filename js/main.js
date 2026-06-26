@@ -189,13 +189,13 @@ function initSceneScrollTriggers() {
     onUpdate: (self) => {
       if (mirrorScene) mirrorScene.onProgress(self.progress);
     },
-    onEnter: () => { 
+    onEnter: () => {
       // Cinematic entrance for mirror elements
       const mirrorHeader = document.querySelector('.mirror-header');
       const mirrorSplit = document.querySelector('.mirror-split');
       if (mirrorHeader) {
-        gsap.fromTo(mirrorHeader, 
-          { opacity: 0, y: 40, filter: 'blur(10px)' }, 
+        gsap.fromTo(mirrorHeader,
+          { opacity: 0, y: 40, filter: 'blur(10px)' },
           { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out' }
         );
       }
@@ -233,10 +233,10 @@ function initSceneScrollTriggers() {
     if (songKicker) tl.fromTo(songKicker, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
     if (songTitle) tl.to(songTitle, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }, '-=0.3');
     if (songSubtitle) tl.to(songSubtitle, { opacity: 1, y: 0, filter: 'blur(0px)', duration: 0.7, ease: 'power2.out' }, '-=0.4');
-    
+
     const songWaveform = document.getElementById('song-waveform');
     if (songWaveform) tl.fromTo(songWaveform, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.3');
-    
+
     if (videoSectionContainer) tl.to(videoSectionContainer, { opacity: 1, y: 0, scale: 1, duration: 1.0, ease: 'power3.out' }, '-=0.3');
 
     // Clear audio filter
@@ -458,17 +458,6 @@ function playOpeningCopy() {
       const textNode = document.createTextNode(nextChar);
       element.insertBefore(textNode, cursor);
       charIndex++;
-
-      // Soft keystroke feedback tick occasionally on letters
-      if (audioEngine && audioEngine.initialised && audioEngine.pianoSynth && !audioEngine.muted) {
-        if (Math.random() < 0.18 && nextChar !== ' ') {
-          const notes = ['C5', 'E5', 'G5', 'A5', 'C6'];
-          const note = notes[Math.floor(Math.random() * notes.length)];
-          try {
-            audioEngine.pianoSynth.triggerAttackRelease(note, '32n', undefined, 0.06);
-          } catch (e) {}
-        }
-      }
     }, speed);
   };
 
@@ -508,14 +497,6 @@ function playOpeningCopy() {
           span.innerHTML += text3Part2[subIndex];
           subIndex++;
 
-          // Soft keytick audio while typing name
-          if (audioEngine && audioEngine.initialised && audioEngine.pianoSynth && !audioEngine.muted) {
-            if (Math.random() < 0.18) {
-              try {
-                audioEngine.pianoSynth.triggerAttackRelease('E5', '32n', undefined, 0.06);
-              } catch (e) {}
-            }
-          }
         }, 75); // slightly slower typing for Kanak's name to make it feel deliberate and romantic
 
         return;
@@ -525,40 +506,34 @@ function playOpeningCopy() {
       const textNode = document.createTextNode(nextChar);
       line3El.insertBefore(textNode, cursor);
       charIndex++;
-
-      if (audioEngine && audioEngine.initialised && audioEngine.pianoSynth && !audioEngine.muted) {
-        if (Math.random() < 0.18 && nextChar !== ' ') {
-          try {
-            audioEngine.pianoSynth.triggerAttackRelease('C5', '32n', undefined, 0.06);
-          } catch (e) {}
-        }
-      }
     }, 45);
   };
 
   // Build sequential GSAP timeline
   gsap.timeline({ delay: 0.4 })
-    .fromTo(kicker, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out', onComplete: () => {
-      // 1. Type Line 1
-      typeLine(line1El, text1, 40, () => {
-        setTimeout(() => {
-          // 2. Type Line 2
-          typeLine(line2El, text2, 35, () => {
-            setTimeout(() => {
-              // 3. Type Line 3 (Climax line)
-              typeLine3(() => {
-                setTimeout(() => {
-                  // 4. Gracefully reveal cues
-                  gsap.timeline()
-                    .fromTo(whisper, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' })
-                    .fromTo(scrollCue, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' }, '-=0.8');
-                }, 400);
-              });
-            }, 500);
-          });
-        }, 400);
-      });
-    } });
+    .fromTo(kicker, { opacity: 0, y: 15 }, {
+      opacity: 1, y: 0, duration: 1.0, ease: 'power2.out', onComplete: () => {
+        // 1. Type Line 1
+        typeLine(line1El, text1, 40, () => {
+          setTimeout(() => {
+            // 2. Type Line 2
+            typeLine(line2El, text2, 35, () => {
+              setTimeout(() => {
+                // 3. Type Line 3 (Climax line)
+                typeLine3(() => {
+                  setTimeout(() => {
+                    // 4. Gracefully reveal cues
+                    gsap.timeline()
+                      .fromTo(whisper, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out' })
+                      .fromTo(scrollCue, { opacity: 0, y: 15 }, { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out' }, '-=0.8');
+                  }, 400);
+                });
+              }, 500);
+            });
+          }, 400);
+        });
+      }
+    });
 }
 
 function typeHeartLine(lineEl, fullText, speed) {
@@ -609,13 +584,6 @@ function typeHeartLine(lineEl, fullText, speed) {
           span.innerHTML += part2[subIndex];
           subIndex++;
 
-          if (audioEngine && audioEngine.initialised && audioEngine.pianoSynth && !audioEngine.muted) {
-            if (Math.random() < 0.18) {
-              try {
-                audioEngine.pianoSynth.triggerAttackRelease('G5', '32n', undefined, 0.06);
-              } catch (e) {}
-            }
-          }
         }, 75);
 
         return;
@@ -625,16 +593,6 @@ function typeHeartLine(lineEl, fullText, speed) {
       const textNode = document.createTextNode(nextChar);
       lineEl.insertBefore(textNode, cursor);
       charIndex++;
-
-      if (audioEngine && audioEngine.initialised && audioEngine.pianoSynth && !audioEngine.muted) {
-        if (Math.random() < 0.18 && nextChar !== ' ') {
-          const notes = ['D5', 'F#5', 'A5', 'B5', 'D6'];
-          const note = notes[Math.floor(Math.random() * notes.length)];
-          try {
-            audioEngine.pianoSynth.triggerAttackRelease(note, '32n', undefined, 0.06);
-          } catch (e) {}
-        }
-      }
     }, speed);
   } else {
     const interval = setInterval(() => {
@@ -656,16 +614,6 @@ function typeHeartLine(lineEl, fullText, speed) {
       const textNode = document.createTextNode(nextChar);
       lineEl.insertBefore(textNode, cursor);
       charIndex++;
-
-      if (audioEngine && audioEngine.initialised && audioEngine.pianoSynth && !audioEngine.muted) {
-        if (Math.random() < 0.18 && nextChar !== ' ') {
-          const notes = ['D5', 'F#5', 'A5', 'B5', 'D6'];
-          const note = notes[Math.floor(Math.random() * notes.length)];
-          try {
-            audioEngine.pianoSynth.triggerAttackRelease(note, '32n', undefined, 0.06);
-          } catch (e) {}
-        }
-      }
     }, speed);
   }
 }
@@ -799,7 +747,6 @@ function onEnvelopeOpen() {
     // Initialize audio
     if (audioEngine) {
       audioEngine.init().then(async () => {
-        audioEngine.playSFX('wax-seal-crack');
         const tracks = contentLoader?.data?.audio?.tracks;
         if (musicPlayer) await musicPlayer.playIndex(0);
         else if (tracks?.length) await audioEngine.playTrack(tracks[0]);
@@ -824,7 +771,7 @@ function onEnvelopeOpen() {
   // Initialize proposal controller with WebGL celebration hooks
   proposalController = new ProposalController({
     onCelebration: () => {
-      if (audioEngine) audioEngine.triggerCelebration();
+      // audioEngine.triggerCelebration() is already triggered instantly on Yes button click
 
       if (threeScene) {
         threeScene.isCelebrating = true;
@@ -893,6 +840,8 @@ function onEnvelopeOpen() {
       }
     },
     onReconsider: () => {
+      if (audioEngine) audioEngine.triggerReconsider();
+
       // WebGL: Smoothly reset everything back to scroll-linked state
       if (threeScene && threeScene.particleUniforms) {
         gsap.to(threeScene.particleUniforms.uPortalDiveProgress, {
@@ -934,6 +883,11 @@ function onEnvelopeOpen() {
     if (audioEngine && e.detail) {
       if (e.detail.name === 'proposal-swell') audioEngine.playSFX('track-change');
       else if (e.detail.name === 'celebration') return;
+      else if (e.detail.name === 'heartbeat-start') audioEngine.startHeartbeat();
+      else if (e.detail.name === 'heartbeat-stop') audioEngine.stopHeartbeat();
+      else if (e.detail.name === 'celebration-start') audioEngine.triggerCelebration();
+      else if (e.detail.name === 'monologue-appear') audioEngine.playMonologueAppear();
+      else if (e.detail.name === 'monologue-fade') audioEngine.playMonologueFade();
       else audioEngine.playSFX(e.detail.name);
     }
   });
@@ -1002,6 +956,7 @@ function setupGalleryEvents() {
       if (storyEl) storyEl.textContent = e.detail.story || '';
 
       if (videoEl) {
+        videoEl.muted = true; // Mute the video audio
         if (e.detail.videoSrc) {
           videoEl.src = e.detail.videoSrc;
           videoEl.hidden = false;
@@ -1121,7 +1076,7 @@ function initGlobalCursor() {
       const lerpFactor = 0.2 - i * 0.02;
       trailPositions[i].x += (prev.x - trailPositions[i].x) * lerpFactor;
       trailPositions[i].y += (prev.y - trailPositions[i].y) * lerpFactor;
-      
+
       trail.style.opacity = `${0.3 - i * 0.035}`;
       trail.style.transform = `translate3d(${trailPositions[i].x}px, ${trailPositions[i].y}px, 0) translate(-50%, -50%) scale(${1 - i * 0.08})`;
     });
@@ -1176,6 +1131,18 @@ async function bootstrap() {
   // Init audio engine (lazy — waits for user interaction)
   audioEngine = new AudioEngine();
   musicPlayer = new MusicPlayer(audioEngine, data?.audio?.tracks);
+
+  // Safety gesture listener to unlock Web Audio context on first user click/touch
+  const unlockAudio = () => {
+    if (audioEngine) {
+      audioEngine.init();
+    }
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+  };
+  document.addEventListener('click', unlockAudio);
+  document.addEventListener('touchstart', unlockAudio);
+
   atLoader.bump(5);
 
   // Init 3D background scene

@@ -33,33 +33,33 @@
   "audio": {
     "tracks": [
       {
-        "title": "First Light",
-        "artist": "Nitin → Kanak",
-        "src": "/audio/track-01.mp3",
+        "title": "Tum Ho Toh (Intro)",
+        "artist": "Saiyaara x Lana Del Rey",
+        "src": "/audio/tum-ho-toh.mp3",
         "theme": 0
       },
       {
-        "title": "September Sky",
-        "artist": "Our Friendship",
-        "src": "/audio/track-02.mp3",
+        "title": "Say Yes to Heaven",
+        "artist": "Saiyaara x Lana Del Rey",
+        "src": "/audio/tum-ho-toh.mp3",
         "theme": 1
       },
       {
-        "title": "Valentine Pulse",
-        "artist": "14 Feb 2024",
-        "src": "/audio/track-03.mp3",
+        "title": "Saiyaara x Lana",
+        "artist": "Tum Ho Toh Mashup",
+        "src": "/audio/tum-ho-toh.mp3",
         "theme": 2
       },
       {
-        "title": "Memory Helix",
-        "artist": "Moments",
-        "src": "/audio/track-04.mp3",
+        "title": "Tum Ho Toh (Soothing)",
+        "artist": "Saiyaara x Lana Del Rey",
+        "src": "/audio/tum-ho-toh.mp3",
         "theme": 3
       },
       {
-        "title": "Forever Hold",
-        "artist": "The Question",
-        "src": "/audio/track-05.mp3",
+        "title": "Tum Ho Toh (Climax)",
+        "artist": "Saiyaara x Lana Del Rey",
+        "src": "/audio/tum-ho-toh.mp3",
         "theme": 4
       }
     ]
@@ -68,7 +68,7 @@
     "title": "Words I Could Never <em>Say Out Loud</em>",
     "author": "— Nitin",
     "lines": [
-      "My Dearest Kanak,",
+      "Myyy cutiepie,",
       "",
       "Before you, my days were quiet brushstrokes on a grey canvas.",
       "Then September came, and you coloured everything.",
@@ -112,25 +112,25 @@
       {
         "date": "September 2023",
         "title": "The Beginning",
-        "content": "We crossed paths like two comets in the same sky. I spilled coffee, you laughed, and something shifted in the universe. From that moment, you weren't just someone I knew — you were someone I couldn't stop thinking about.",
+        "content": "Remember when college started back in September 2023? That's when we talked for the first time. We were just two strangers becoming friends, but looking back, it really felt like our paths were meant to cross. I still remember what we said to each other, and that's how a very different, special friendship started that would change my world forever.",
         "mood": "warm"
       },
       {
-        "date": "Late 2023",
+        "date": "Throughout 2024-2025",
         "title": "Friendship on Fire",
-        "content": "Every message felt like unwrapping a gift. Every late-night conversation felt like discovering a secret world. We were friends, but my heart was already writing a different story. I was falling, Kanak — quietly, completely, and beautifully.",
+        "content": "Remember throughout 2024-2025 when we faced so many ups and downs? We fought a lot and had our moments, but no matter what happened, we were like a thread—always connected, always pulling back to each other. You stood by me through it all, and you made me realize how beautiful it feels to be truly cared for.",
         "mood": "golden"
       },
       {
-        "date": "14 February 2024",
+        "date": "15 February 2026",
         "title": "The Day Everything Changed",
-        "content": "Valentine's Day. My hands trembled. My voice cracked. I fumbled every word. But when you said yes — the entire world paused, held its breath, and then burst into the most vivid colour I've ever seen. That moment is tattooed on my soul.",
+        "content": "On February 15, 2026, everything changed. I remember going completely blank and speechless for the first time in my life. Something absolutely magical happened that I never expected, and I got you—the best person in my life, actually my whole life. I still cherish and remember every single second of that beautiful day.",
         "mood": "rose"
       },
       {
         "date": "Every Day Since",
         "title": "Why You're My Everything",
-        "content": "You've become my morning and my midnight. My confidante, my joy, my future. Nobody has ever made me feel this safe, this understood, this alive. You are not just part of my life, Kanak — you are my life.",
+        "content": "Ever since that day, I've cherished every single moment of us. You unlocked so many feelings and emotions that were buried deep inside me. For the first time, I did things for someone that I never thought I would—and I want to keep loving you like this for the rest of my life. There are so many beautiful chapters waiting for us.",
         "mood": "violet"
       }
     ]
@@ -142,8 +142,8 @@
       {
         "emoji": "I",
         "caption": "Where our story began",
-        "date": "September 2023",
-        "story": "Friends first — coffee spilled, you laughed, and my heart quietly chose you.",
+        "date": "February 2026",
+        "story": "The day we became ours. A single forced sip of my Iced Americano, your reaction to it, and the beautiful beginning of us.",
         "image": "/images/gallery_hands_real.png",
         "video": "",
         "mood": "warm"
@@ -151,17 +151,17 @@
       {
         "emoji": "II",
         "caption": "Blossoming together",
-        "date": "Late 2023",
-        "story": "Every message, every smile — friendship turning into something I prayed for.",
+        "date": "2026 to Infinity",
+        "story": "Just sitting together, cherishing every moment of us. Every single day being with you is everything I could ever ask for.",
         "image": "/images/gallery_shoes_real.png",
         "video": "",
         "mood": "dreamy"
       },
       {
         "emoji": "III",
-        "caption": "Two hearts, one soul",
-        "date": "14 February 2024",
-        "story": "Valentine's Day — I asked, you said yes, and the world burst into colour.",
+        "caption": "Our quiet morning after",
+        "date": "Our secret morning",
+        "story": "Taking this picture of you on our way back, sleepy-eyed and smiling. The morning after the night the world stood still, wishing the road would go on forever.",
         "image": "/images/gallery_single_real.png",
         "video": "",
         "mood": "rose"
@@ -195,7 +195,7 @@
   },
   "mirror": {
     "title": "Enven<em>omed</em>",
-    "subtitle": "Words she wrote four years ago, held beside the woman she chose to become.",
+    "subtitle": "Words you wrote four years ago, held beside the woman you chose to become.",
     "byline": "kanak",
     "past": {
       "label": "Her Words — Then",
@@ -301,58 +301,81 @@
       "label": "My Reflection — Now",
       "lines": [
         {
-          "text": "You wrote about a girl who was fractured, fighting her own reflection —",
+          "text": "You wrote about choking on doubts, feeling so tiny in your own skin,",
           "type": "stanza-start"
         },
         {
-          "text": "but Kanak, look what you became. Look at the woman standing here."
+          "text": "fighting a phantom in the mirror, wondering where to begin."
+        },
+        {
+          "text": "You called yourself envenomed, hiding the storm inside your heart,"
+        },
+        {
+          "text": "but Kanak, to me, you were perfect and beautiful right from the start."
         },
         {
           "text": ""
         },
         {
-          "text": "The girl who smothered her thunder now carries storms in her smile."
+          "text": "You pretended to be cold, smiling through the quiet pain,",
+          "type": "stanza-start"
         },
         {
-          "text": "The one who called herself 'envenomed' became the antidote to everyone she loves."
+          "text": "thinking you had to be flawless, like sunlight after the rain."
+        },
+        {
+          "text": "But I don't know what I would ever be in this world without you—"
+        },
+        {
+          "text": "you are the cutest, most lovable soul, and every word of this is true."
         },
         {
           "text": ""
         },
         {
-          "text": "You said portraits are eternal, reflections are faded —",
+          "text": "You wrote that portraits are eternal and reflections fade away,",
           "type": "highlight"
         },
         {
-          "text": "But baby, you're not a reflection anymore. You're the whole portrait."
+          "text": "but you are the one who fills my sky with color every single day."
         },
         {
-          "text": "Framed in gold. Untouchable. Radiant."
+          "text": "You're the prettiest person in this universe, my guiding light,"
         },
         {
-          "text": ""
-        },
-        {
-          "text": "The venom left your body that day,"
-        },
-        {
-          "text": "and what remained was something the world wasn't ready for —"
-        },
-        {
-          "text": "a woman who rebuilt herself from her own ashes.",
-          "type": "highlight"
+          "text": "making even the darkest, coldest nights feel warm and bright."
         },
         {
           "text": ""
         },
         {
-          "text": "You don't need a mirror to see who you are, Kanak."
+          "text": "You cursed the dark under your lights, trying to soothe your thunder,",
+          "type": "stanza-start"
         },
         {
-          "text": "You just need to see the way I look at you."
+          "text": "while I stood by, looking at you with nothing but awe and wonder."
         },
         {
-          "text": "Because in my eyes — you were never the venom. You were always the cure.",
+          "text": "You didn't need to aspire to be anyone else in that mirror's reflection,"
+        },
+        {
+          "text": "because in my eyes, you have always been the definition of perfection."
+        },
+        {
+          "text": ""
+        },
+        {
+          "text": "So let the phantom fade away, and let the venom finally depart,",
+          "type": "stanza-start"
+        },
+        {
+          "text": "you don't need a mirage to see the magic in your own heart."
+        },
+        {
+          "text": "Just look at the way I look at you, my absolute favorite view—"
+        },
+        {
+          "text": "because in my eyes, you were never the venom. You were always the cure.",
           "type": "final"
         },
         {

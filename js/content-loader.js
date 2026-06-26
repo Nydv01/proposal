@@ -13,8 +13,13 @@ export class ContentLoader {
       // In a real staging environment, we might read from localStorage first if changes were made in admin
       const localData = localStorage.getItem('proposal_custom_content');
       if (localData) {
-        this.data = JSON.parse(localData);
-        return this.data;
+        // Automatically clear out outdated local configurations containing old track names
+        if (localData.includes('track-01.mp3') || !localData.includes('tum-ho-toh.mp3')) {
+          localStorage.removeItem('proposal_custom_content');
+        } else {
+          this.data = JSON.parse(localData);
+          return this.data;
+        }
       }
 
       const response = await fetch('/content.json');

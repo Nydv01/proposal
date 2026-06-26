@@ -32,6 +32,7 @@ export class AudioEngine {
     this._loops = [];
     this.isFocused = false;
     this.focusDrone = null;
+    this.pencilStrokePlayers = [];
   }
 
   async init() {
@@ -42,6 +43,40 @@ export class AudioEngine {
       }
       await Tone.start();
       this.buildAudioGraph();
+
+      // Load 4 distinct short pencil stroke files for instant zero-latency keyboard syncing
+      try {
+        this.pencilStrokePlayers = [];
+        const strokeFiles = [
+          '/audio/pencil-stroke-1.mp3',
+          '/audio/pencil-stroke-2.mp3',
+          '/audio/pencil-stroke-3.mp3',
+          '/audio/pencil-stroke-4.mp3'
+        ];
+
+        for (let i = 0; i < strokeFiles.length; i++) {
+          const p = new Tone.Player({
+            url: strokeFiles[i],
+            autostart: false
+          }).toDestination();
+          p.fadeOut = 0.04; // smooth tail
+          this.pencilStrokePlayers.push(p);
+        }
+      } catch (err) {
+        console.warn('Failed to load pencil-stroke sounds:', err);
+      }
+
+      // Load vocal celebration track
+      try {
+        this.vocalPlayer = new Tone.Player({
+          url: '/audio/tum-ho-toh-vocals.mp3',
+          autostart: false,
+          loop: true
+        }).toDestination();
+      } catch (err) {
+        console.warn('Failed to load vocal track:', err);
+      }
+
       this.initialised = true;
     } catch (e) {
       console.warn('AudioEngine init failed:', e);
@@ -74,25 +109,25 @@ export class AudioEngine {
     this.pianoSynth = new Tone.Synth({
       oscillator: { type: 'triangle8' },
       envelope: { attack: 0.1, decay: 1.4, sustain: 0.06, release: 2.8 }
-    }).connect(this.generativeGain);
+    });
     this.pianoSynth.volume.value = -14;
 
     this.padSynth = new Tone.PolySynth(Tone.Synth, {
       oscillator: { type: 'sine4' },
       envelope: { attack: 2.8, decay: 2.0, sustain: 0.65, release: 4.5 }
-    }).connect(this.generativeGain);
+    });
     this.padSynth.volume.value = -22;
 
     this.sparkleSynth = new Tone.Synth({
       oscillator: { type: 'sine' },
       envelope: { attack: 0.01, decay: 0.6, sustain: 0, release: 1.8 }
-    }).connect(this.generativeGain);
+    });
     this.sparkleSynth.volume.value = -20;
 
     this.bassSynth = new Tone.Synth({
       oscillator: { type: 'sine' },
       envelope: { attack: 0.06, decay: 0.9, sustain: 0.12, release: 1.2 }
-    }).connect(this.generativeGain);
+    });
     this.bassSynth.volume.value = -28;
   }
 
@@ -132,44 +167,14 @@ export class AudioEngine {
 
     if (player.state !== 'started') player.start();
     player.loop = true;
-    player.volume.value = -8;
+    player.volume.value = -16;
     this.trackGain.gain.rampTo(1, 1.4);
     this.generativeGain.gain.rampTo(0, 1.4);
   }
 
   startGenerativeForTheme(themeIndex) {
-    this.stopGenerative();
-    this.generativeActive = true;
-    this.trackGain.gain.rampTo(0, 0.8);
-    this.generativeGain.gain.rampTo(1, 1.2);
-
-    const theme = THEMES[themeIndex % THEMES.length];
-    const notes = SCALE[theme.root] || SCALE.C;
-    Tone.Transport.bpm.value = theme.bpm;
-
-    const pianoLoop = new Tone.Loop((time) => {
-      if (this.isClimax || !this.generativeActive || this.isFocused) return;
-      if (Math.random() > 0.32) {
-        const note = notes[Math.floor(Math.random() * notes.length)];
-        this.pianoSynth.triggerAttackRelease(note, '2n', time);
-      }
-    }, '2n').start(0);
-
-    const sparkleLoop = new Tone.Loop((time) => {
-      if (this.isClimax || !this.generativeActive || this.isFocused) return;
-      if (Math.random() > 0.65) {
-        this.sparkleSynth.triggerAttackRelease(notes[notes.length - 1], '16n', time);
-      }
-    }, '1m').start(0);
-
-    const padLoop = new Tone.Loop((time) => {
-      if (this.isClimax || !this.generativeActive || this.isFocused) return;
-      const chord = [notes[0], notes[2], notes[4], notes[5]].map((n) => n.replace('5', '3'));
-      this.padSynth.triggerAttackRelease(chord, '1m', time);
-    }, '2m').start(0);
-
-    this._loops = [pianoLoop, sparkleLoop, padLoop];
-    if (Tone.Transport.state !== 'started') Tone.Transport.start();
+    // Generative synth fallback disabled to ensure only real audio tracks play
+    return;
   }
 
   stopGenerative() {
@@ -183,34 +188,21 @@ export class AudioEngine {
     const now = Tone.now();
 
     if (isActive) {
-      // Muffle master filter down to low ambient drone ranges
-      this.masterFilter.frequency.rampTo(140, 1.2);
-      this.reverb.wet.rampTo(0.92, 1.2);
+      // Open filter completely to 20kHz so the track becomes crystal clear immediately
+      this.masterFilter.frequency.rampTo(20000, 1.0);
+      this.reverb.wet.rampTo(0.15, 1.0); // clean presence, less reverb blur
 
-      // Soften main gains
-      this.generativeGain.gain.rampTo(0.1, 1.0);
-      this.trackGain.gain.rampTo(0.1, 1.0);
+      // Set full, clear volume for the track
+      this.players.forEach((p) => {
+        if (p.state === 'started') p.volume.rampTo(-8, 1.0); // clear volume level (-8dB)
+      });
 
-      // Synthesize deep baseline resonant hum (Sine at 110Hz)
-      if (!this.focusDrone) {
-        this.focusDrone = new Tone.Oscillator(110, 'sine').connect(this.reverb);
-        this.focusDrone.volume.value = -30;
+      // Stop focus drone if active to keep music crisp and clean
+      if (this.focusDrone) {
+        this.focusDrone.stop(now);
       }
-      this.focusDrone.start(now);
-      this.focusDrone.volume.rampTo(-18, 1.4);
     } else {
-      // Fade and stop focus drone
-      this.focusDrone?.volume.rampTo(-40, 1.0);
-      setTimeout(() => {
-        if (!this.isFocused) {
-          this.focusDrone?.stop();
-        }
-      }, 1050);
-
-      this.generativeGain.gain.rampTo(1.0, 1.2);
-      this.trackGain.gain.rampTo(1.0, 1.2);
-
-      // Restore scroll-synced frequency offsets
+      // Restore scroll-synced muffled (blurry) and lower volume levels
       this.updateScrollPosition(this.scrollProgress);
     }
   }
@@ -221,42 +213,60 @@ export class AudioEngine {
 
     if (this.isFocused) return;
 
-    const targetFreq = 100 + progress * 17900;
+    // Dreamy low-pass filter sweep range (intelligible but warm and muffled)
+    const targetFreq = 500 + progress * 600; // 500Hz at top, 1100Hz at bottom
     this.masterFilter.frequency.rampTo(targetFreq, 0.35);
-    this.masterFilter.Q.rampTo(0.7 + Math.sin(progress * Math.PI) * 1.8, 0.35);
+    this.masterFilter.Q.rampTo(0.8 + Math.sin(progress * Math.PI) * 0.4, 0.35);
 
-    if (this.generativeActive) {
-      this.pianoSynth.volume.rampTo(-14 + progress * 10, 0.4);
-      this.padSynth.volume.rampTo(-22 + progress * 10, 0.4);
-    } else {
-      const vol = -14 + progress * 6;
-      this.players.forEach((p) => {
-        if (p.state === 'started') p.volume.rampTo(vol, 0.4);
-      });
-    }
+    // Warm, ambient background volume levels
+    const vol = -18 + progress * 8; // -18dB to -10dB (clearly audible but background)
+    this.players.forEach((p) => {
+      if (p.state === 'started') p.volume.rampTo(vol, 0.4);
+    });
 
-    this.reverb.wet.rampTo(0.62 - progress * 0.28, 0.5);
+    this.reverb.wet.rampTo(0.65 - progress * 0.15, 0.5); // high-quality reverb spacing
   }
 
   playSFX(name) {
     if (!this.initialised || this.muted) return;
 
-    if (name === 'wax-seal-crack') {
-      const noise = new Tone.Noise('white').start();
-      const f = new Tone.Filter(2800, 'bandpass').connect(this.reverb);
-      noise.connect(f);
-      const env = new Tone.AmplitudeEnvelope({ attack: 0.004, decay: 0.14, sustain: 0, release: 0.1 }).connect(f);
-      noise.connect(env);
-      env.triggerAttackRelease(0.18);
-      const thud = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.01, decay: 0.35, sustain: 0, release: 0.25 } }).connect(this.reverb);
-      thud.volume.value = -6;
-      thud.triggerAttackRelease('C2', '8n');
-      setTimeout(() => { noise.dispose(); f.dispose(); env.dispose(); thud.dispose(); }, 1200);
-    } else if (name === 'section-chime' || name === 'track-change') {
-      const chime = new Tone.Synth({ oscillator: { type: 'sine' }, envelope: { attack: 0.01, decay: 0.9, sustain: 0, release: 1.6 } }).connect(this.reverb);
-      chime.volume.value = -12;
-      chime.triggerAttackRelease(name === 'track-change' ? 'G5' : 'E5', '8n');
-      setTimeout(() => chime.dispose(), 3000);
+    if (name === 'typewriter-click') {
+      // Only play a stroke sound on ~45% of characters to simulate natural pencil lifts and stroke grouping
+      if (Math.random() > 0.45) return;
+
+      if (this.pencilStrokePlayers && this.pencilStrokePlayers.length > 0) {
+        try {
+          // Select a random stroke player to vary the scratch sound
+          const randomIndex = Math.floor(Math.random() * this.pencilStrokePlayers.length);
+          const player = this.pencilStrokePlayers[randomIndex];
+
+          if (player && player.loaded) {
+            // Play from beginning (offset = 0) for absolute instant, zero-latency trigger
+            // Wider pitch/speed variation (0.75 to 1.35) for highly organic handwriting strokes
+            player.playbackRate = 0.75 + Math.random() * 0.6;
+
+            // Highly randomized volume (-36dB to -28dB) to mimic natural hand pressure changes
+            player.volume.value = -36 + Math.random() * 8;
+
+            player.start(Tone.now());
+            return;
+          }
+        } catch (e) {
+          console.warn('Error playing pencil stroke:', e);
+        }
+      }
+
+      // Fallback click
+      try {
+        const sine = new Tone.Synth({
+          oscillator: { type: 'sine' },
+          envelope: { attack: 0.002, decay: 0.015, sustain: 0, release: 0.015 }
+        }).toDestination();
+        sine.volume.value = -48; // extremely quiet fallback click
+        const pitch = 850 + Math.random() * 250;
+        sine.triggerAttackRelease(pitch, '64n');
+        setTimeout(() => sine.dispose(), 100);
+      } catch (e) { }
     }
   }
 
@@ -265,14 +275,44 @@ export class AudioEngine {
     this.isClimax = true;
     this.masterFilter.frequency.rampTo(20000, 0.5);
 
-    const celeb = new Tone.PolySynth(Tone.Synth, {
-      oscillator: { type: 'triangle' },
-      envelope: { attack: 0.08, decay: 0.5, sustain: 0.45, release: 3.2 }
-    }).connect(this.reverb);
-    celeb.volume.value = -4;
-    const notes = ['C4', 'E4', 'G4', 'C5', 'E5', 'G5', 'C6'];
-    const now = Tone.now();
-    notes.forEach((n, i) => celeb.triggerAttackRelease(n, '1m', now + i * 0.09));
+    // Fade out any active background music players
+    this.players.forEach((p) => {
+      if (p.state === 'started') {
+        p.volume.rampTo(-60, 1.2);
+        setTimeout(() => {
+          if (this.isClimax) p.stop();
+        }, 1300);
+      }
+    });
+
+    // Play vocal track
+    if (this.vocalPlayer) {
+      if (this.vocalPlayer.state !== 'started') {
+        this.vocalPlayer.volume.value = -6;
+        this.vocalPlayer.start();
+      }
+    }
+  }
+
+  triggerReconsider() {
+    if (!this.initialised) return;
+    this.isClimax = false;
+
+    // Stop vocal player
+    if (this.vocalPlayer && this.vocalPlayer.state === 'started') {
+      this.vocalPlayer.stop();
+    }
+
+    // Resume background instrumental track (ramp its volume back up)
+    if (this.currentTrack) {
+      const p = this.players.get(this.currentTrack.src);
+      if (p) {
+        p.volume.value = -16;
+        if (p.state !== 'started') {
+          p.start();
+        }
+      }
+    }
   }
 
   triggerSadMoment() {
@@ -292,13 +332,143 @@ export class AudioEngine {
     return this.muted;
   }
 
+  startHeartbeat() {
+    if (!this.initialised) return;
+    this.stopHeartbeat(); // safety: stop any existing heartbeat loop
+
+    // Create the synth if it doesn't exist
+    if (!this.heartbeatSynth) {
+      this.heartbeatSynth = new Tone.Synth({
+        oscillator: { type: 'sine' },
+        envelope: {
+          attack: 0.03,
+          decay: 0.15,
+          sustain: 0,
+          release: 0.2
+        }
+      }).toDestination();
+    }
+
+    // Double beat helper
+    const triggerDoubleBeat = () => {
+      if (!this.heartbeatIntervalId) return;
+      try {
+        const now = Tone.now();
+        // Lub (deep thump)
+        this.heartbeatSynth.triggerAttackRelease(55, 0.12, now);
+        // Dub (slightly quieter and lower)
+        const dubVolume = this.heartbeatSynth.volume.value;
+        this.heartbeatSynth.volume.setValueAtTime(dubVolume - 3, now + 0.25);
+        this.heartbeatSynth.triggerAttackRelease(46, 0.12, now + 0.25);
+        // Restore volume
+        this.heartbeatSynth.volume.setValueAtTime(dubVolume, now + 0.4);
+      } catch (e) {
+        console.warn('Heartbeat play error:', e);
+      }
+    };
+
+    triggerDoubleBeat(); // trigger first beat immediately
+    this.heartbeatIntervalId = setInterval(triggerDoubleBeat, 1100); // repeat every 1.1 seconds (~54 bpm)
+  }
+
+  stopHeartbeat() {
+    if (this.heartbeatIntervalId) {
+      clearInterval(this.heartbeatIntervalId);
+      this.heartbeatIntervalId = null;
+    }
+  }
+
+  playMonologueAppear() {
+    if (!this.initialised || this.muted) return;
+    try {
+      const noise = new Tone.Noise("pink").start();
+      const filter = new Tone.Filter({
+        type: "bandpass",
+        frequency: 180,
+        Q: 3.5
+      }).toDestination();
+
+      const gain = new Tone.Gain(0).connect(filter);
+      noise.connect(gain);
+
+      const now = Tone.now();
+      // Ramp volume up and down
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.04, now + 0.6); // very soft
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.5);
+
+      // Sweep filter frequency up (rising)
+      filter.frequency.setValueAtTime(180, now);
+      filter.frequency.exponentialRampToValueAtTime(550, now + 1.0);
+
+      // Trigger a very quiet magical spark
+      if (this.sparkleSynth) {
+        this.sparkleSynth.volume.value = -24;
+        const notes = ["C6", "E6", "G6"];
+        const randNote = notes[Math.floor(Math.random() * notes.length)];
+        this.sparkleSynth.triggerAttackRelease(randNote, "2n", now + 0.1);
+      }
+
+      setTimeout(() => {
+        noise.stop();
+        noise.dispose();
+        filter.dispose();
+        gain.dispose();
+      }, 1800);
+    } catch (e) {
+      console.warn("Monologue appear play error:", e);
+    }
+  }
+
+  playMonologueFade() {
+    if (!this.initialised || this.muted) return;
+    try {
+      const noise = new Tone.Noise("pink").start();
+      const filter = new Tone.Filter({
+        type: "bandpass",
+        frequency: 550,
+        Q: 3.0
+      }).toDestination();
+
+      const gain = new Tone.Gain(0).connect(filter);
+      noise.connect(gain);
+
+      const now = Tone.now();
+      // Ramp volume up and down
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(0.035, now + 0.4); // soft
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+
+      // Sweep filter frequency down (falling)
+      filter.frequency.setValueAtTime(550, now);
+      filter.frequency.exponentialRampToValueAtTime(150, now + 1.2);
+
+      setTimeout(() => {
+        noise.stop();
+        noise.dispose();
+        filter.dispose();
+        gain.dispose();
+      }, 1800);
+    } catch (e) {
+      console.warn("Monologue fade play error:", e);
+    }
+  }
+
   destroy() {
     if (Tone) {
       try {
         Tone.Transport.stop();
       } catch (e) { }
       this.stopGenerative();
+      this.stopHeartbeat();
       this.players.forEach((p) => p.dispose());
+      this.pencilStrokePlayers.forEach((p) => p.dispose());
+      if (this.vocalPlayer) {
+        this.vocalPlayer.dispose();
+      }
+      if (this.heartbeatSynth) {
+        this.heartbeatSynth.dispose();
+      }
     }
     this.initialised = false;
   }

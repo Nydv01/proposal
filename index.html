@@ -3,6 +3,46 @@
 
 <head>
   <meta charset="UTF-8" />
+  <script>
+    (function() {
+      const logToServer = (type, data) => {
+        fetch('/log-debug', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({
+            time: new Date().toISOString(),
+            type: type,
+            message: data
+          })
+        }).catch(() => {});
+      };
+
+      window.onerror = function(message, source, lineno, colno, error) {
+        logToServer('ERROR', { message, source, lineno, colno, stack: error ? error.stack : null });
+      };
+
+      window.onunhandledrejection = function(event) {
+        logToServer('UNHANDLED_REJECTION', { message: event.reason ? (event.reason.message || event.reason) : 'unknown', stack: event.reason ? event.reason.stack : null });
+      };
+
+      const originalLog = console.log;
+      const originalError = console.error;
+      const originalWarn = console.warn;
+
+      console.log = function(...args) {
+        originalLog.apply(console, args);
+        logToServer('LOG', args.join(' '));
+      };
+      console.error = function(...args) {
+        originalError.apply(console, args);
+        logToServer('CONSOLE_ERROR', args.join(' '));
+      };
+      console.warn = function(...args) {
+        originalWarn.apply(console, args);
+        logToServer('CONSOLE_WARN', args.join(' '));
+      };
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="A love letter written in light and sound — for my dearest Kanak." />
   <title>Nitin & Kanak — A Private Love Film</title>
@@ -211,31 +251,25 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>The Beginning</h3>
-                <p>We crossed paths like two comets in the same sky. I spilled coffee, you laughed, and something
-                  shifted in the universe. From that moment, you weren't just someone I knew — you were someone I
-                  couldn't stop thinking about.</p>
+                <p>Remember when college started back in September 2023? That's when we talked for the first time. We were just two strangers becoming friends, but looking back, it really felt like our paths were meant to cross. I still remember what we said to each other, and that's how a very different, special friendship started that would change my world forever.</p>
               </div>
             </div>
 
             <div class="story-milestone" data-mood="golden">
-              <div class="milestone-date">Late 2023</div>
+              <div class="milestone-date">Throughout 2024-2025</div>
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>Friendship on Fire</h3>
-                <p>Every message felt like unwrapping a gift. Every late-night conversation felt like discovering a
-                  secret world. We were friends, but my heart was already writing a different story. I was falling,
-                  Kanak — quietly, completely, and beautifully.</p>
+                <p>Remember throughout 2024-2025 when we faced so many ups and downs? We fought a lot and had our moments, but no matter what happened, we were like a thread—always connected, always pulling back to each other. You stood by me through it all, and you made me realize how beautiful it feels to be truly cared for.</p>
               </div>
             </div>
 
             <div class="story-milestone" data-mood="rose">
-              <div class="milestone-date">14 February 2024</div>
+              <div class="milestone-date">15 February 2026</div>
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>The Day Everything Changed</h3>
-                <p>Valentine's Day. My hands trembled. My voice cracked. I fumbled every word. But when you said yes —
-                  the entire world paused, held its breath, and then burst into the most vivid colour I've ever seen.
-                  That moment is tattooed on my soul.</p>
+                <p>On February 15, 2026, everything changed. I remember going completely blank and speechless for the first time in my life. Something absolutely magical happened that I never expected, and I got you—the best person in my life, actually my whole life. I still cherish and remember every single second of that beautiful day.</p>
               </div>
             </div>
 
@@ -244,9 +278,7 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>Why You're My Everything</h3>
-                <p>You've become my morning and my midnight. My confidante, my joy, my future. Nobody has ever made me
-                  feel this safe, this understood, this alive. You are not just part of my life, Kanak — you are my
-                  life.</p>
+                <p>Ever since that day, I've cherished every single moment of us. You unlocked so many feelings and emotions that were buried deep inside me. For the first time, I did things for someone that I never thought I would—and I want to keep loving you like this for the rest of my life. There are so many beautiful chapters waiting for us.</p>
               </div>
             </div>
           </div>
@@ -510,9 +542,9 @@
               <div class="scrapbook-polaroid interactive river-capsule-center" data-index="2" style="--rot: -2deg;">
                 <div class="tape tape-corner-tl"></div>
                 <div class="polaroid-photo">
-                  <img src="/images/blossom_spring.png" alt="Two hearts, one soul" loading="lazy" />
+                  <img src="/images/blossom_spring.png" alt="Our quiet morning after" loading="lazy" />
                 </div>
-                <p class="polaroid-caption">Two hearts, one soul</p>
+                <p class="polaroid-caption">Our quiet morning after</p>
               </div>
 
               <div class="scrapbook-polaroid interactive river-capsule-left" data-index="3"

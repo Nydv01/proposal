@@ -62,9 +62,9 @@ export class MusicPlayer {
 }
 
 const DEFAULT_TRACKS = [
-  { title: 'First Light', artist: 'Nitin → Kanak', src: '/audio/track-01.mp3', theme: 0 },
-  { title: 'September Sky', artist: 'Our Friendship', src: '/audio/track-02.mp3', theme: 1 },
-  { title: 'Valentine Pulse', artist: '14 Feb 2024', src: '/audio/track-03.mp3', theme: 2 },
-  { title: 'Memory Helix', artist: 'Moments', src: '/audio/track-04.mp3', theme: 3 },
-  { title: 'Forever Hold', artist: 'The Question', src: '/audio/track-05.mp3', theme: 4 }
+  { title: 'Tum Ho Toh (Intro)', artist: 'Saiyaara x Lana Del Rey', src: '/audio/tum-ho-toh.mp3', theme: 0 },
+  { title: 'Say Yes to Heaven', artist: 'Saiyaara x Lana Del Rey', src: '/audio/tum-ho-toh.mp3', theme: 1 },
+  { title: 'Saiyaara x Lana', artist: 'Tum Ho Toh Mashup', src: '/audio/tum-ho-toh.mp3', theme: 2 },
+  { title: 'Tum Ho Toh (Soothing)', artist: 'Saiyaara x Lana Del Rey', src: '/audio/tum-ho-toh.mp3', theme: 3 },
+  { title: 'Tum Ho Toh (Climax)', artist: 'Saiyaara x Lana Del Rey', src: '/audio/tum-ho-toh.mp3', theme: 4 }
 ];

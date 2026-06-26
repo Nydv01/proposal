@@ -92,7 +92,7 @@ function createNoise() {
 }
 
 const LETTER_CONTENT = [
-  { type: 'salutation', text: 'My dearest Kanak,' },
+  { type: 'salutation', text: 'Myyy cutiepie,' },
   { type: 'break' },
   { type: 'line', text: 'There are things I\'ve carried inside me for so long that they\'ve become part of who I am.' },
   { type: 'line', text: 'Words I rehearsed a thousand times in my head but could never get past my lips.' },
@@ -652,6 +652,11 @@ export class PoemScene {
     // Create a span for each word (for word-level effects)
     const textNode = document.createTextNode(char);
     lineEl.insertBefore(textNode, this.cursorEl);
+
+    // Play a cute typing click sound for non-space characters
+    if (char !== ' ') {
+      window.dispatchEvent(new CustomEvent('play-sound', { detail: { name: 'typewriter-click' } }));
+    }
 
     this.currentCharIndex++;
 

@@ -8947,7 +8947,8 @@ body.experience-started #scene-proposal.scene {
 
 body.experience-started #scene-proposal.scene .scene-content,
 body.experience-started #scene-song.scene .scene-content,
-body.experience-started #scene-memories.scene .scene-content {
+body.experience-started #scene-memories.scene .scene-content,
+body.experience-started #scene-mirror.scene .scene-content {
   opacity: 1 !important;
   transform: translateY(0) scale(1) !important;
 }
