@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <script>
-    (function() {
+    (function () {
       const logToServer = (type, data) => {
         fetch('/log-debug', {
           method: 'POST',
@@ -14,14 +14,14 @@
             type: type,
             message: data
           })
-        }).catch(() => {});
+        }).catch(() => { });
       };
 
-      window.onerror = function(message, source, lineno, colno, error) {
+      window.onerror = function (message, source, lineno, colno, error) {
         logToServer('ERROR', { message, source, lineno, colno, stack: error ? error.stack : null });
       };
 
-      window.onunhandledrejection = function(event) {
+      window.onunhandledrejection = function (event) {
         logToServer('UNHANDLED_REJECTION', { message: event.reason ? (event.reason.message || event.reason) : 'unknown', stack: event.reason ? event.reason.stack : null });
       };
 
@@ -29,15 +29,15 @@
       const originalError = console.error;
       const originalWarn = console.warn;
 
-      console.log = function(...args) {
+      console.log = function (...args) {
         originalLog.apply(console, args);
         logToServer('LOG', args.join(' '));
       };
-      console.error = function(...args) {
+      console.error = function (...args) {
         originalError.apply(console, args);
         logToServer('CONSOLE_ERROR', args.join(' '));
       };
-      console.warn = function(...args) {
+      console.warn = function (...args) {
         originalWarn.apply(console, args);
         logToServer('CONSOLE_WARN', args.join(' '));
       };
@@ -251,7 +251,10 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>The Beginning</h3>
-                <p>Remember when college started back in September 2023? That's when we talked for the first time. We were just two strangers becoming friends, but looking back, it really felt like our paths were meant to cross. I still remember what we said to each other, and that's how a very different, special friendship started that would change my world forever.</p>
+                <p>Remember when college started back in September 2023? That's when we talked for the first time. We
+                  were just two strangers becoming friends, but looking back, it really felt like our paths were meant
+                  to cross. I still remember what we said to each other, and that's how a very different, special
+                  friendship started that would change my world forever.</p>
               </div>
             </div>
 
@@ -260,7 +263,10 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>Friendship on Fire</h3>
-                <p>Remember throughout 2024-2025 when we faced so many ups and downs? We fought a lot and had our moments, but no matter what happened, we were like a thread—always connected, always pulling back to each other. You stood by me through it all, and you made me realize how beautiful it feels to be truly cared for.</p>
+                <p>Remember throughout 2024-2025 when we faced so many ups and downs? We fought a lot and had our
+                  moments, but no matter what happened, we were like a thread—always connected, always pulling back to
+                  each other. You stood by me through it all, and you made me realize how beautiful it feels to be truly
+                  cared for.</p>
               </div>
             </div>
 
@@ -269,7 +275,10 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>The Day Everything Changed</h3>
-                <p>On February 15, 2026, everything changed. I remember going completely blank and speechless for the first time in my life. Something absolutely magical happened that I never expected, and I got you—the best person in my life, actually my whole life. I still cherish and remember every single second of that beautiful day.</p>
+                <p>On February 15, 2026, everything changed. I remember going completely blank and speechless for the
+                  first time in my life. Something absolutely magical happened that I never expected, and I got you—the
+                  best person in my life, actually my whole life. I still cherish and remember every single second of
+                  that beautiful day.</p>
               </div>
             </div>
 
@@ -278,7 +287,10 @@
               <div class="milestone-dot" aria-hidden="true"></div>
               <div class="milestone-card">
                 <h3>Why You're My Everything</h3>
-                <p>Ever since that day, I've cherished every single moment of us. You unlocked so many feelings and emotions that were buried deep inside me. For the first time, I did things for someone that I never thought I would—and I want to keep loving you like this for the rest of my life. There are so many beautiful chapters waiting for us.</p>
+                <p>Ever since that day, I've cherished every single moment of us. You unlocked so many feelings and
+                  emotions that were buried deep inside me. For the first time, I did things for someone that I never
+                  thought I would—and I want to keep loving you like this for the rest of my life. There are so many
+                  beautiful chapters waiting for us.</p>
               </div>
             </div>
           </div>
@@ -334,7 +346,6 @@
                 <div class="mirror-glass-bead"></div>
               </div>
               <div class="mirror-glass-reflection"></div>
-              <img src="/images/mirror_reflection.png" alt="" class="mirror-glass-image" />
             </div>
 
             <!-- RIGHT: Nitin's Reflection — Who She Is NOW -->
@@ -647,6 +658,72 @@
         <!-- ✦ Aurora Background Glow -->
         <div class="proposal-aurora" aria-hidden="true"></div>
 
+        <!-- ✦ Written in the Stars: Constellation Overlay -->
+        <div class="proposal-stars-constellations" aria-hidden="true">
+          <svg viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <!-- Connecting lines for the heart constellation -->
+            <path d="M500,350 L400,270 L300,300 L310,420 L400,520 L500,620 L600,520 L690,420 L700,300 L600,270 Z" 
+                  stroke="rgba(255, 180, 195, 0.22)" stroke-width="1.2" fill="none" stroke-dasharray="4, 4" />
+            
+            <!-- Secondary connections -->
+            <line x1="500" y1="350" x2="500" y2="620" stroke="rgba(255, 180, 195, 0.08)" stroke-width="1" stroke-dasharray="2, 2" />
+            <line x1="400" y1="270" x2="600" y2="270" stroke="rgba(255, 180, 195, 0.08)" stroke-width="1" stroke-dasharray="2, 2" />
+            <line x1="300" y1="300" x2="500" y2="350" stroke="rgba(255, 180, 195, 0.08)" stroke-width="1" stroke-dasharray="2, 2" />
+            <line x1="700" y1="300" x2="500" y2="350" stroke="rgba(255, 180, 195, 0.08)" stroke-width="1" stroke-dasharray="2, 2" />
+            
+            <!-- Constellation stars (Nodes) -->
+            <g class="constellation-star" style="transform-origin: 500px 350px;">
+              <circle cx="500" cy="350" r="4.5" fill="#ffd25a" />
+              <circle cx="500" cy="350" r="12" fill="none" stroke="rgba(255, 210, 90, 0.25)" stroke-width="1" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 400px 270px;">
+              <circle cx="400" cy="270" r="3.5" fill="#fef5ef" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 300px 300px;">
+              <circle cx="300" cy="300" r="5" fill="#ff8ca3" />
+              <circle cx="300" cy="300" r="14" fill="none" stroke="rgba(255, 140, 163, 0.3)" stroke-width="1" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 310px 420px;">
+              <circle cx="310" cy="420" r="3.5" fill="#fef5ef" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 400px 520px;">
+              <circle cx="400" cy="520" r="4" fill="#fef5ef" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 500px 620px;">
+              <circle cx="500" cy="620" r="5.5" fill="#ffd25a" />
+              <circle cx="500" cy="620" r="16" fill="none" stroke="rgba(255, 210, 90, 0.35)" stroke-width="1" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 600px 520px;">
+              <circle cx="600" cy="520" r="4" fill="#fef5ef" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 690px 420px;">
+              <circle cx="690" cy="420" r="3.5" fill="#fef5ef" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 700px 300px;">
+              <circle cx="700" cy="300" r="5" fill="#3ec1b0" />
+              <circle cx="700" cy="300" r="14" fill="none" stroke="rgba(62, 193, 176, 0.3)" stroke-width="1" />
+            </g>
+            <g class="constellation-star" style="transform-origin: 600px 270px;">
+              <circle cx="600" cy="270" r="3.5" fill="#fef5ef" />
+            </g>
+
+            <!-- Personalized labels aligned with the stars -->
+            <text x="280" y="280" fill="rgba(255, 140, 163, 0.65)" font-family="Sacramento, cursive" font-size="28" text-anchor="end">Kanak</text>
+            <text x="720" y="280" fill="rgba(62, 193, 176, 0.65)" font-family="Sacramento, cursive" font-size="28" text-anchor="start">Nitin</text>
+            <text x="500" y="655" fill="rgba(255, 210, 90, 0.55)" font-family="Cormorant Garamond, serif" font-size="14" letter-spacing="3" font-style="italic" text-anchor="middle">FOREVER & ALWAYS</text>
+
+            <!-- Dreamy random background stars -->
+            <circle cx="150" cy="200" r="1.5" fill="#fff" opacity="0.4" class="constellation-star" />
+            <circle cx="850" cy="180" r="1" fill="#fff" opacity="0.3" class="constellation-star" />
+            <circle cx="220" cy="780" r="2" fill="#ffd25a" opacity="0.5" class="constellation-star" />
+            <circle cx="780" cy="800" r="1.5" fill="#ff8ca3" opacity="0.4" class="constellation-star" />
+            <circle cx="480" cy="120" r="1.5" fill="#fff" opacity="0.3" class="constellation-star" />
+            <circle cx="520" cy="880" r="2" fill="#fff" opacity="0.6" class="constellation-star" />
+            <circle cx="90" cy="500" r="1.2" fill="#fff" opacity="0.25" class="constellation-star" />
+            <circle cx="910" cy="520" r="1.8" fill="#ffd25a" opacity="0.5" class="constellation-star" />
+          </svg>
+        </div>
+
         <!-- ✦ Cinematic Letterbox Bars -->
         <div class="proposal-letterbox proposal-letterbox-top" aria-hidden="true">
           <div class="letterbox-pattern"></div>
@@ -676,8 +753,7 @@
           <span class="firefly"></span><span class="firefly"></span>
         </div>
 
-        <!-- ✦ Film Grain Overlay -->
-        <div class="proposal-grain" aria-hidden="true"></div>
+
 
         <!-- ✦ Vignette -->
         <div class="proposal-vignette" aria-hidden="true"></div>

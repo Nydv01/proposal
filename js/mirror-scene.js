@@ -320,19 +320,11 @@ export class MirrorScene {
     // 1. Animate glass bead position along the divider line
     if (this.glassBead) {
       if (isMobile) {
-        gsap.to(this.glassBead, {
-          left: `${progress * 100}%`,
-          top: '50%',
-          duration: 0.1,
-          overwrite: 'auto',
-        });
+        this.glassBead.style.left = `${progress * 100}%`;
+        this.glassBead.style.top = '50%';
       } else {
-        gsap.to(this.glassBead, {
-          top: `${progress * 100}%`,
-          left: '50%',
-          duration: 0.1,
-          overwrite: 'auto',
-        });
+        this.glassBead.style.top = `${progress * 100}%`;
+        this.glassBead.style.left = '50%';
       }
     }
 
@@ -341,14 +333,14 @@ export class MirrorScene {
       // The image is centered (progress = 0.5)
       // Compute proximity: 1 when progress is 0.5, 0 when progress is <= 0.25 or >= 0.75
       const proximity = Math.max(0, 1 - Math.abs(progress - 0.5) * 4.0);
-      
-      gsap.to(this.glassImage, {
-        opacity: 0.4 + proximity * 0.6,
-        filter: `blur(${(1 - proximity) * 8}px) brightness(${1.0 + proximity * 0.4})`,
-        scale: 1.0 + proximity * 0.08,
-        duration: 0.2,
-        overwrite: 'auto',
-      });
+      const opacity = 0.4 + proximity * 0.6;
+      const blurVal = (1 - proximity) * 8;
+      const brightnessVal = 1.0 + proximity * 0.4;
+      const scaleVal = 1.0 + proximity * 0.08;
+
+      this.glassImage.style.opacity = opacity;
+      this.glassImage.style.filter = `blur(${blurVal}px) brightness(${brightnessVal})`;
+      this.glassImage.style.transform = `scale(${scaleVal})`;
     }
 
     // 3. Staggered reveal of past (left) text lines
