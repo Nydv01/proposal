@@ -277,13 +277,27 @@ function initSceneScrollTriggers() {
   // Scene: Proposal — drive the climax
   ScrollTrigger.create({
     trigger: '#scene-proposal',
-    start: 'top 10%',
+    start: 'top top',
     end: 'bottom center',
     onUpdate: (self) => {
-      if (proposalController) proposalController.onProgress(self.progress);
+      // Start the proposal monologue only after scrolling at least 15% into this section
+      if (proposalController && self.progress > 0.15) {
+        proposalController.onProgress(self.progress);
+      }
     },
     onEnter: () => {
       document.body.classList.add('proposal-approaching');
+    },
+    onLeaveBack: () => {
+      // Reset the proposal climax states and immediately stop the heartbeat loop if user scrolls back up
+      document.body.classList.remove('proposal-approaching');
+      document.body.classList.remove('proposal-active');
+      window.dispatchEvent(new CustomEvent('play-sound', {
+        detail: { name: 'heartbeat-stop' }
+      }));
+      if (proposalController) {
+        proposalController.reset();
+      }
     }
   });
 
@@ -1430,6 +1444,55 @@ function initLoveVideoPlayer() {
     }
     setWaveformActive(false);
   });
+
+  // Fullscreen support
+  const container = document.getElementById('love-video-container');
+  const ctrlFullscreenBtn = document.getElementById('video-control-fullscreen');
+  const fullscreenEnterIcon = ctrlFullscreenBtn?.querySelector('.fullscreen-enter-icon');
+  const fullscreenExitIcon = ctrlFullscreenBtn?.querySelector('.fullscreen-exit-icon');
+
+  if (container && ctrlFullscreenBtn) {
+    const toggleFullscreen = () => {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        if (container.requestFullscreen) {
+          container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) {
+          container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) {
+          container.msRequestFullscreen();
+        }
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen();
+        }
+      }
+    };
+
+    ctrlFullscreenBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleFullscreen();
+    });
+
+    const onFullscreenChange = () => {
+      const isFs = document.fullscreenElement === container || document.webkitFullscreenElement === container;
+      if (isFs) {
+        fullscreenEnterIcon?.classList.add('hidden');
+        fullscreenExitIcon?.classList.remove('hidden');
+        container.classList.add('fullscreen');
+      } else {
+        fullscreenEnterIcon?.classList.remove('hidden');
+        fullscreenExitIcon?.classList.add('hidden');
+        container.classList.remove('fullscreen');
+      }
+    };
+
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════

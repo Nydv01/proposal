@@ -2448,8 +2448,8 @@ body.experience-started .hero-mind-label {
   /* Rounded corners */
   --border: 1;
   /* Border thickness */
-  --backdrop: rgba(8, 4, 9, 0.85);
-  --backup-border: rgba(255, 255, 255, 0.08);
+  --backdrop: rgba(28, 20, 24, 0.90);
+  --backup-border: rgba(255, 140, 163, 0.16);
   --size: 200;
   /* Spotlight size */
   --outer: 0.6;
@@ -9088,6 +9088,36 @@ footer small {
   height: 100%;
   object-fit: cover;
   display: block;
+}
+
+.love-video-container:fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  aspect-ratio: auto !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+.love-video-container:fullscreen #love-video {
+  object-fit: contain !important;
+  background: #000 !important;
+}
+
+.love-video-container.fullscreen {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  aspect-ratio: auto !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+.love-video-container.fullscreen #love-video {
+  object-fit: contain !important;
+  background: #000 !important;
 }
 
 /* Big central play button */

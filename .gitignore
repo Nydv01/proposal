@@ -6,4 +6,7 @@ dist-ssr
 .gemini
 edits_log.txt
 assets/love-video.mp4
+assets/images/video_cover_thumbnail.png
+debug.log
+
 

@@ -406,6 +406,80 @@ export class ProposalController {
     this._buttonSafetyTimer = null;
   }
 
+  reset() {
+    if (this.answered) return; // Keep climax active if already accepted!
+
+    this.hasProposed = false;
+
+    // Reset container classes
+    if (this.proposalContainer) {
+      this.proposalContainer.classList.remove('in-buildup');
+    }
+    document.body.classList.remove('proposal-active');
+    document.body.classList.remove('proposal-approaching');
+
+    // Kill any running GSAP buildup timeline
+    if (this.buildupTimeline) {
+      this.buildupTimeline.kill();
+      this.buildupTimeline = null;
+    }
+
+    // Reset monologue lines
+    if (this.buildupLines) {
+      this.buildupLines.forEach(line => {
+        line.classList.remove('active');
+      });
+      gsap.set(this.buildupLines, { clearProps: 'all' });
+    }
+    if (this.buildupEl) {
+      this.buildupEl.style.display = 'block';
+    }
+
+    // Reset envelope
+    if (this.envelopeWrapper) {
+      this.envelopeWrapper.classList.add('hidden');
+    }
+    if (this.envelopeBox) {
+      this.envelopeBox.classList.remove('open');
+      gsap.set(this.envelopeBox, { clearProps: 'all' });
+    }
+    const flap = document.querySelector('.envelope-flap-top');
+    if (flap) gsap.set(flap, { clearProps: 'all' });
+    const innerPaper = document.querySelector('.envelope-inner-paper');
+    if (innerPaper) gsap.set(innerPaper, { clearProps: 'all' });
+
+    // Reset letter card
+    if (this.letterCard) {
+      this.letterCard.classList.remove('active');
+      this.letterCard.classList.remove('monologue-active');
+      gsap.set(this.letterCard, { clearProps: 'all' });
+    }
+    const questionEl = document.getElementById('proposal-question');
+    if (questionEl) {
+      questionEl.style.opacity = '';
+      questionEl.style.display = '';
+    }
+    const buttonsEl = document.getElementById('proposal-buttons');
+    if (buttonsEl) {
+      buttonsEl.style.opacity = '';
+      buttonsEl.style.display = '';
+      buttonsEl.style.pointerEvents = '';
+      buttonsEl.style.transform = '';
+    }
+
+    // Stop vapor effect
+    if (this.vaporEffect) {
+      this.vaporEffect.destroy?.();
+      this.vaporEffect = null;
+    }
+
+    // Clear canvas
+    if (this.vaporCanvas) {
+      const ctx = this.vaporCanvas.getContext('2d');
+      ctx.clearRect(0, 0, this.vaporCanvas.width, this.vaporCanvas.height);
+    }
+  }
+
   init(contentData) {
     this.data = contentData?.proposal || {};
     this._cacheDOM();
